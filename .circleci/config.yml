@@ -3,7 +3,7 @@ jobs:
   build:
     machine: true
     steps:
-      - run: sudo apt-get update && apt-get install -y cifs-utils
+      - run: sudo apt-get update && sudo apt-get install -y cifs-utils
       - run: docker volume create --driver local --opt type=cifs --opt o=addr=207.180.233.181,rw --opt device=//207.180.233.181/mbsimccache --opt o=uid=0,username=mbsimenv,password=mytestpw,nounix,file_mode=0770,dir_mode=0770 xxmbsimccache
       - run: docker run -v xxmbsimccache:/tmp/xx centos ls -l /tmp/xx
 ##      - restore_cache:

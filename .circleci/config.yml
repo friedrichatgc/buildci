@@ -3,34 +3,12 @@ jobs:
   build:
     machine: true
     steps:
+      - restore_cache:
+          keys:
+           - mbsimenv_cache-linux64-ci.latest
       - run: docker pull mbsimenv/build:latest
-
-
-
-
-#version: 2.1
-#jobs:
-#  build:
-#    docker:
-#      - image: mbsimenv/build:latest
-#      - name: mbsimenv.build.linux64-ci.latest
-#      - entrypoint: bash
-#        environment:
-#          MBSIMENVSERVERNAME: wwwmfmf.mbsim-env.de
-#          STATUSACCESSTOKEN: mfmfdummy
-#          MBSIMENVTAGNAME: latest
-#    steps:
-#      - run:
-#        command: /context/entrypoint.py --buildType linux64-ci -j $(nproc) --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
-
-
-
-
-#init=True
-#labels={"buildtype": buildType}
-#volumes={
-#  'mbsimenv_mbsim-'+buildType+"."+getTagname():  {"bind": "/mbsim-env",    "mode": "rw"},
-#  'mbsimenv_report-'+buildType+"."+getTagname(): {"bind": "/mbsim-report", "mode": "rw"},
-#  'mbsimenv_ccache.'+getTagname():               {"bind": "/mbsim-ccache", "mode": "rw"},
-#  'mbsimenv_state.'+getTagname():                {"bind": "/mbsim-state",  "mode": "rw"},
-#}
+      - run: docker run --init --name=mbsimenv.build.linux64-ci.latest --label=buildtype=linux64-ci --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de --env=STATUSACCESSTOKEN=mfmf --env=MBSIMENVTAGNAME=latest -v=~/project/cache/mbsimenv_mbsim:/mbsim-env:rw -v=~/project/cache/mbsimenv_report:/mbsim-report:rw -v=~/project/cache/mbsimenv_ccache:/mbsim-ccache:rw -v=~/project/cache/mbsimenv_state:/mbsim-state:rw mbsimenv/build:latest --buildType linux64-ci -j $(nproc) --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
+      - save-cache:
+          key: mbsimenv_cache-linux64-ci.latest
+          paths:
+            - ~/project/cache

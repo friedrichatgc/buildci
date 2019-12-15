@@ -3,7 +3,6 @@ jobs:
   build:
     machine: true
     steps:
-      - run: docker pull trajano/cifs-volume-plugin
       - run: docker plugin install trajano/cifs-volume-plugin --grant-all-permissions
       - run: docker plugin enable trajano/cifs-volume-plugin
       - run: docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw 207.180.233.181/mbsimccache

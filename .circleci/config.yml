@@ -3,9 +3,11 @@ jobs:
   build:
     machine: true
     steps:
-      - run: sudo apt-get update && sudo apt-get install -y cifs-utils
-      - run: docker volume create --driver local --opt type=cifs --opt o=addr=207.180.233.181,rw --opt device=//207.180.233.181/mbsimccache --opt o=uid=0,username=mbsimenv,password=mytestpw,nounix,file_mode=0770,dir_mode=0770 xxmbsimccache
-      - run: docker run -v xxmbsimccache:/tmp/xx centos ls -l /tmp/xx
+      - run: docker pull trajano/cifs-volume-plugin
+      - run: docker plugin install trajano/cifs-volume-plugin --grant-all-permissions
+      - run: docker plugin enable trajano/cifs-volume-plugin
+      - run: docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw 207.180.233.181/mbsimccache
+      - run: docker run -it --rm -v 207.180.233.181/mbsimccache:/mbsim-ccache:rw centos ls -l /mbsim-ccache
 ##      - restore_cache:
 ##          name: Restore docker ccache volume
 ##          keys:

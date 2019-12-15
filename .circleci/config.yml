@@ -3,8 +3,7 @@ jobs:
   build:
     machine: true
     steps:
-      - run: mkdir -p $HOME/mbsimccache
-      - run: sudo mount -t cifs -o username=mbsimenv,password=mytestpw //207.180.233.181/mbsimccache $HOME/mbsimccache
+      - run: docker volume create --driver local --opt type=cifs --opt o=addr=207.180.233.181,rw --opt device=//207.180.233.181/mbsimccache --opt o=uid=0,username=mbsimenv,password=mytestpwx,nounix,file_mode=0770,dir_mode=0770 xxmbsimccache
 ##      - restore_cache:
 ##          name: Restore docker ccache volume
 ##          keys:

@@ -8,7 +8,7 @@ jobs:
            - mbsimenv_cache-linux64-ci.latest
       - run: docker pull mbsimenv/build:latest
       - run: docker run --init --name=mbsimenv.build.linux64-ci.latest --label=buildtype=linux64-ci --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de --env=STATUSACCESSTOKEN=mfmf --env=MBSIMENVTAGNAME=latest -v=~/project/cache/mbsimenv_mbsim:/mbsim-env:rw -v=~/project/cache/mbsimenv_report:/mbsim-report:rw -v=~/project/cache/mbsimenv_ccache:/mbsim-ccache:rw -v=~/project/cache/mbsimenv_state:/mbsim-state:rw mbsimenv/build:latest --buildType linux64-ci -j $(nproc) --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
-      - save-cache:
+      - save_cache:
           key: mbsimenv_cache-linux64-ci.latest
           paths:
             - ~/project/cache

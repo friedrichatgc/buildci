@@ -15,14 +15,14 @@ jobs:
           name: Prepare docker volume directories
           no_output_timeout: 1m
           command: >-
-            mkdir -p ~/project/mbsimenv_mbsim
-            ~/project/mbsimenv_report
-            ~/project/mbsimenv_ccache
-            ~/project/mbsimenv_state &&
-            chmod 777 ~/project/mbsimenv_mbsim
-            ~/project/mbsimenv_report
-            ~/project/mbsimenv_ccache
-            ~/project/mbsimenv_state
+            mkdir -p $HOME/project/mbsimenv_mbsim
+            $HOME/project/mbsimenv_report
+            $HOME/project/mbsimenv_ccache
+            $HOME/project/mbsimenv_state &&
+            chmod 777 $HOME/project/mbsimenv_mbsim
+            $HOME/project/mbsimenv_report
+            $HOME/project/mbsimenv_ccache
+            $HOME/project/mbsimenv_state
       - run:
           name: Pull docker build image
           no_output_timeout: 5m
@@ -35,10 +35,10 @@ jobs:
             --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de
             --env=STATUSACCESSTOKEN=mfmf
             --env=MBSIMENVTAGNAME=latest
-            -v=~/project/mbsimenv_mbsim:/mbsim-env:rw
-            -v=~/project/mbsimenv_report:/mbsim-report:rw
-            -v=~/project/mbsimenv_ccache:/mbsim-ccache:rw
-            -v=~/project/mbsimenv_state:/mbsim-state:rw
+            -v=$HOME/project/mbsimenv_mbsim:/mbsim-env:rw
+            -v=$HOME/project/mbsimenv_report:/mbsim-report:rw
+            -v=$HOME/project/mbsimenv_ccache:/mbsim-ccache:rw
+            -v=$HOME/project/mbsimenv_state:/mbsim-state:rw
             mbsimenv/build:latest --buildType linux64-ci -j $(nproc)
             --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
 #      - save_cache:

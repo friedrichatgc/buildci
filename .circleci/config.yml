@@ -7,7 +7,7 @@ jobs:
           keys:
            - mbsimenv_cache-linux64-ci.latest
       - run: docker pull mbsimenv/build:latest
-      - run: mkdir $HOME/project/cache/mbsimenv_mbsim $HOME/project/cache/mbsimenv_report $HOME/project/cache/mbsimenv_ccache $HOME/project/cache/mbsimenv_state && chmod 777 $HOME/project/cache/mbsimenv_mbsim $HOME/project/cache/mbsimenv_report $HOME/project/cache/mbsimenv_ccache $HOME/project/cache/mbsimenv_state
+      - run: mkdir -p $HOME/project/cache/mbsimenv_mbsim $HOME/project/cache/mbsimenv_report $HOME/project/cache/mbsimenv_ccache $HOME/project/cache/mbsimenv_state && chmod 777 $HOME/project/cache/mbsimenv_mbsim $HOME/project/cache/mbsimenv_report $HOME/project/cache/mbsimenv_ccache $HOME/project/cache/mbsimenv_state
       - run: docker run --init --label=buildtype=linux64-ci --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de --env=STATUSACCESSTOKEN=mfmf --env=MBSIMENVTAGNAME=latest -v=$HOME/project/cache/mbsimenv_mbsim:/mbsim-env:rw -v=$HOME/project/cache/mbsimenv_report:/mbsim-report:rw -v=$HOME/project/cache/mbsimenv_ccache:/mbsim-ccache:rw -v=$HOME/project/cache/mbsimenv_state:/mbsim-state:rw mbsimenv/build:latest --buildType linux64-ci -j $(nproc) --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
       - save_cache:
           key: mbsimenv_cache-linux64-ci.latest

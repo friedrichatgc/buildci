@@ -6,7 +6,7 @@ jobs:
       - run: mkdir -p $HOME/project/cache/mbsimenv_mbsim && ls -l $HOME/project/cache
       - run: echo $(nproc) >> $HOME/project/test && cat $HOME/project/test
       - store_artifacts:
-          path: $HOME/project/test
+          path: ${HOME}/project/test
           destination: report
 ##      - restore_cache:
 ##          name: Restore docker volumes

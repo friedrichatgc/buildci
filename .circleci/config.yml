@@ -2,13 +2,13 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: mbsimenv/build
+      - image: mbsimenv/build:latest
       - name: mbsimenv.build.linux64-ci.latest
       - entrypoint: bash
-      - environment:
-        MBSIMENVSERVERNAME: wwwmfmf.mbsim-env.de
-        STATUSACCESSTOKEN: mfmfdummy
-        MBSIMENVTAGNAME: latest
+        environment:
+          MBSIMENVSERVERNAME: wwwmfmf.mbsim-env.de
+          STATUSACCESSTOKEN: mfmfdummy
+          MBSIMENVTAGNAME: latest
     steps:
       - run:
         command: /context/entrypoint.py --buildType linux64-ci -j $(nproc) --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master

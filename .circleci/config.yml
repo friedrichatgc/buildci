@@ -7,7 +7,8 @@ jobs:
           keys:
            - mbsimenv_cache-linux64-ci.latest
       - run: docker pull mbsimenv/build:latest
-      - run: docker run --init --name=mbsimenv.build.linux64-ci.latest --label=buildtype=linux64-ci --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de --env=STATUSACCESSTOKEN=mfmf --env=MBSIMENVTAGNAME=latest -v=$HOME/project/cache/mbsimenv_mbsim:/mbsim-env:rw -v=$HOME/project/cache/mbsimenv_report:/mbsim-report:rw -v=$HOME/project/cache/mbsimenv_ccache:/mbsim-ccache:rw -v=$HOME/project/cache/mbsimenv_state:/mbsim-state:rw mbsimenv/build:latest --buildType linux64-ci -j $(nproc) --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
+      - run: groupadd -g 1065 dockeruser && useradd --no-log-init -u 1065 -g dockeruser dockeruser && mkdir $HOME/project/cache/mbsimenv_mbsim $HOME/project/cache/mbsimenv_report $HOME/project/cache/mbsimenv_ccache $HOME/project/cache/mbsimenv_state && chown dockeruser:dockeruser $HOME/project/cache/mbsimenv_mbsim $HOME/project/cache/mbsimenv_report $HOME/project/cache/mbsimenv_ccache $HOME/project/cache/mbsimenv_state
+      - run: docker run --init --label=buildtype=linux64-ci --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de --env=STATUSACCESSTOKEN=mfmf --env=MBSIMENVTAGNAME=latest -v=$HOME/project/cache/mbsimenv_mbsim:/mbsim-env:rw -v=$HOME/project/cache/mbsimenv_report:/mbsim-report:rw -v=$HOME/project/cache/mbsimenv_ccache:/mbsim-ccache:rw -v=$HOME/project/cache/mbsimenv_state:/mbsim-state:rw mbsimenv/build:latest --buildType linux64-ci -j $(nproc) --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
       - save_cache:
           key: mbsimenv_cache-linux64-ci.latest
           paths:

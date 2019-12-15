@@ -10,14 +10,15 @@ jobs:
       - run:
           name: Prepare docker volume directories
           no_output_timeout: 1m
-          command: mkdir -p $HOME/project/cache/mbsimenv_mbsim \
-                            $HOME/project/cache/mbsimenv_report \
-                            $HOME/project/cache/mbsimenv_ccache \
-                            $HOME/project/cache/mbsimenv_state && \
-                   chmod 777 $HOME/project/cache/mbsimenv_mbsim \
-                             $HOME/project/cache/mbsimenv_report \
-                             $HOME/project/cache/mbsimenv_ccache \
-                             $HOME/project/cache/mbsimenv_state
+          command: >-
+            mkdir -p $HOME/project/cache/mbsimenv_mbsim
+            $HOME/project/cache/mbsimenv_report
+            $HOME/project/cache/mbsimenv_ccache
+            $HOME/project/cache/mbsimenv_state &&
+            chmod 777 $HOME/project/cache/mbsimenv_mbsim
+            $HOME/project/cache/mbsimenv_report
+            $HOME/project/cache/mbsimenv_ccache
+            $HOME/project/cache/mbsimenv_state
       - run:
           name: Pull docker build image
           no_output_timeout: 15m
@@ -25,7 +26,17 @@ jobs:
       - run:
           name: Building in docker container
           no_output_timeout: 4h
-          command: docker run --init --label=buildtype=linux64-ci --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de --env=STATUSACCESSTOKEN=mfmf --env=MBSIMENVTAGNAME=latest -v=$HOME/project/cache/mbsimenv_mbsim:/mbsim-env:rw -v=$HOME/project/cache/mbsimenv_report:/mbsim-report:rw -v=$HOME/project/cache/mbsimenv_ccache:/mbsim-ccache:rw -v=$HOME/project/cache/mbsimenv_state:/mbsim-state:rw mbsimenv/build:latest --buildType linux64-ci -j $(nproc) --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
+          command: >-
+            docker run --init --label=buildtype=linux64-ci
+            --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de
+            --env=STATUSACCESSTOKEN=mfmf
+            --env=MBSIMENVTAGNAME=latest
+            -v=$HOME/project/cache/mbsimenv_mbsim:/mbsim-env:rw
+            -v=$HOME/project/cache/mbsimenv_report:/mbsim-report:rw
+            -v=$HOME/project/cache/mbsimenv_ccache:/mbsim-ccache:rw
+            -v=$HOME/project/cache/mbsimenv_state:/mbsim-state:rw
+            mbsimenv/build:latest --buildType linux64-ci -j $(nproc)
+            --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
 #      - save_cache:
 #          name: Save docker volumes
 #          key: mbsimenv_cache-linux64-ci.latest

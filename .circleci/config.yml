@@ -3,10 +3,12 @@ jobs:
   build:
     machine: true
     steps:
-      - run: mkdir -p $HOME/project/cache/mbsimenv_mbsim && ls -l $HOME/project/cache
-      - run: echo $(nproc) >> $HOME/project/test && cat $HOME/project/test
+      - run: mkdir -p ~/project/cache/mbsimenv_mbsim && ls -l ~/project/cache
+      - run: echo $(nproc) > ~/project/cache/mbsimenv_mbsim/test.txt && cat ~/project/cache/mbsimenv_mbsim/test.txt
+      - run: echo -e '<!DOCTYPE html>\n<html lang="en">\n<body>\nA link to a rel <a href="ref.html">file</a>\n</body>\n</html>' > ~/project/cache/mbsimenv_mbsim/res.html && cat ~/project/cache/mbsimenv_mbsim/res.html
+      - run: echo -e '<!DOCTYPE html>\n<html lang="en">\n<body>\nlinked file\n</body>\n</html>' > ~/project/cache/mbsimenv_mbsim/ref.html && cat ~/project/cache/mbsimenv_mbsim/ref.html
       - store_artifacts:
-          path: ~/project/test
+          path: ~/project/cache/mbsimenv_mbsim
           destination: report
 ##      - restore_cache:
 ##          name: Restore docker volumes
@@ -46,10 +48,10 @@ jobs:
 ##          name: Save docker volumes
 ##          key: mbsimenv_cache-linux64-ci.latest
 ##          paths:
-##            - $HOME/project/cache
+##            - ~/project/cache
 #      - store_artifacts:
-#          path: $HOME/project/cache/mbsimenv_report
+#          path: ~/project/cache/mbsimenv_report
 #          destination: report
 #      - store_artifacts:
-#          path: $HOME/project/cache/mbsimenv_state
+#          path: ~/project/cache/mbsimenv_state
 #          destination: state

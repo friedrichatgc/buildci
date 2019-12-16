@@ -6,8 +6,8 @@ services:
 script:
 - docker plugin install trajano/cifs-volume-plugin --grant-all-permissions || true
 - docker plugin enable trajano/cifs-volume-plugin || true
-- docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw 207.180.233.181/mbsimccache
-- docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw 207.180.233.181/mbsimenv
+- docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw,noperm 207.180.233.181/mbsimccache
+- docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw,noperm 207.180.233.181/mbsimenv
 - docker pull mbsimenv/build:latest
 - >-
   docker run --init --label=buildtype=linux64-ci

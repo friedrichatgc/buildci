@@ -1,0 +1,10 @@
+language: ruby
+
+services:
+  - docker
+
+script:
+- docker plugin install trajano/cifs-volume-plugin --grant-all-permissions
+- docker plugin enable trajano/cifs-volume-plugin
+- docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw 207.180.233.181/mbsimccache
+- docker run -it --rm -v 207.180.233.181/mbsimccache:/mbsim-ccache:rw centos ls -l /mbsim-ccache

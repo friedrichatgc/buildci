@@ -30,5 +30,5 @@ script:
 - sudo mount /dev/nbd1 /$HOME/m2
 - sudo touch /$HOME/m1/abc1
 - sudo touch /$HOME/m2/abc2
-- touch /$HOME/m1/abc1
-- touch /$HOME/m2/abc2
+- touch /$HOME/m1/abc11
+- touch /$HOME/m2/abc22

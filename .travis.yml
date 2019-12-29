@@ -28,6 +28,7 @@ script:
 - sudo mount /dev/nbd0 /$HOME/m1
 - sudo mount /dev/nbd1 /$HOME/m2
 - sudo chmod 777 $HOME/m1 $HOME/m2
+- docker pull mbsimenv/build:latest
 - >-
   travis_wait 180 docker run --init --label=buildtype=linux64-ci
   --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de

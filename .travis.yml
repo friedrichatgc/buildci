@@ -19,7 +19,5 @@ services:
 #  mbsimenv/build:latest --buildType linux64-ci -j $(nproc)
 #  --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
 script:
-- sudo apt install nbd-client
-- sudo ls -l /dev/nbd*
+- sudo apt-cache search nbd
 - sudo modprobe nbd
-- sudo ls -l /dev/nbd*

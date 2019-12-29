@@ -3,16 +3,23 @@ language: ruby
 services:
   - docker
 
-script:
+#script:
 #- docker plugin install trajano/cifs-volume-plugin --grant-all-permissions || true
 #- docker plugin enable trajano/cifs-volume-plugin || true
 #- docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw,noperm 207.180.233.181/mbsimccache
 #- docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw,noperm 207.180.233.181/mbsimenv
-- docker pull mbsimenv/build:latest
-- >-
-  travis_wait 180 docker run --init --label=buildtype=linux64-ci
-  --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de
-  --env=STATUSACCESSTOKEN=mfmf
-  --env=MBSIMENVTAGNAME=latest
-  mbsimenv/build:latest --buildType linux64-ci -j $(nproc)
-  --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
+#- docker pull mbsimenv/build:latest
+#- >-
+#  travis_wait 180 docker run --init --label=buildtype=linux64-ci
+#  --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de
+#  --env=STATUSACCESSTOKEN=mfmf
+#  --env=MBSIMENVTAGNAME=latest
+#  -v=207.180.233.181/mbsimenv:/mbsim-env:rw
+#  -v=207.180.233.181/mbsimccache:/mbsim-ccache:rw
+#  mbsimenv/build:latest --buildType linux64-ci -j $(nproc)
+#  --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
+script:
+- sudo apt install nbd-client
+- sudo ls -l /dev/nbd*
+- sudo modprobe nbd
+- sudo ls -l /dev/nbd*

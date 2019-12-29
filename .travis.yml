@@ -22,19 +22,22 @@ script:
 - sudo apt-get update
 - sudo apt-get -y install nbd-client
 - sudo modprobe nbd
-- sudo /sbin/nbd-client -N foo1 www.mbsim-env.de /dev/nbd0
-- sudo /sbin/nbd-client -N foo2 www.mbsim-env.de /dev/nbd1
-- sudo mkdir $HOME/m1 $HOME/m2
-- sudo mount /dev/nbd0 /$HOME/m1
-- sudo mount /dev/nbd1 /$HOME/m2
-- sudo chmod 777 $HOME/m1 $HOME/m2
+- sudo /sbin/nbd-client -N mbsimenv_mbsim www.mbsim-env.de /dev/nbd0
+- sudo /sbin/nbd-client -N mbsimenv_ccache www.mbsim-env.de /dev/nbd1
+- sudo /sbin/nbd-client -N mbsimenv_report www.mbsim-env.de /dev/nbd2
+- sudo mkdir $HOME/mbsim_env $HOME/mbsim_ccache $HOME/mbsim_report
+- sudo mount /dev/nbd0 $HOME/mbsim_env
+- sudo mount /dev/nbd1 $HOME/mbsim_ccache
+- sudo mount /dev/nbd2 $HOME/mbsim_report
+- sudo chmod 777 $HOME/mbsim_env $HOME/mbsim_ccache $HOME/mbsim_report
 - docker pull mbsimenv/build:latest
 - >-
   travis_wait 180 docker run --init --label=buildtype=linux64-ci
   --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de
   --env=STATUSACCESSTOKEN=mfmf
   --env=MBSIMENVTAGNAME=latest
-  -v=$HOME/m1:/mbsim-env:rw
-  -v=$HOME/m2:/mbsim-ccache:rw
+  -v=$HOME/mbsim_env:/mbsim-env:rw
+  -v=$HOME/mbsim_ccache:/mbsim-ccache:rw
+  -v=$HOME/mbsim_report:/mbsim-report:rw
   mbsimenv/build:latest --buildType linux64-ci -j $(nproc)
   --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master

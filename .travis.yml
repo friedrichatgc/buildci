@@ -22,8 +22,8 @@ script:
 - sudo apt-get update
 - sudo apt-get -y install nbd-client
 - sudo modprobe nbd
-- sudo /sbin/nbd-client -N foo1 www.mbsim-env.de -no-optgo /dev/nbd0
-- sudo /sbin/nbd-client -N foo2 www.mbsim-env.de -no-optgo /dev/nbd1
+- sudo /sbin/nbd-client -N foo1 www.mbsim-env.de /dev/nbd0
+- sudo /sbin/nbd-client -N foo2 www.mbsim-env.de /dev/nbd1
 - sudo mkdir $HOME/m1 $HOME/m2
 - sudo chmod 777 $HOME/m1 $HOME/m2
 - sudo mount /dev/nbd0 /$HOME/m1

@@ -7,18 +7,22 @@ jobs:
   build:
     executor:
       name: win/default # executor type
-      shell: cmd.exe
+      shell: bash.exe
     steps:
       - run:
-          name: Prepare dependencies
-          command: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' && refreshenv
-      - run:
           name: cmd
-          command: cmake && echo %cd%
+          shell: cmd.exe
+          command: echo %cd%
       - run:
           name: bash
           shell: bash.exe
-          command: cmake && echo $PWD
+          command: echo $PWD
+      - run:
+          name: Prepare dependencies
+          command: choco install cmake
+      - run:
+          name: test
+          command: find / -name cmake.exe && find / -name cmake3.exe && mount
       - run:
           name: Build fmatvec
           command: >-

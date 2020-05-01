@@ -13,9 +13,9 @@ jobs:
           name: Prepare dependencies
           command: >-
             choco install cmake boost-msvc-14.1 doxygen.install ninja wget &&
-            wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.lib >
+            wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.lib > \
               /c/Users/circleci/project/mkl_rt.lib &&
-            wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.dll >
+            wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.dll > \
               /c/Users/circleci/project/mkl_rt.dll &&
       - run:
           name: Checkout

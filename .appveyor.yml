@@ -9,4 +9,9 @@ image: Visual Studio 2017
 
 build_script:
 - ls -l
-- cmd: ls -l
+- cd c:\projects && git clone https://github.com/GreenGary/fmatvec.git
+- cd c:\projects\fmatvec && git checkout 2020-04-20-cmake-msvc
+- mkdir c:\projects\fmatvec-build c:\projects\fmatvec-local
+- export LIB="$LIB;c:\projects" &&
+  cd c:\projects\fmatvec-build &&
+  cmake -G Ninja -DCMAKE_INSTALL_PREFIX=c:\projects\fmatvec-local c:\projects\fmatvec

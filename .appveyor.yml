@@ -1,6 +1,7 @@
 image: Visual Studio 2017
 
 install:
+- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 - choco install wget
 - wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.lib >
   c:\projects\liblapack.lib
@@ -10,7 +11,6 @@ install:
   c:\projects\libblas.lib
 - wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/libblas.dll >
   c:\projects\libblas.dll
-- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 - lib /OUT:c:\projects\mkl_rt.lib c:\projects\libblas.lib c:\projects\liblapack.lib
   
 
@@ -20,9 +20,10 @@ build_script:
 - cd c:\projects\fmatvec
 - git checkout 2020-04-20-cmake-msvc
 - mkdir c:\projects\fmatvec-build c:\projects\fmatvec-local
-- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 - cd c:\projects\fmatvec-build
 - set LIB=%LIB%;c:\projects
 - cmake -G Ninja -DBOOST_ROOT=c:\Libraries\boost_1_69_0 -DCMAKE_INSTALL_PREFIX=c:\projects\fmatvec-local c:\projects\fmatvec
 - ninja
 - ninja check
+- type c:\projects\fmatvec-build\fmatvec\check\testast.out
+- type c:\projects\fmatvec-build\fmatvec\check\testsymfunction.out

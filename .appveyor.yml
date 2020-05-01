@@ -1,7 +1,7 @@
 image: Visual Studio 2017
 
-environment:
-  BOOST_ROOT: c:\Libraries\boost_1_69_0
+#environment:
+#  BOOST_ROOT: c:\Libraries\boost_1_69_0
 
 #install:
 #- choco install doxygen.install wget
@@ -19,4 +19,4 @@ build_script:
 - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 - cd c:\projects\fmatvec-build
 - set LIB=%LIB%;c:\projects
-- cmake -G Ninja -DCMAKE_INSTALL_PREFIX=c:\projects\fmatvec-local c:\projects\fmatvec
+- cmake -G Ninja -DBOOST_ROOT=c:\Libraries\boost_1_69_0 -DCMAKE_INSTALL_PREFIX=c:\projects\fmatvec-local c:\projects\fmatvec

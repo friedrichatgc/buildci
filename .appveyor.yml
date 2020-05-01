@@ -1,4 +1,7 @@
 image: Visual Studio 2017
 
 install:
-- cmd: choco install ninja
+- cmd: echo IN
+
+build_script:
+- cmd: echo BS

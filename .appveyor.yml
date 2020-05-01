@@ -1,14 +1,11 @@
 image: Visual Studio 2017
 
-#environment:
-#  BOOST_ROOT: c:\Libraries\boost_1_69_0
-
-#install:
-#- choco install doxygen.install wget
-#- wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.lib >
-#  c:\projects\mkl_rt.lib
-#- wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.dll >
-#  c:\projects\mkl_rt.dll
+install:
+- choco install wget
+- wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.lib >
+  c:\projects\mkl_rt.lib
+- wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.dll >
+  c:\projects\mkl_rt.dll
 
 build_script:
 - cd c:\projects

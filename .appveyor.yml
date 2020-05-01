@@ -3,10 +3,10 @@ image: Visual Studio 2017
 #install:
 #- choco install doxygen.install wget
 #- wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.lib >
-#  c:\projects/mkl_rt.lib
+#  c:\projects\mkl_rt.lib
 #- wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.dll >
-#  c:/projects/mkl_rt.dll
+#  c:\projects\mkl_rt.dll
 
 build_script:
-- mkdir c:\projects\test3
-- cmd: mkdir c:\projects\test6
+- ls -l
+- cmd: ls -l

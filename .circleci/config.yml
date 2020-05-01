@@ -9,8 +9,15 @@ jobs:
       name: win/default # executor type
       shell: bash.exe
     steps:
-      - checkout
-      - run: echo my first output from bash
+      - run:
+          command: >-
+            cd $HOME
+            git clone https://github.com/GreenGary/fmatvec.git
+            cd $HOME/fmatvec
+            git checkout 2020-04-20-cmake-msvc
+            mkdir $HOME/fmatvec-build $HOME/fmatvec-local 
+            cd $HOME/fmatvec-build
+            cmake -DCMAKE_INSTALL_PREFIX=$HOME/fmatvec-local $HOME/fmatvec
 
 
 

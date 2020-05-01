@@ -10,29 +10,21 @@ jobs:
       shell: bash.exe
     steps:
       - run:
-          name: cmd
-          shell: cmd.exe
-          command: echo %cd%
-      - run:
-          name: bash
-          shell: bash.exe
-          command: echo $PWD
-      - run:
           name: Prepare dependencies
           command: choco install cmake
       - run:
           name: test
-          command: find / -name cmake.exe && find / -name cmake3.exe && mount
+          command: ls -R / 2> /dev/null | grep -i cmake
       - run:
           name: Build fmatvec
           command: >-
-            cd $HOME &&
+            cd $CIRCLE_WORKING_DIRECTORY &&
             git clone https://github.com/GreenGary/fmatvec.git &&
-            cd $HOME/fmatvec &&
+            cd $CIRCLE_WORKING_DIRECTORY/fmatvec &&
             git checkout 2020-04-20-cmake-msvc &&
-            mkdir $HOME/fmatvec-build $HOME/fmatvec-local  &&
-            cd $HOME/fmatvec-build &&
-            cmake -DCMAKE_INSTALL_PREFIX=$HOME/fmatvec-local $HOME/fmatvec
+            mkdir $CIRCLE_WORKING_DIRECTORY/fmatvec-build $CIRCLE_WORKING_DIRECTORY/fmatvec-local  &&
+            cd $CIRCLE_WORKING_DIRECTORY/fmatvec-build &&
+            cmake -DCMAKE_INSTALL_PREFIX=$CIRCLE_WORKING_DIRECTORY/fmatvec-local $CIRCLE_WORKING_DIRECTORY/fmatvec
 
 
 

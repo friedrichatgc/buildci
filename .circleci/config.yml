@@ -11,14 +11,17 @@ jobs:
     steps:
       - run:
           name: Prepare dependencies
-          command: choco install cmake
+          command: choco install cmake boost-msvc-14.1 doxygen.install
       - run:
-          name: Build fmatvec
+          name: Checkout
           command: >-
             cd /c/Users/circleci/project &&
             git clone https://github.com/GreenGary/fmatvec.git &&
             cd /c/Users/circleci/project/fmatvec &&
-            git checkout 2020-04-20-cmake-msvc &&
+            git checkout 2020-04-20-cmake-msvc
+      - run:
+          name: cmake
+          command: >-
             mkdir /c/Users/circleci/project/fmatvec-build /c/Users/circleci/project/fmatvec-local  &&
             cd /c/Users/circleci/project/fmatvec-build &&
             "/c/Program Files/CMake/bin/cmake" -DCMAKE_INSTALL_PREFIX=/c/Users/circleci/project/fmatvec-local /c/Users/circleci/project/fmatvec

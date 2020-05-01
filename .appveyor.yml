@@ -17,3 +17,4 @@ build_script:
 - cd c:\projects\fmatvec-build
 - set LIB=%LIB%;c:\projects
 - cmake -G Ninja -DBOOST_ROOT=c:\Libraries\boost_1_69_0 -DCMAKE_INSTALL_PREFIX=c:\projects\fmatvec-local c:\projects\fmatvec
+- ninja

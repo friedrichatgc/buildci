@@ -13,18 +13,15 @@ jobs:
           name: Prepare dependencies
           command: choco install cmake
       - run:
-          name: test
-          command: ls -R "/c/Program Files/CMake" 2> /dev/null
-      - run:
           name: Build fmatvec
           command: >-
-            cd $CIRCLE_WORKING_DIRECTORY &&
+            cd /c/Users/circleci/project &&
             git clone https://github.com/GreenGary/fmatvec.git &&
-            cd $CIRCLE_WORKING_DIRECTORY/fmatvec &&
+            cd /c/Users/circleci/project/fmatvec &&
             git checkout 2020-04-20-cmake-msvc &&
-            mkdir $CIRCLE_WORKING_DIRECTORY/fmatvec-build $CIRCLE_WORKING_DIRECTORY/fmatvec-local  &&
-            cd $CIRCLE_WORKING_DIRECTORY/fmatvec-build &&
-            "/c/Program Files/CMake/bin/cmake" -DCMAKE_INSTALL_PREFIX=$CIRCLE_WORKING_DIRECTORY/fmatvec-local $CIRCLE_WORKING_DIRECTORY/fmatvec
+            mkdir /c/Users/circleci/project/fmatvec-build /c/Users/circleci/project/fmatvec-local  &&
+            cd /c/Users/circleci/project/fmatvec-build &&
+            "/c/Program Files/CMake/bin/cmake" -DCMAKE_INSTALL_PREFIX=/c/Users/circleci/project/fmatvec-local /c/Users/circleci/project/fmatvec
 
 
 

@@ -3,9 +3,16 @@ image: Visual Studio 2017
 install:
 - choco install wget
 - wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.lib >
-  c:\projects\mkl_rt.lib
+  c:\projects\liblapack.lib
 - wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.dll >
-  c:\projects\mkl_rt.dll
+  c:\projects\liblapack.dll
+- wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/libblas.lib >
+  c:\projects\libblas.lib
+- wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/libblas.dll >
+  c:\projects\libblas.dll
+- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+- lib /OUT:c:\projects\mkl_rt.lib c:\projects\libblas.lib c:\projects\liblapack.lib
+  
 
 build_script:
 - cd c:\projects

@@ -5,8 +5,12 @@ install:
 - wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.lib >
   c:\projects/mkl_rt.lib
 - wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.dll >
-  /c/projects/mkl_rt.dll
+  c:/projects/mkl_rt.dll
 
 build_script:
-- echo IN
-- cmd: echo BS
+- mkdir /c/projects/test1
+- mkdir c:/projects/test2
+- mkdir c:\projects\test3
+- cmd: mkdir /c/projects/test4
+- cmd: mkdir c:/projects/test5
+- cmd: mkdir c:\projects\test6

@@ -14,7 +14,7 @@ jobs:
           command: choco install cmake
       - run:
           name: test
-          command: ls -R / 2> /dev/null | grep -i cmake
+          command: ls -R "/c/Program Files/CMake" 2> /dev/null
       - run:
           name: Build fmatvec
           command: >-
@@ -24,7 +24,7 @@ jobs:
             git checkout 2020-04-20-cmake-msvc &&
             mkdir $CIRCLE_WORKING_DIRECTORY/fmatvec-build $CIRCLE_WORKING_DIRECTORY/fmatvec-local  &&
             cd $CIRCLE_WORKING_DIRECTORY/fmatvec-build &&
-            cmake -DCMAKE_INSTALL_PREFIX=$CIRCLE_WORKING_DIRECTORY/fmatvec-local $CIRCLE_WORKING_DIRECTORY/fmatvec
+            "/c/Program Files/CMake/bin/cmake" -DCMAKE_INSTALL_PREFIX=$CIRCLE_WORKING_DIRECTORY/fmatvec-local $CIRCLE_WORKING_DIRECTORY/fmatvec
 
 
 

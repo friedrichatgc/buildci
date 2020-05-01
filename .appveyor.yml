@@ -8,7 +8,6 @@ image: Visual Studio 2017
 #  c:/projects/mkl_rt.dll
 
 build_script:
-- mkdir c:/projects/test2
 - mkdir c:\projects\test3
 - cmd: mkdir /c/projects/test4
 - cmd: mkdir c:/projects/test5

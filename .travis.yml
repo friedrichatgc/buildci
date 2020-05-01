@@ -1,43 +1,49 @@
-language: ruby
+os: windows
+language: cpp
+git:
+  clone: false
 
-services:
-  - docker
+script:
+- echo test
+- echo test2
 
+
+
+##script:
+##- docker plugin install trajano/cifs-volume-plugin --grant-all-permissions || true
+##- docker plugin enable trajano/cifs-volume-plugin || true
+##- docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw,noperm 207.180.233.181/mbsimccache
+##- docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw,noperm 207.180.233.181/mbsimenv
+##- docker pull mbsimenv/build:latest
+##- >-
+##  travis_wait 180 docker run --init --label=buildtype=linux64-ci
+##  --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de
+##  --env=STATUSACCESSTOKEN=mfmf
+##  --env=MBSIMENVTAGNAME=latest
+##  -v=207.180.233.181/mbsimenv:/mbsim-env:rw
+##  -v=207.180.233.181/mbsimccache:/mbsim-ccache:rw
+##  mbsimenv/build:latest --buildType linux64-ci -j $(nproc)
+##  --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
 #script:
-#- docker plugin install trajano/cifs-volume-plugin --grant-all-permissions || true
-#- docker plugin enable trajano/cifs-volume-plugin || true
-#- docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw,noperm 207.180.233.181/mbsimccache
-#- docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw,noperm 207.180.233.181/mbsimenv
-#- docker pull mbsimenv/build:latest
+#- sudo apt-get update || travis_terminate 1
+#- sudo apt-get -y install nbd-client || travis_terminate 1
+#- sudo modprobe nbd || travis_terminate 1
+#- sudo /sbin/nbd-client -N mbsimenv_mbsim www.mbsim-env.de /dev/nbd0 || travis_terminate 1
+#- sudo /sbin/nbd-client -N mbsimenv_ccache www.mbsim-env.de /dev/nbd1 || travis_terminate 1
+#- sudo /sbin/nbd-client -N mbsimenv_report www.mbsim-env.de /dev/nbd2 || travis_terminate 1
+#- sudo mkdir $HOME/mbsim_env $HOME/mbsim_ccache $HOME/mbsim_report || travis_terminate 1
+#- sudo mount /dev/nbd0 $HOME/mbsim_env || travis_terminate 1
+#- sudo mount /dev/nbd1 $HOME/mbsim_ccache || travis_terminate 1
+#- sudo mount /dev/nbd2 $HOME/mbsim_report || travis_terminate 1
+#- sudo chmod 777 $HOME/mbsim_env $HOME/mbsim_ccache $HOME/mbsim_report || travis_terminate 1
+#- docker pull mbsimenv/build:latest || travis_terminate 1
 #- >-
 #  travis_wait 180 docker run --init --label=buildtype=linux64-ci
 #  --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de
 #  --env=STATUSACCESSTOKEN=mfmf
 #  --env=MBSIMENVTAGNAME=latest
-#  -v=207.180.233.181/mbsimenv:/mbsim-env:rw
-#  -v=207.180.233.181/mbsimccache:/mbsim-ccache:rw
+#  -v=$HOME/mbsim_env:/mbsim-env:rw
+#  -v=$HOME/mbsim_ccache:/mbsim-ccache:rw
+#  -v=$HOME/mbsim_report:/mbsim-report:rw
 #  mbsimenv/build:latest --buildType linux64-ci -j $(nproc)
 #  --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
-script:
-- sudo apt-get update || travis_terminate 1
-- sudo apt-get -y install nbd-client || travis_terminate 1
-- sudo modprobe nbd || travis_terminate 1
-- sudo /sbin/nbd-client -N mbsimenv_mbsim www.mbsim-env.de /dev/nbd0 || travis_terminate 1
-- sudo /sbin/nbd-client -N mbsimenv_ccache www.mbsim-env.de /dev/nbd1 || travis_terminate 1
-- sudo /sbin/nbd-client -N mbsimenv_report www.mbsim-env.de /dev/nbd2 || travis_terminate 1
-- sudo mkdir $HOME/mbsim_env $HOME/mbsim_ccache $HOME/mbsim_report || travis_terminate 1
-- sudo mount /dev/nbd0 $HOME/mbsim_env || travis_terminate 1
-- sudo mount /dev/nbd1 $HOME/mbsim_ccache || travis_terminate 1
-- sudo mount /dev/nbd2 $HOME/mbsim_report || travis_terminate 1
-- sudo chmod 777 $HOME/mbsim_env $HOME/mbsim_ccache $HOME/mbsim_report || travis_terminate 1
-- docker pull mbsimenv/build:latest || travis_terminate 1
-- >-
-  travis_wait 180 docker run --init --label=buildtype=linux64-ci
-  --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de
-  --env=STATUSACCESSTOKEN=mfmf
-  --env=MBSIMENVTAGNAME=latest
-  -v=$HOME/mbsim_env:/mbsim-env:rw
-  -v=$HOME/mbsim_ccache:/mbsim-ccache:rw
-  -v=$HOME/mbsim_report:/mbsim-report:rw
-  mbsimenv/build:latest --buildType linux64-ci -j $(nproc)
-  --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master

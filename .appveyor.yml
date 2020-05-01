@@ -1,8 +1,8 @@
 image: Visual Studio 2017
 
 install:
-- echo IN
+- cmd: echo IN
 
 build_script:
-- echo BS
+- cmd: echo BS
 

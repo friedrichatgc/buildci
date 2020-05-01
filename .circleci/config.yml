@@ -12,24 +12,20 @@ jobs:
       - run:
           name: Prepare dependencies
           command: >-
-            choco install cmake boost-msvc-14.1 doxygen.install ninja wget &&
-            wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.lib > \
-              /c/Users/circleci/project/mkl_rt.lib &&
-            wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.dll > \
-              /c/Users/circleci/project/mkl_rt.dll
+            choco install cmake boost-msvc-14.1 doxygen.install &&
       - run:
           name: Checkout
           command: >-
             cd /c/Users/circleci/project &&
             git clone https://github.com/GreenGary/fmatvec.git &&
             cd /c/Users/circleci/project/fmatvec &&
-            git checkout 2020-04-20-cmake-msvc
+            git checkout 2020-04-20-cmake-msvc && echo MFMF$LIB
       - run:
           name: cmake
-#          environment:
-#            LIB: $LIB;/c/Users/circleci/project
+          environment:
+            LIB: $LIB;/c/Users/circleci/project
           command: >-
-            mkdir /c/Users/circleci/project/fmatvec-build /c/Users/circleci/project/fmatvec-local  &&
+            echo MFMF$LIB && mkdir /c/Users/circleci/project/fmatvec-build /c/Users/circleci/project/fmatvec-local  &&
             cd /c/Users/circleci/project/fmatvec-build &&
             "/c/Program Files/CMake/bin/cmake" -G Ninja -DCMAKE_INSTALL_PREFIX=/c/Users/circleci/project/fmatvec-local /c/Users/circleci/project/fmatvec
 

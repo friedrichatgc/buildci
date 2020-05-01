@@ -12,7 +12,7 @@ jobs:
       - run:
           name: Prepare dependencies
           command: >-
-            choco install cmake boost-msvc-14.1 doxygen.install &&
+            choco install cmake boost-msvc-14.1 doxygen.install
       - run:
           name: Checkout
           command: >-

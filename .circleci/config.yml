@@ -12,7 +12,11 @@ jobs:
       - run:
           name: Prepare dependencies
           command: >-
-            choco install cmake boost-msvc-14.1 doxygen.install
+            choco install cmake boost-msvc-14.1 doxygen.install wget &&
+            wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.lib > \
+              /c/Users/circleci/project/mkl_rt.lib &&
+            wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.dll > \
+              /c/Users/circleci/project/mkl_rt.dll
       - run:
           name: Checkout
           command: >-
@@ -27,7 +31,7 @@ jobs:
           command: >-
             echo MFMF$LIB && mkdir /c/Users/circleci/project/fmatvec-build /c/Users/circleci/project/fmatvec-local  &&
             cd /c/Users/circleci/project/fmatvec-build &&
-            "/c/Program Files/CMake/bin/cmake" -G Ninja -DCMAKE_INSTALL_PREFIX=/c/Users/circleci/project/fmatvec-local /c/Users/circleci/project/fmatvec
+            "/c/Program Files/CMake/bin/cmake" -DCMAKE_INSTALL_PREFIX=/c/Users/circleci/project/fmatvec-local /c/Users/circleci/project/fmatvec
 
 
 

@@ -26,8 +26,8 @@ jobs:
             git checkout 2020-04-20-cmake-msvc
       - run:
           name: cmake
-          environment:
-            LIB: $LIB;/c/Users/circleci/project
+#          environment:
+#            LIB: $LIB;/c/Users/circleci/project
           command: >-
             mkdir /c/Users/circleci/project/fmatvec-build /c/Users/circleci/project/fmatvec-local  &&
             cd /c/Users/circleci/project/fmatvec-build &&

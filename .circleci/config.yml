@@ -10,6 +10,9 @@ jobs:
       shell: bash.exe
     steps:
       - run:
+          name: Prepare dependencies
+          command: choco install cmake
+      - run:
           command: >-
             cd $HOME &&
             git clone https://github.com/GreenGary/fmatvec.git &&

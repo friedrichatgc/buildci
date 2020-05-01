@@ -9,6 +9,5 @@ image: Visual Studio 2017
 
 build_script:
 - mkdir c:\projects\test3
-- cmd: mkdir /c/projects/test4
 - cmd: mkdir c:/projects/test5
 - cmd: mkdir c:\projects\test6

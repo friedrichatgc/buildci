@@ -27,7 +27,7 @@ jobs:
       - run:
           name: cmake
           environment:
-            LIB: %LIB%;c:\Users\circleci\project
+            LIB: c:\Users\circleci\project
           command: >-
             echo MFMF$LIB && mkdir /c/Users/circleci/project/fmatvec-build /c/Users/circleci/project/fmatvec-local  &&
             cd /c/Users/circleci/project/fmatvec-build &&

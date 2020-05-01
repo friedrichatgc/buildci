@@ -11,8 +11,9 @@ jobs:
     steps:
       - run:
           name: Prepare dependencies
-          command: choco install cmake
+          command: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
       - run:
+          name: Build fmatvec
           command: >-
             cd $HOME &&
             git clone https://github.com/GreenGary/fmatvec.git &&

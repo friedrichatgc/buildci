@@ -1,63 +1,77 @@
 version: 2.1
+
+orbs:
+  win: circleci/windows@2.2.0
+
 jobs:
-  build:
-    machine: true
+  buildMyTool:
+    executor:
+      name: win/default # executor type
+      shell: bash.exe
     steps:
-      - run: docker plugin install trajano/cifs-volume-plugin --grant-all-permissions || true
-      - run: docker plugin enable trajano/cifs-volume-plugin || true
-      - run: docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw,noperm 207.180.233.181/mbsimccache
-      - run: docker run -it --rm -v 207.180.233.181/mbsimccache:/mbsim-ccache:rw centos ls -l /mbsim-ccache
-##      - restore_cache:
-##          name: Restore docker ccache volume
-##          keys:
-##           - mbsimenv_ccache-linux64-ci.latest
-##      - restore_cache:
-##          name: Restore docker mbsimenv volume
-##          keys:
-##           - mbsimenv_mbsimenv-linux64-ci.latest
-#      - run:
-#          name: Prepare docker volume directories
-#          no_output_timeout: 1m
-#          command: >-
-#            mkdir -p $HOME/project/mbsimenv_mbsim
-#            $HOME/project/mbsimenv_report
-#            $HOME/project/mbsimenv_ccache
-#            $HOME/project/mbsimenv_state &&
-#            chmod 777 $HOME/project/mbsimenv_mbsim
-#            $HOME/project/mbsimenv_report
-#            $HOME/project/mbsimenv_ccache
-#            $HOME/project/mbsimenv_state
-#      - run:
-#          name: Pull docker build image
-#          no_output_timeout: 5m
-#          command: docker pull mbsimenv/build:latest
-#      - run:
-#          name: Building in docker container
-#          no_output_timeout: 3h
-#          command: >-
-#            docker run --init --label=buildtype=linux64-ci
-#            --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de
-#            --env=STATUSACCESSTOKEN=mfmf
-#            --env=MBSIMENVTAGNAME=latest
-#            -v=$HOME/project/mbsimenv_mbsim:/mbsim-env:rw
-#            -v=$HOME/project/mbsimenv_report:/mbsim-report:rw
-#            -v=$HOME/project/mbsimenv_ccache:/mbsim-ccache:rw
-#            -v=$HOME/project/mbsimenv_state:/mbsim-state:rw
-#            mbsimenv/build:latest --buildType linux64-ci -j $(nproc)
-#            --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
-##      - save_cache:
-##          name: Save docker ccache volume
-##          key: mbsimenv_ccache-linux64-ci.latest
-##          paths:
-##            - ~/project/mbsimenv_ccache
-##      - save_cache:
-##          name: Save docker mbsimenv volume
-##          key: mbsimenv_mbsimenv-linux64-ci.latest
-##          paths:
-##            - ~/project/mbsimenv_mbsim
-#      - store_artifacts:
-#          path: ~/project/mbsimenv_report
-#          destination: report
-#      - store_artifacts:
-#          path: ~/project/mbsimenv_state
-#          destination: state
+      - checkout
+      - run: echo my first output from bash
+
+#version: 2.1
+#jobs:
+#  build:
+#    machine: true
+#    steps:
+#      - run: docker plugin install trajano/cifs-volume-plugin --grant-all-permissions || true
+#      - run: docker plugin enable trajano/cifs-volume-plugin || true
+#      - run: docker volume create -d trajano/cifs-volume-plugin --opt cifsopts=username=mbsimenv,password=mytestpw,noperm 207.180.233.181/mbsimccache
+#      - run: docker run -it --rm -v 207.180.233.181/mbsimccache:/mbsim-ccache:rw centos ls -l /mbsim-ccache
+###      - restore_cache:
+###          name: Restore docker ccache volume
+###          keys:
+###           - mbsimenv_ccache-linux64-ci.latest
+###      - restore_cache:
+###          name: Restore docker mbsimenv volume
+###          keys:
+###           - mbsimenv_mbsimenv-linux64-ci.latest
+##      - run:
+##          name: Prepare docker volume directories
+##          no_output_timeout: 1m
+##          command: >-
+##            mkdir -p $HOME/project/mbsimenv_mbsim
+##            $HOME/project/mbsimenv_report
+##            $HOME/project/mbsimenv_ccache
+##            $HOME/project/mbsimenv_state &&
+##            chmod 777 $HOME/project/mbsimenv_mbsim
+##            $HOME/project/mbsimenv_report
+##            $HOME/project/mbsimenv_ccache
+##            $HOME/project/mbsimenv_state
+##      - run:
+##          name: Pull docker build image
+##          no_output_timeout: 5m
+##          command: docker pull mbsimenv/build:latest
+##      - run:
+##          name: Building in docker container
+##          no_output_timeout: 3h
+##          command: >-
+##            docker run --init --label=buildtype=linux64-ci
+##            --env=MBSIMENVSERVERNAME=wwwmfmf.mbsim-env.de
+##            --env=STATUSACCESSTOKEN=mfmf
+##            --env=MBSIMENVTAGNAME=latest
+##            -v=$HOME/project/mbsimenv_mbsim:/mbsim-env:rw
+##            -v=$HOME/project/mbsimenv_report:/mbsim-report:rw
+##            -v=$HOME/project/mbsimenv_ccache:/mbsim-ccache:rw
+##            -v=$HOME/project/mbsimenv_state:/mbsim-state:rw
+##            mbsimenv/build:latest --buildType linux64-ci -j $(nproc)
+##            --fmatvecBranch master --hdf5serieBranch master --openmbvBranch master --mbsimBranch master
+###      - save_cache:
+###          name: Save docker ccache volume
+###          key: mbsimenv_ccache-linux64-ci.latest
+###          paths:
+###            - ~/project/mbsimenv_ccache
+###      - save_cache:
+###          name: Save docker mbsimenv volume
+###          key: mbsimenv_mbsimenv-linux64-ci.latest
+###          paths:
+###            - ~/project/mbsimenv_mbsim
+##      - store_artifacts:
+##          path: ~/project/mbsimenv_report
+##          destination: report
+##      - store_artifacts:
+##          path: ~/project/mbsimenv_state
+##          destination: state

@@ -1,5 +1,8 @@
 image: Visual Studio 2017
 
+environment:
+  BOOST_ROOT: c:\Libraries\boost_1_69_0
+
 #install:
 #- choco install doxygen.install wget
 #- wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.lib >
@@ -15,10 +18,5 @@ build_script:
 - mkdir c:\projects\fmatvec-build c:\projects\fmatvec-local
 - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 - cd c:\projects\fmatvec-build
-- echo $LIB
-- echo %LIB%
-- set LIB="%LIB%;c:\projects"
-- echo $LIB
-- echo %LIB%
-#- ls -l C:\Libraries\boost_1_69_0
+- set LIB=%LIB%;c:\projects
 - cmake -G Ninja -DCMAKE_INSTALL_PREFIX=c:\projects\fmatvec-local c:\projects\fmatvec

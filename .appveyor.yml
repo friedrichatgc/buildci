@@ -25,5 +25,7 @@ build_script:
 - cmake -G Ninja -DBOOST_ROOT=c:\Libraries\boost_1_69_0 -DCMAKE_INSTALL_PREFIX=c:\projects\fmatvec-local c:\projects\fmatvec
 - ninja
 - ninja check
-- type c:\projects\fmatvec-build\fmatvec\check\testast.out
-- type c:\projects\fmatvec-build\fmatvec\check\testsymfunction.out
+
+on_finish:
+- type c:\projects\fmatvec-build\fmatvec\check\testast.out;
+  type c:\projects\fmatvec-build\fmatvec\check\testsymfunction.out

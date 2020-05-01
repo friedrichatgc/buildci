@@ -12,6 +12,7 @@ build_script:
 - cd c:\projects && git clone https://github.com/GreenGary/fmatvec.git
 - cd c:\projects\fmatvec && git checkout 2020-04-20-cmake-msvc
 - mkdir c:\projects\fmatvec-build c:\projects\fmatvec-local
+- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 - set LIB="$LIB;c:\projects" &&
   cd c:\projects\fmatvec-build &&
   cmake -G Ninja -DCMAKE_INSTALL_PREFIX=c:\projects\fmatvec-local c:\projects\fmatvec

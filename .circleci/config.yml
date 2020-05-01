@@ -6,11 +6,12 @@ orbs:
 jobs:
   build:
     executor:
-      name: win/default # executor type
+      name: win/default
       shell: bash.exe
     steps:
       - run:
           name: Prepare dependencies
+# installing ninja seems to block msvc to be found by cmake????????
           command: >-
             choco install cmake boost-msvc-14.1 doxygen.install wget ninja &&
             wget -q -O - http://icl.cs.utk.edu/lapack-for-windows/libraries/VisualStudio/3.7.0/Dynamic-MINGW/Win64/liblapack.lib > \

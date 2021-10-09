@@ -18,7 +18,7 @@ url="https://codecov.io/upload/v5?commit=%s&token=%s&build=%d&job=%d&build_url=%
 print("codecov call url:")
 print(url)
 response=requests.post(url,
-               data=lcovDownloadURL,
+               data=lcovDownloadURL.encode("utf-8"),
                headers={"Accept": "text/plain"})
 print("codecov status code "+str(response.status_code)+" and output:")
 print(response.content.decode("utf-8"))

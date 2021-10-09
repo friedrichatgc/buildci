@@ -8,6 +8,6 @@ g++ --coverage -lgcov -o main main.cc || exit
 'lcov' '-r' 'cov.trace.total' '/mbsim-env/mbsim*/kernel/swig/*' '-o' 'cov.trace.final' || exit
 sed -i -re "s+SF:/home/markus/project/buildci/+SF:/+g" cov.trace.final || exit
 /home/markus/REMOTE/mountall || exit
-cp cov.trace.final /home/markus/REMOTE/mbsimwebdav/codecov/. || exit
+cp cov.trace.final /home/markus/REMOTE/testwebdav/codecov/. || exit
 python upload.py || exit
 echo DONE

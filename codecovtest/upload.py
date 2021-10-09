@@ -9,7 +9,7 @@ with open("codecovUploadToken", "r") as f:
   codecovUploadToken=f.read().strip()
 buildID=1
 jobID=1
-lcovDownloadURL="https://www.mbsim-env.de:10443/k53v8hg43udslobv73tdsb956jc4/filesystem/codecov/cov.trace.final"
+lcovDownloadURL="https://www.mbsim-env.de:10443/8465739265725648/codecov/cov.trace.final"
 
 url="https://codecov.io/upload/v5?commit=%s&token=%s&build=%d&job=%d&build_url=%s&flags=%s&url=%s"% \
               (commitID, codecovUploadToken, buildID, jobID,

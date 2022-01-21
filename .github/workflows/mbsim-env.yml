@@ -1,0 +1,21 @@
+name: MBSim-Env
+on: [push]
+jobs:
+  linux64-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker image pull mbsimenv/build:latest
+      - run: >
+          docker run
+          --init
+          --label buildtype=linux64-ci
+          --env MBSIMENVSERVERNAME=www.mbsim-env.de
+          --env MBSIMENVTAGNAME=latest
+          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" mbsimenv/build:latest)
+          mbsimenv/build:latest
+          --buildType linux64-ci
+          -j 4
+          --fmatvecBranch master
+          --hdf5serieBranch master
+          --openmbvBranch master
+          --mbsimBranch master

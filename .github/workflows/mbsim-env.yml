@@ -4,18 +4,28 @@ jobs:
   linux64-ci:
     runs-on: ubuntu-latest
     steps:
-      - run: docker image pull mbsimenv/build:latest
-      - run: >
-          docker run
-          --init
-          --label buildtype=linux64-ci
-          --env MBSIMENVSERVERNAME=www.mbsim-env.de
-          --env MBSIMENVTAGNAME=latest
-          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" mbsimenv/build:latest)
-          mbsimenv/build:latest
-          --buildType linux64-ci
-          -j 4
-          --fmatvecBranch master
-          --hdf5serieBranch master
-          --openmbvBranch master
-          --mbsimBranch master
+      env:
+        mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+        mbsimenvsec_djangoSecretKey: ${{secrets.djangoSecretKey}}
+        mbsimenvsec_postgresPassword: ${{secrets.postgresPassword}}
+        mbsimenvsec_codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+        mbsimenvsec_codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+        mbsimenvsec_codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+        mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+      - run: echo test1 secret print codecovUploadToken_fmatvec ${{secrets.codecovUploadToken_fmatvec}}
+      - run: echo test2 secret print codecovUploadToken_fmatvec $mbsimenvsec_codecovUploadToken_fmatvec
+#      - run: docker image pull mbsimenv/build:staging
+#      - run: >
+#          docker run
+#          --init
+#          --label buildtype=linux64-ci
+#          --env MBSIMENVSERVERNAME=www.mbsim-env.de
+#          --env MBSIMENVTAGNAME=staging
+#          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" mbsimenv/build:staging)
+#          mbsimenv/build:staging
+#          --buildType linux64-ci
+#          -j 4
+#          --fmatvecBranch master
+#          --hdf5serieBranch master
+#          --openmbvBranch master
+#          --mbsimBranch master

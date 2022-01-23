@@ -12,26 +12,27 @@ jobs:
       mbsimenvsec_codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
       mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
     steps:
-      - run: docker image pull mbsimenv/build:staging
-      - run: >
-          docker run
-          --init
-          --label buildtype=linux64-ci
-          --env MFMF=1
-          --env MBSIMENVSERVERNAME=wwwstaging.mbsim-env.de
-          --env MBSIMENVTAGNAME=staging
-          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" mbsimenv/build:staging)
-          --env mbsimenvsec_githubStatusAccessToken
-          --env mbsimenvsec_djangoSecretKey
-          --env mbsimenvsec_postgresPassword
-          --env mbsimenvsec_codecovUploadToken_fmatvec
-          --env mbsimenvsec_codecovUploadToken_hdf5serie
-          --env mbsimenvsec_codecovUploadToken_openmbv
-          --env mbsimenvsec_codecovUploadToken_mbsim
-          mbsimenv/build:staging
-          --buildType linux64-ci
-          -j 4
-          --fmatvecBranch master
-          --hdf5serieBranch master
-          --openmbvBranch master
-          --mbsimBranch master
+      - run: docker run --rm -ti busybox ping -c 2 -6 www.google.de
+#      - run: docker image pull mbsimenv/build:staging
+#      - run: >
+#          docker run
+#          --init
+#          --label buildtype=linux64-ci
+#          --env MFMF=1
+#          --env MBSIMENVSERVERNAME=wwwstaging.mbsim-env.de
+#          --env MBSIMENVTAGNAME=staging
+#          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" mbsimenv/build:staging)
+#          --env mbsimenvsec_githubStatusAccessToken
+#          --env mbsimenvsec_djangoSecretKey
+#          --env mbsimenvsec_postgresPassword
+#          --env mbsimenvsec_codecovUploadToken_fmatvec
+#          --env mbsimenvsec_codecovUploadToken_hdf5serie
+#          --env mbsimenvsec_codecovUploadToken_openmbv
+#          --env mbsimenvsec_codecovUploadToken_mbsim
+#          mbsimenv/build:staging
+#          --buildType linux64-ci
+#          -j 4
+#          --fmatvecBranch master
+#          --hdf5serieBranch master
+#          --openmbvBranch master
+#          --mbsimBranch master

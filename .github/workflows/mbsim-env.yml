@@ -12,7 +12,7 @@ jobs:
       mbsimenvsec_codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
       mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
     steps:
-      - run: docker run --rm -ti busybox ping -c 2 -6 www.google.de
+      - run: docker run --rm busybox ping -c 2 -6 www.google.de
 #      - run: docker image pull mbsimenv/build:staging
 #      - run: >
 #          docker run

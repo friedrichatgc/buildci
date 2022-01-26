@@ -13,6 +13,7 @@ jobs:
       mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
     steps:
       - run: docker image pull mbsimenv/build:staging
+      - run: cat /proc/cpuinfo
       - run: >
           docker run
           --init

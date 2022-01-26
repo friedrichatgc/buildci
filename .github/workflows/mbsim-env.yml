@@ -13,7 +13,7 @@ jobs:
       mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
     steps:
       - run: docker image pull mbsimenv/build:staging
-      - run: cat /proc/cpuinfo
+      - run: nproc
       - run: >
           docker run
           --init
@@ -31,7 +31,7 @@ jobs:
           --env mbsimenvsec_codecovUploadToken_mbsim
           mbsimenv/build:staging
           --buildType linux64-ci
-          -j 4
+          -j $(nproc)
           --fmatvecBranch master
           --hdf5serieBranch master
           --openmbvBranch master

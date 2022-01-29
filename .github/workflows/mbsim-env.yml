@@ -6,10 +6,8 @@ jobs:
     strategy:
       matrix:
         aa: ["aa1", "aa2", "aa3"]
-        bb: [10, 11, 12]
-        cc: [20, 21]
     steps:
-      - run: echo $${matrix.aa} $${matrix.bb} $${matrix.cc}
+      - run: echo $${matrix.aa}
 #    runs-on: ubuntu-latest
 #    env:
 #      mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}

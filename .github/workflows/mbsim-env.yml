@@ -8,7 +8,7 @@ jobs:
     steps:
       - id: branches
         run: >
-          BRANCHES=$(echo [{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'},{'fmatvec':'test','hdf5serie':'master','openmbv':'master','mbsim':'master'}]);
+          BRANCHES=$(echo "[{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'},{'fmatvec':'test','hdf5serie':'master','openmbv':'master','mbsim':'master'}]");
           echo "::set-output name=branches::$BRANCHES"
 #      - id: branches
 #        run: echo "::set-output name=branches::"

@@ -5,7 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        aa: ["aa1", "aa2", "aa3"]
+        aa:
+          - {fmatvec: "master", hd5serie: "master", openmbv: "master", mbsim: "master"}
+          - {fmatvec: "test", hd5serie: "master", openmbv: "master", mbsim: "master"}
     steps:
       - run: echo $${matrix.aa}
 #    runs-on: ubuntu-latest

@@ -1,64 +1,53 @@
 name: MBSim-Env
 on: [push]
 jobs:
-  ci_branches:
+  get_ci_branches:
     runs-on: ubuntu-latest
     outputs:
       branches: ${{steps.branches.outputs.branches}}
     steps:
-      - id: branches
+      - name: "Query MBSim-Env for CI branch combinations"
+        id: branches
         run: >
-          BRANCHES=$(echo "[{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'},{'fmatvec':'test','hdf5serie':'master','openmbv':'master','mbsim':'master'}]");
+          BRANCHES=$(echo "[{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'}]");
           echo "::set-output name=branches::$BRANCHES"
-#      - id: branches
-#        run: echo "::set-output name=branches::"
   linux64-ci:
     runs-on: ubuntu-latest
-    needs: ci_branches
+    needs: get_ci_branches
+    env:
+      mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      mbsimenvsec_djangoSecretKey: ${{secrets.djangoSecretKey}}
+      mbsimenvsec_postgresPassword: ${{secrets.postgresPassword}}
+      mbsimenvsec_codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+      mbsimenvsec_codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+      mbsimenvsec_codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+      mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
     strategy:
       matrix:
-        branches: ${{fromJson(needs.ci_branches.outputs.branches)}}
+        branches: ${{fromJson(needs.get_ci_branches.outputs.branches)}}
     steps:
-      - run: echo ${{matrix.branches.fmatvec}} ${{matrix.branches.hdf5serie}} ${{matrix.branches.openmbv}} ${{matrix.branches.mbsim}}
-#  linux64-ci:
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        branches:
-#          - {fmatvec: "master", hdf5serie: "master", openmbv: "master", mbsim: "master"}
-#          - {fmatvec: "test", hdf5serie: "master", openmbv: "master", mbsim: "master"}
-#    steps:
-#      - run: echo ${{matrix.branches.fmatvec}} ${{matrix.branches.hdf5serie}} ${{matrix.branches.openmbv}} ${{matrix.branches.mbsim}}
-##    runs-on: ubuntu-latest
-##    env:
-##      mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
-##      mbsimenvsec_djangoSecretKey: ${{secrets.djangoSecretKey}}
-##      mbsimenvsec_postgresPassword: ${{secrets.postgresPassword}}
-##      mbsimenvsec_codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
-##      mbsimenvsec_codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
-##      mbsimenvsec_codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
-##      mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
-##    steps:
-##      - run: docker image pull mbsimenv/build:staging
-##      - run: >
-##          docker run
-##          --init
-##          --label buildtype=linux64-ci
-##          --env MBSIMENVDATABASE=www.mbsim-env.de:15432
-##          --env MBSIMENVSERVERNAME=wwwstaging.mbsim-env.de
-##          --env MBSIMENVTAGNAME=staging
-##          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" mbsimenv/build:staging)
-##          --env mbsimenvsec_githubStatusAccessToken
-##          --env mbsimenvsec_djangoSecretKey
-##          --env mbsimenvsec_postgresPassword
-##          --env mbsimenvsec_codecovUploadToken_fmatvec
-##          --env mbsimenvsec_codecovUploadToken_hdf5serie
-##          --env mbsimenvsec_codecovUploadToken_openmbv
-##          --env mbsimenvsec_codecovUploadToken_mbsim
-##          mbsimenv/build:staging
-##          --buildType linux64-ci
-##          -j $(nproc)
-##          --fmatvecBranch master
-##          --hdf5serieBranch master
-##          --openmbvBranch master
-##          --mbsimBranch master
+      - name: "Pull docker build image"
+        run: docker image pull mbsimenv/build:staging
+      - name: "Run build/examples"
+        run: >
+          docker run
+          --init
+          --label buildtype=linux64-ci
+          --env MBSIMENVDATABASE=www.mbsim-env.de:15432
+          --env MBSIMENVSERVERNAME=wwwstaging.mbsim-env.de
+          --env MBSIMENVTAGNAME=staging
+          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" mbsimenv/build:staging)
+          --env mbsimenvsec_githubStatusAccessToken
+          --env mbsimenvsec_djangoSecretKey
+          --env mbsimenvsec_postgresPassword
+          --env mbsimenvsec_codecovUploadToken_fmatvec
+          --env mbsimenvsec_codecovUploadToken_hdf5serie
+          --env mbsimenvsec_codecovUploadToken_openmbv
+          --env mbsimenvsec_codecovUploadToken_mbsim
+          mbsimenv/build:staging
+          --buildType linux64-ci
+          -j $(nproc)
+          --fmatvecBranch ${{matrix.branches.fmatvec}}
+          --hdf5serieBranch ${{matrix.branches.hdf5serie}}
+          --openmbvBranch ${{matrix.branches.openmbv}}
+          --mbsimBranch ${{matrix.branches.mbsim}}

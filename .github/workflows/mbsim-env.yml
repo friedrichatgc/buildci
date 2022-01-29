@@ -6,10 +6,12 @@ jobs:
     outputs:
       branches: ${{steps.branches.outputs.branches}}
     steps:
-      - run: mfmf=xx
-      - run: echo $mfmf
       - id: branches
-        run: echo "::set-output name=branches::[{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'},{'fmatvec':'test','hdf5serie':'master','openmbv':'master','mbsim':'master'}]"
+        run: >
+          BRANCHES=$(echo [{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'},{'fmatvec':'test','hdf5serie':'master','openmbv':'master','mbsim':'master'}]);
+          echo "::set-output name=branches::$BRANCHES"
+#      - id: branches
+#        run: echo "::set-output name=branches::"
   linux64-ci:
     runs-on: ubuntu-latest
     needs: ci_branches

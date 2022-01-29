@@ -6,6 +6,8 @@ jobs:
     outputs:
       branches: ${{steps.branches.outputs.branches}}
     steps:
+      - run: mfmf=xx
+      - run: echo $mfmf
       - id: branches
         run: echo "::set-output name=branches::[{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'},{'fmatvec':'test','hdf5serie':'master','openmbv':'master','mbsim':'master'}]"
   linux64-ci:

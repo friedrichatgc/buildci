@@ -6,10 +6,10 @@ jobs:
     strategy:
       matrix:
         aa:
-          - {fmatvec: "master", hd5serie: "master", openmbv: "master", mbsim: "master"}
-          - {fmatvec: "test", hd5serie: "master", openmbv: "master", mbsim: "master"}
+          - {fmatvec: "master", hdf5serie: "master", openmbv: "master", mbsim: "master"}
+          - {fmatvec: "test", hdf5serie: "master", openmbv: "master", mbsim: "master"}
     steps:
-      - run: echo ${{matrix.aa}}
+      - run: echo ${{matrix.aa.fmatvec}} ${{matrix.aa.hdf5serie}} ${{matrix.aa.openmbv}} ${{matrix.aa.mbsim}}
 #    runs-on: ubuntu-latest
 #    env:
 #      mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}

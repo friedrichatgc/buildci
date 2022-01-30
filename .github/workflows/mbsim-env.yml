@@ -56,6 +56,7 @@ jobs:
 #          --env mbsimenvsec_codecovUploadToken_hdf5serie
 #          --env mbsimenvsec_codecovUploadToken_openmbv
 #          --env mbsimenvsec_codecovUploadToken_mbsim
+#          -v ${{env.GITHUB_WORKSPACE}}/mbsim-env:/mbsim-env
 #          ${{matrix.os.image}}:${{env.TAGNAME}}
 #          --buildType ${{matrix.os.buildType}}
 #          -j $(nproc)
@@ -63,3 +64,11 @@ jobs:
 #          --hdf5serieBranch ${{matrix.branches.hdf5serie}}
 #          --openmbvBranch ${{matrix.branches.openmbv}}
 #          --mbsimBranch ${{matrix.branches.mbsim}}
+      - run: mkdir -p ${{env.GITHUB_WORKSPACE}}/mbsim-env/local && echo "{ 'buildRunID': 188 }" > ${{env.GITHUB_WORKSPACE}}/mbsim-env/local/.buildInfo.json && echo mfmf
+      - name: "Detailed build/examples output"
+        shell: python3
+        run: |
+          import json
+          with open("${{env.GITHUB_WORKSPACE}}/mbsim-env/local/.buildInfo.json", "r") as f:
+            buildInfo=json.load(f)
+          print("https://${{env.MBSIMENVSERVERNAME}}/builds/run/"+str(buildInfo["buildRunID"])+"/")

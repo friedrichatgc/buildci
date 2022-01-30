@@ -9,7 +9,7 @@ jobs:
       - name: "Query MBSim-Env for CI branch combinations"
         id: branches
         run: >
-          BRANCHES=$(echo "[{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'}]");
+          BRANCHES=$(echo "[{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'},{'fmatvec':'test','hdf5serie':'master','openmbv':'master','mbsim':'master'}]");
           echo "::set-output name=branches::$BRANCHES"
   build:
     runs-on: ubuntu-latest
@@ -29,6 +29,8 @@ jobs:
         os:
           - buildType: "linux64-ci"
             image: "mbsimenv/build"
+          - buildType: "win64-ci"
+            image: "mbsimenv/buildwin"
     steps:
       - name: "Cache install-prefix"
         uses: actions/cache@v2

@@ -9,7 +9,7 @@ jobs:
       - name: "Query MBSim-Env for CI branch combinations"
         id: branches
         run: >
-          BRANCHES=$(echo "[{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'}]");
+          BRANCHES=$(echo "[{'id':1,'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'}]");
           echo "::set-output name=branches::$BRANCHES"
   build:
     runs-on: ubuntu-latest
@@ -27,14 +27,15 @@ jobs:
       matrix:
         branches: ${{fromJson(needs.get_ci_branches.outputs.branches)}}
         os:
-          - buildType: "linux64-ci"
+          - id: 1
+            buildType: "linux64-ci"
             image: "mbsimenv/build"
     steps:
       - name: "Cache install-prefix"
         uses: actions/cache@v2
         with:
           path: ${{env.GITHUB_WORKSPACE}}/ccache
-          key: ccache
+          key: ccache-${{matrix.os.id}}-${{matrix.branches.id}}
       - run: echo mfmf; cat ${{env.GITHUB_WORKSPACE}}/ccache/ab/file || exit 0
 #      - name: "Pull docker build image"
 #        run: docker image pull ${{matrix.os.image}}:${{env.TAGNAME}}

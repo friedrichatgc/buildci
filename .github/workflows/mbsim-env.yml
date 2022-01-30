@@ -11,7 +11,7 @@ jobs:
         run: >
           BRANCHES=$(echo "[{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'}]");
           echo "::set-output name=branches::$BRANCHES"
-  linux64-ci:
+  build:
     runs-on: ubuntu-latest
     needs: get_ci_branches
     env:
@@ -32,18 +32,23 @@ jobs:
           - buildType: "win64-ci"
             image: "mbsimenv/buildwin64"
     steps:
-      - name: "dummy"
-        run: >
-          echo "BUILD ${{matrix.os.buildType}}
-                      ${{matrix.os.image}}
-                      $TAGNAME
-                      ${{matrix.branches.fmatvec}}
-                      ${{matrix.branches.hdf5serie}}
-                      ${{matrix.branches.openmbv}}
-                      ${{matrix.branches.mbsim}}"
+      - name: "Cache install-prefix"
+        uses: actions/cache@v2
+        with:
+          path: /mbsim-ccache
+          key: install-prefix-${{env.GITHUB_RUN_ID}}-${{matrix.branches}}-${{matrix.os}}
+      - run: echo mfmf; cat /mbsim-ccache/ab/file || exit 0
 #      - name: "Pull docker build image"
 #        run: docker image pull ${{matrix.os.image}}:$TAGNAME
-#      - name: "Run build/examples"
+      - name: "Run build/examples"
+        run: >
+          echo "BUILDMFMF ${{matrix.os.buildType}}
+                          ${{matrix.os.image}}
+                          $TAGNAME
+                          ${{matrix.branches.fmatvec}}
+                          ${{matrix.branches.hdf5serie}}
+                          ${{matrix.branches.openmbv}}
+                          ${{matrix.branches.mbsim}}"
 #        run: >
 #          docker run
 #          --init
@@ -66,3 +71,5 @@ jobs:
 #          --hdf5serieBranch ${{matrix.branches.hdf5serie}}
 #          --openmbvBranch ${{matrix.branches.openmbv}}
 #          --mbsimBranch ${{matrix.branches.mbsim}}
+      - run: echo mfmf; mkdir -p /mbsim-ccache/ab && data > /mbsim-ccache/ab/file
+      - run: echo mfmf; cat /mbsim-ccache/ab/file || exit 0

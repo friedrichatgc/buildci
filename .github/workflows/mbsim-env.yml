@@ -40,33 +40,33 @@ jobs:
                     hdf5serieBranch = ${{matrix.branches.hdf5serie}}
                     openmbvBranch = ${{matrix.branches.openmbv}}
                     mbsimBranch = ${{matrix.branches.mbsim}}" | tr -s ' '
-#      - name: "Pull docker build image"
-#        run: docker image pull ${{matrix.os.image}}:${{env.TAGNAME}}
-#      - name: "Run build/examples"
-#        run: >
-#          docker run
-#          --init
-#          --label buildtype=${{matrix.os.buildType}}
-#          --env MBSIMENVDATABASE=${{env.MBSIMENVDATABASE}}
-#          --env MBSIMENVSERVERNAME=${{env.MBSIMENVSERVERNAME}}
-#          --env MBSIMENVTAGNAME=${{env.TAGNAME}}
-#          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.os.image}}:${{env.TAGNAME}})
-#          --env mbsimenvsec_githubStatusAccessToken
-#          --env mbsimenvsec_djangoSecretKey
-#          --env mbsimenvsec_postgresPassword
-#          --env mbsimenvsec_codecovUploadToken_fmatvec
-#          --env mbsimenvsec_codecovUploadToken_hdf5serie
-#          --env mbsimenvsec_codecovUploadToken_openmbv
-#          --env mbsimenvsec_codecovUploadToken_mbsim
-#          -v ${{env.GITHUB_WORKSPACE}}/mbsim-env:/mbsim-env
-#          ${{matrix.os.image}}:${{env.TAGNAME}}
-#          --buildType ${{matrix.os.buildType}}
-#          -j $(nproc)
-#          --fmatvecBranch ${{matrix.branches.fmatvec}}
-#          --hdf5serieBranch ${{matrix.branches.hdf5serie}}
-#          --openmbvBranch ${{matrix.branches.openmbv}}
-#          --mbsimBranch ${{matrix.branches.mbsim}}
-      - run: mkdir -p $GITHUB_WORKSPACE/mbsim-env/local && echo '{"buildRunID":188}' > $GITHUB_WORKSPACE/mbsim-env/local/.buildInfo.json && echo mfmf
+      - name: "Pull docker build image"
+        run: docker image pull ${{matrix.os.image}}:${{env.TAGNAME}}
+      - name: "Run build/examples"
+        run: >
+          docker run
+          --init
+          --label buildtype=${{matrix.os.buildType}}
+          --env MBSIMENVDATABASE=${{env.MBSIMENVDATABASE}}
+          --env MBSIMENVSERVERNAME=${{env.MBSIMENVSERVERNAME}}
+          --env MBSIMENVTAGNAME=${{env.TAGNAME}}
+          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.os.image}}:${{env.TAGNAME}})
+          --env mbsimenvsec_githubStatusAccessToken
+          --env mbsimenvsec_djangoSecretKey
+          --env mbsimenvsec_postgresPassword
+          --env mbsimenvsec_codecovUploadToken_fmatvec
+          --env mbsimenvsec_codecovUploadToken_hdf5serie
+          --env mbsimenvsec_codecovUploadToken_openmbv
+          --env mbsimenvsec_codecovUploadToken_mbsim
+          -v $GITHUB_WORKSPACE/mbsim-env:/mbsim-env
+          ${{matrix.os.image}}:${{env.TAGNAME}}
+          --buildType ${{matrix.os.buildType}}
+          -j $(nproc)
+          --fmatvecBranch ${{matrix.branches.fmatvec}}
+          --hdf5serieBranch ${{matrix.branches.hdf5serie}}
+          --openmbvBranch ${{matrix.branches.openmbv}}
+          --mbsimBranch ${{matrix.branches.mbsim}}
+#      - run: mkdir -p $GITHUB_WORKSPACE/mbsim-env/local && echo '{"buildRunID":188}' > $GITHUB_WORKSPACE/mbsim-env/local/.buildInfo.json && echo mfmf
       - name: "Detailed build/examples output"
         shell: python
         run: |

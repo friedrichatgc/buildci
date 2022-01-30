@@ -32,12 +32,12 @@ jobs:
     steps:
       - name: "Dump build config"
         run: >
-          echo -e " buildType = ${{matrix.os.buildType}}\n
-                    image = ${{matrix.os.image}}:${{env.TAGNAME}}\n
-                    fmatvecBranch = ${{matrix.branches.fmatvec}}\n
-                    hdf5serieBranch = ${{matrix.branches.hdf5serie}}\n
-                    openmbvBranch = ${{matrix.branches.openmbv}}\n
-                    mbsimBranch = ${{matrix.branches.mbsim}}\n" | tr -s ' '
+          echo -e " buildType = ${{matrix.os.buildType}}
+                    image = ${{matrix.os.image}}:${{env.TAGNAME}}
+                    fmatvecBranch = ${{matrix.branches.fmatvec}}
+                    hdf5serieBranch = ${{matrix.branches.hdf5serie}}
+                    openmbvBranch = ${{matrix.branches.openmbv}}
+                    mbsimBranch = ${{matrix.branches.mbsim}}" | tr -s ' '
 #      - name: "Pull docker build image"
 #        run: docker image pull ${{matrix.os.image}}:${{env.TAGNAME}}
 #      - name: "Run build/examples"

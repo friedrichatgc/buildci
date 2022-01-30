@@ -73,4 +73,5 @@ jobs:
 #          --openmbvBranch ${{matrix.branches.openmbv}}
 #          --mbsimBranch ${{matrix.branches.mbsim}}
       - run: docker run -v ${{env.GITHUB_WORKSPACE}}/ccache:/mbsim-ccache alpine sh -c "mkdir -p /mbsim-ccache/ab && date > /mbsim-ccache/ab/file"
+      - run: sleep $(($RANDOM%100))
       - run: echo mfmf; cat ${{env.GITHUB_WORKSPACE}}/ccache/ab/file || exit 0

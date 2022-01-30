@@ -16,6 +16,8 @@ jobs:
     needs: get_ci_branches
     env:
       TAGNAME: staging
+      MBSIMENVDATABASE: www.mbsim-env.de:15432
+      MBSIMENVSERVERNAME: wwwstaging.mbsim-env.de
       mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       mbsimenvsec_djangoSecretKey: ${{secrets.djangoSecretKey}}
       mbsimenvsec_postgresPassword: ${{secrets.postgresPassword}}
@@ -45,8 +47,8 @@ jobs:
 #          docker run
 #          --init
 #          --label buildtype=${{matrix.os.buildType}}
-#          --env MBSIMENVDATABASE=www.mbsim-env.de:15432
-#          --env MBSIMENVSERVERNAME=wwwstaging.mbsim-env.de
+#          --env MBSIMENVDATABASE=${{env.MBSIMENVDATABASE}}
+#          --env MBSIMENVSERVERNAME=${{env.MBSIMENVSERVERNAME}}
 #          --env MBSIMENVTAGNAME=${{env.TAGNAME}}
 #          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.os.image}}:${{env.TAGNAME}})
 #          --env mbsimenvsec_githubStatusAccessToken

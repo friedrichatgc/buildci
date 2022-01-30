@@ -41,7 +41,7 @@ jobs:
                     openmbvBranch = ${{matrix.branches.openmbv}}
                     mbsimBranch = ${{matrix.branches.mbsim}}" | tr -s ' '
       - name: "Pull docker build image"
-        run: docker image pull ${{matrix.os.image}}:${{env.TAGNAME}}
+        run: docker image pull ${{matrix.os.image}}:${{env.TAGNAME}} && mkdir -m 777 -p $GITHUB_WORKSPACE/mbsim-env
       - name: "Run build/examples"
         run: >
           docker run

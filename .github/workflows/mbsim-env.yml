@@ -9,7 +9,7 @@ jobs:
       - name: "Query MBSim-Env for CI branch combinations"
         id: branches
         run: >
-          BRANCHES=$(echo "[{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'},{'fmatvec':'test','hdf5serie':'master','openmbv':'master','mbsim':'master'}]");
+          BRANCHES=$(echo "[{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'master'},{'fmatvec':'master','hdf5serie':'master','openmbv':'master','mbsim':'mbsimguiobjectfactory'}]");
           echo "::set-output name=branches::$BRANCHES"
   build:
     runs-on: ubuntu-latest
@@ -29,26 +29,19 @@ jobs:
         os:
           - buildType: "linux64-ci"
             image: "mbsimenv/build"
-          - buildType: "win64-ci"
-            image: "mbsimenv/buildwin"
     steps:
-      - name: "ccache"
-        uses: actions/cache@v2
-        with:
-          path: ${{env.GITHUB_WORKSPACE}}/ccache
-          key: ccache_dir-${{matrix.os.buildType}}
-      - run: echo mfmf; cat ${{env.GITHUB_WORKSPACE}}/ccache/ab/file || exit 0
+      - name: "Dump build config"
+        run: >
+          echo -e " buildType = ${{matrix.os.buildType}}\n
+                    image = ${{matrix.os.image}}:${{env.TAGNAME}}\n
+                    fmatvecBranch = ${{matrix.branches.fmatvec}}\n
+                    hdf5serieBranch = ${{matrix.branches.hdf5serie}}\n
+                    openmbvBranch = ${{matrix.branches.openmbv}}\n
+                    mbsimBranch = ${{matrix.branches.mbsim}}\n"
+          | tr -s ' '
 #      - name: "Pull docker build image"
 #        run: docker image pull ${{matrix.os.image}}:${{env.TAGNAME}}
-      - name: "Run build/examples"
-        run: >
-          echo "BUILDMFMF ${{matrix.os.buildType}}
-                          ${{matrix.os.image}}
-                          ${{env.TAGNAME}}
-                          ${{matrix.branches.fmatvec}}
-                          ${{matrix.branches.hdf5serie}}
-                          ${{matrix.branches.openmbv}}
-                          ${{matrix.branches.mbsim}}"
+#      - name: "Run build/examples"
 #        run: >
 #          docker run
 #          --init
@@ -64,7 +57,6 @@ jobs:
 #          --env mbsimenvsec_codecovUploadToken_hdf5serie
 #          --env mbsimenvsec_codecovUploadToken_openmbv
 #          --env mbsimenvsec_codecovUploadToken_mbsim
-#          -v ${{env.GITHUB_WORKSPACE}}/ccache:/mbsim-ccache
 #          ${{matrix.os.image}}:${{env.TAGNAME}}
 #          --buildType ${{matrix.os.buildType}}
 #          -j $(nproc)
@@ -72,6 +64,3 @@ jobs:
 #          --hdf5serieBranch ${{matrix.branches.hdf5serie}}
 #          --openmbvBranch ${{matrix.branches.openmbv}}
 #          --mbsimBranch ${{matrix.branches.mbsim}}
-      - run: docker run -v ${{env.GITHUB_WORKSPACE}}/ccache:/mbsim-ccache alpine sh -c "mkdir -p /mbsim-ccache/ab && date > /mbsim-ccache/ab/file"
-      - run: sleep $(($RANDOM%100))
-      - run: echo mfmf; cat ${{env.GITHUB_WORKSPACE}}/ccache/ab/file || exit 0

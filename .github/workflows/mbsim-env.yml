@@ -36,7 +36,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{env.GITHUB_WORKSPACE}}/ccache
-          key: ccache_dir-${{matrix.os}}
+          key: ccache_dir-${{matrix.os.buildType}}
       - run: echo mfmf; cat ${{env.GITHUB_WORKSPACE}}/ccache/ab/file || exit 0
 #      - name: "Pull docker build image"
 #        run: docker image pull ${{matrix.os.image}}:${{env.TAGNAME}}

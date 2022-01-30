@@ -64,7 +64,7 @@ jobs:
 #          --hdf5serieBranch ${{matrix.branches.hdf5serie}}
 #          --openmbvBranch ${{matrix.branches.openmbv}}
 #          --mbsimBranch ${{matrix.branches.mbsim}}
-      - run: mkdir -p ${{env.GITHUB_WORKSPACE}}/mbsim-env/local && echo "{'buildRunID':188}" > ${{env.GITHUB_WORKSPACE}}/mbsim-env/local/.buildInfo.json && echo mfmf
+      - run: mkdir -p $GITHUB_WORKSPACE/mbsim-env/local && echo "{'buildRunID':188}" > $GITHUB_WORKSPACE/mbsim-env/local/.buildInfo.json && echo mfmf
       - name: "Detailed build/examples output"
         shell: python3
         run: |

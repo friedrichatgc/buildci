@@ -32,7 +32,7 @@ jobs:
           - buildType: "linux64-ci"
             image: "mbsimenv/build"
     steps:
-      - name: "Dump build config"
+      - name: "Dump build configuration"
         run: >
           echo -e " buildType = ${{matrix.os.buildType}}
                     image = ${{matrix.os.image}}:${{env.TAGNAME}}

@@ -1,7 +1,7 @@
 name: MBSim-Env
 on: [push]
 env:
-  TAGNAME: staging
+  MBSIMENVTAGNAME: staging
   MBSIMENVSERVERNAME: wwwstaging.mbsim-env.de
   MBSIMENVDATABASE: www.mbsim-env.de:15432
   MBSIMENVFILESTORAGE: www.mbsim-env.de:11022
@@ -19,9 +19,6 @@ jobs:
     outputs:
       branches: ${{steps.branches.outputs.branches}}
     steps:
-      - run: ping -c 1 207.180.233.181 || echo done
-      - run: ping -c 1 2a02:c207:3003:2021::1 || echo done
-      - run: ping -c 1 2a02:c207:3003:2021::2 || echo done
       - name: "Query MBSim-Env for CI branch combinations"
         id: branches
         shell: python
@@ -29,7 +26,7 @@ jobs:
           import json
           import requests
           import os
-          #response=requests.get("https://"+os.environ["MBSIMENVSERVERNAME"]+"/service/db/getbranchcombi/CIBranches/")
+          #mfmf response=requests.get("https://"+os.environ["MBSIMENVSERVERNAME"]+"/service/db/getbranchcombi/CIBranches/")
           response=requests.get("http://www.mbsim-env.de:12345/service/db/getbranchcombi/CIBranches/")
           print("::set-output name=branches::"+json.dumps(response.json()["data"]))
   build:
@@ -45,22 +42,23 @@ jobs:
       - name: "Dump build config"
         run: >
           echo -e " buildType = ${{matrix.os.buildType}}
-                    image = ${{matrix.os.image}}:${{env.TAGNAME}}
+                    image = ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
                     fmatvecBranch = ${{matrix.branches.fmatvecBranch}}
                     hdf5serieBranch = ${{matrix.branches.hdf5serieBranch}}
                     openmbvBranch = ${{matrix.branches.openmbvBranch}}
                     mbsimBranch = ${{matrix.branches.mbsimBranch}}" | tr -s ' '
       - name: "Pull docker build image"
-        run: docker image pull ${{matrix.os.image}}:${{env.TAGNAME}} && mkdir -m 777 -p $GITHUB_WORKSPACE/mbsim-env
+        run: docker image pull ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}} && mkdir -m 777 -p $GITHUB_WORKSPACE/mbsim-env
       - name: "Run build/examples"
         run: >
           docker run
           --init
           --label buildtype=${{matrix.os.buildType}}
-          --env MBSIMENVDATABASE=${{env.MBSIMENVDATABASE}}
-          --env MBSIMENVSERVERNAME=${{env.MBSIMENVSERVERNAME}}
-          --env MBSIMENVTAGNAME=${{env.TAGNAME}}
-          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.os.image}}:${{env.TAGNAME}})
+          --env MBSIMENVDATABASE
+          --env MBSIMENVFILESTORAGE
+          --env MBSIMENVSERVERNAME
+          --env MBSIMENVTAGNAME
+          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}})
           --env mbsimenvsec_githubStatusAccessToken
           --env mbsimenvsec_djangoSecretKey
           --env mbsimenvsec_postgresPassword
@@ -69,14 +67,13 @@ jobs:
           --env mbsimenvsec_codecovUploadToken_openmbv
           --env mbsimenvsec_codecovUploadToken_mbsim
           -v $GITHUB_WORKSPACE/mbsim-env:/mbsim-env
-          ${{matrix.os.image}}:${{env.TAGNAME}}
+          ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
           --buildType ${{matrix.os.buildType}}
           -j $(nproc)
           --fmatvecBranch ${{matrix.branches.fmatvecBranch}}
           --hdf5serieBranch ${{matrix.branches.hdf5serieBranch}}
           --openmbvBranch ${{matrix.branches.openmbvBranch}}
           --mbsimBranch ${{matrix.branches.mbsimBranch}}
-#      - run: mkdir -p $GITHUB_WORKSPACE/mbsim-env/local && echo '{"buildRunID":188}' > $GITHUB_WORKSPACE/mbsim-env/local/.buildInfo.json && echo mfmf
       - name: "Detailed build/examples output"
         shell: python
         run: |

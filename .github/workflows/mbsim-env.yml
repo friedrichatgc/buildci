@@ -38,6 +38,7 @@ jobs:
           print("::set-output name=branches::"+json.dumps(branches))
   build:
     runs-on: ubuntu-latest
+    if: false
     needs: get_ci_branches
     strategy:
       matrix:

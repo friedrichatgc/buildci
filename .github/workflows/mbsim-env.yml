@@ -37,6 +37,7 @@ jobs:
           # set output
           print(json.dumps(branches))
           print("::set-output name=branchesStepOutput::"+json.dumps(branches))
+          print("mfmf "+str(int(len(branches)>0)))
           print("::set-output name=branchesExistStepOutput::"+str(int(len(branches)>0)))
   build:
     runs-on: ubuntu-latest

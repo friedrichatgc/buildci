@@ -41,7 +41,7 @@ jobs:
           print("::set-output name=branchesExistStepOutput::"+str(int(len(branches)>0)))
   build:
     runs-on: ubuntu-latest
-    if: 0
+    if: fromJson(needs.get_ci_branches.outputs.branchesExistOutput)
     needs: get_ci_branches
     strategy:
       matrix:

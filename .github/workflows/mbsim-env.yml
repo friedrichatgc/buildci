@@ -4,11 +4,25 @@ jobs:
   testJob:
     runs-on: ubuntu-latest
     steps:
-      - run: echo $GITHUB_REF
-      - run: echo $GITHUB_REF_NAME
-      - run: echo $GITHUB_REPOSITORY
-      - run: echo $GITHUB_REPOSITORY_OWNER
-      - run: echo $GITHUB_SHA
+      - run: echo "$GITHUB_REF"
+      - run: echo "$GITHUB_REF_NAME . master"
+      - run: echo "$GITHUB_REPOSITORY . friedrichatgc/buildci"
+      - run: echo "$GITHUB_REPOSITORY_OWNER"
+      - run: echo "$GITHUB_SHA . 0895326c858e566e28d160ac28d974b68f1eeadf"
+      - run: echo "${{GITHUB_REF}}"
+      - run: echo "${{GITHUB_REF_NAME}}"
+      - run: echo "${{GITHUB_REPOSITORY}}"
+      - run: echo "${{GITHUB_REPOSITORY_OWNER}}"
+      - run: echo "${{GITHUB_SHA}}"
+      - run: echo "${{github.REF}}"
+      - run: echo "${{github.REF_NAME}}"
+      - run: echo "${{github.REPOSITORY}}"
+      - run: echo "${{github.REPOSITORY_OWNER}}"
+      - run: echo "${{github.SHA}}"
+
+
+
+
 
 
 

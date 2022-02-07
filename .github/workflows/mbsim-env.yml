@@ -6,10 +6,11 @@ jobs:
   get_ci_branches:
     runs-on: ubuntu-latest
     outputs:
-      branches: ${{steps.branches.outputs.branches}}
+      branchesOutput: ${{steps.branchesStep.outputs.branchesStepOutput}}
+      branchesExistOutput: ${{steps.branchesStep.outputs.branchesExistStepOutput}}
     steps:
       - name: "Query MBSim-Env for CI branch combinations"
-        id: branches
+        id: branchesStep
         shell: python
         run: |
           import json
@@ -35,14 +36,15 @@ jobs:
             branches=[]
           # set output
           print(json.dumps(branches))
-          print("::set-output name=branches::"+json.dumps(branches))
+          print("::set-output name=branchesStepOutput::"+json.dumps(branches))
+          print("::set-output name=branchesExistStepOutput::"+str(len(branches)>0))
   build:
     runs-on: ubuntu-latest
-    if: false
+    if: branchesExistOutput
     needs: get_ci_branches
     strategy:
       matrix:
-        branches: ${{fromJson(needs.get_ci_branches.outputs.branches)}}
+        branches: ${{fromJson(needs.get_ci_branches.outputs.branchesOutput)}}
         os:
           - buildType: "linux64-ci"
             image: "mbsimenv/build"

@@ -35,7 +35,7 @@ jobs:
           else:
             branches=[]
           # set output
-          print("branch combination to build: "+json.dumps(branches)))
+          print("Branch combinations to build:\n"+json.dumps(branches))
           print("::set-output name=branchesStepOutput::"+json.dumps(branches))
           print("::set-output name=branchesExistStepOutput::"+str(int(len(branches)>0)))
   build:

@@ -14,6 +14,8 @@ jobs:
       - run: echo "${{github.REPOSITORY}}"
       - run: echo "${{github.REPOSITORY_OWNER}}"
       - run: echo "${{github.SHA}}"
+      - run: echo "${{github.workspace}}/mbsim-env"
+      - run: echo "${{github.WORKSPACE}}/mbsim-env"
 
 
 
@@ -71,7 +73,7 @@ jobs:
 #                    openmbvBranch = ${{matrix.branches.openmbvBranch}}
 #                    mbsimBranch = ${{matrix.branches.mbsimBranch}}" | tr -s ' '
 #      - name: "Pull docker build image"
-#        run: docker image pull ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}} && mkdir -m 777 -p $GITHUB_WORKSPACE/mbsim-env
+#        run: docker image pull ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}} && mkdir -m 777 -p ${{github.workspace}}/mbsim-env
 #      - name: "Run build/examples"
 #        run: >
 #          docker run
@@ -89,7 +91,7 @@ jobs:
 #          --env mbsimenvsec_codecovUploadToken_hdf5serie
 #          --env mbsimenvsec_codecovUploadToken_openmbv
 #          --env mbsimenvsec_codecovUploadToken_mbsim
-#          -v $GITHUB_WORKSPACE/mbsim-env:/mbsim-env
+#          -v ${{github.workspace}}/mbsim-env:/mbsim-env
 #          ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
 #          --buildType ${{matrix.os.buildType}}
 #          -j $(nproc)

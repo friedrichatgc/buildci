@@ -28,6 +28,7 @@ jobs:
           import requests
           # get repo and branch name
           repo="${{github.repository}}".split("/")[1]
+          repo="openmbv"#mfmf
           branch="${{github.ref_name}}"
           print("Got action for repo="+repo+" branch="+branch)
           # get branch combinations
@@ -58,6 +59,8 @@ jobs:
         os:
           - buildType: "linux64-ci"
             image: "mbsimenv/build"
+          - buildType: "win64-ci"
+            image: "mbsimenv/buildwin64"
     steps:
       - name: "Dump build config"
         run: >

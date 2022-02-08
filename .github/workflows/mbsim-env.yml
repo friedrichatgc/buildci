@@ -68,6 +68,7 @@ jobs:
             image: "mbsimenv/buildwin64"
     steps:
       - run: /sbin/ifconfig || true
+      - run: ping -c 1 wwwstaging.mbsim-env.de
       - name: "Dump build config"
         run: >
           echo -e " buildType = ${{matrix.os.buildType}}

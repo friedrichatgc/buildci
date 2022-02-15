@@ -143,7 +143,7 @@ jobs:
       matrix:
         os: ["a", "b"]
     steps:
-      - run: echo mat ${{matrix.os}
+      - run: echo mat ${{matrix.os}}
       - run: exit 1
         continue-on-error: True
       - run: echo mat2

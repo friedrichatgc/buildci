@@ -60,6 +60,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: fromJson(needs.get_ci_branches.outputs.branchesExistOutput)
+    continue-on-error: True
     needs: get_ci_branches
     strategy:
       matrix:
@@ -107,6 +108,7 @@ jobs:
           --openmbvBranch ${{matrix.branches.openmbvBranch}}
           --mbsimBranch ${{matrix.branches.mbsimBranch}}
       - name: "Detailed build/examples output"
+        continue-on-error: True
         shell: python
         run: |
           import json

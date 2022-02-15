@@ -145,7 +145,7 @@ jobs:
     steps:
       - run: echo mat ${{matrix.os}}
       - run: exit 1
-        continue-on-error: True
+#        continue-on-error: True
       - run: echo mat2
   end:
     runs-on: ubuntu-latest

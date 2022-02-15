@@ -81,7 +81,7 @@
 #      - name: "Pull docker build image"
 #        run: docker image pull ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}} && mkdir -m 777 -p ${{github.workspace}}/mbsim-env
 #      - name: "Run build/examples"
-#        continue-on-error: True
+#        continue-on-error: true
 #        run: >
 #          docker run
 #          --init
@@ -140,15 +140,16 @@ jobs:
     strategy:
       matrix:
         os: ["a", "b"]
+      fail-fast: false
     steps:
       - run: echo mat ${{matrix.os}}
       - run: exit 1
         id: mfmf
-        continue-on-error: True
+#        continue-on-error: true
       - run: echo mat2
-  end:
-    runs-on: ubuntu-latest
-    needs: mat
-    if: jobs.mat.steps.mfmf.status == "failure"
-    steps:
-      - run: exit 1
+#  end:
+#    runs-on: ubuntu-latest
+#    needs: mat
+#    if: jobs.mat.steps.mfmf.status == "failure"
+#    steps:
+#      - run: exit 1

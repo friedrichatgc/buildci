@@ -139,11 +139,11 @@ jobs:
     needs: start
     strategy:
       matrix:
-        os: ["a", "b"]
+        os: [1, 2]
       fail-fast: false
     steps:
       - run: echo mat ${{matrix.os}}
-      - run: exit 1
+      - run: test ${{matrix.os}} -eq 1 && sleep 10; exit 1
         id: mfmf
 #        continue-on-error: true
       - run: echo mat2

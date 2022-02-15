@@ -60,7 +60,6 @@
 #  build:
 #    runs-on: ubuntu-latest
 #    if: fromJson(needs.get_ci_branches.outputs.branchesExistOutput)
-#    continue-on-error: True
 #    needs: get_ci_branches
 #    strategy:
 #      matrix:
@@ -137,7 +136,6 @@ jobs:
       - run: echo start
   mat:
     runs-on: ubuntu-latest
-#    continue-on-error: True
     needs: start
     strategy:
       matrix:
@@ -145,11 +143,12 @@ jobs:
     steps:
       - run: echo mat ${{matrix.os}}
       - run: exit 1
+        id: mfmf
         continue-on-error: True
       - run: echo mat2
   end:
     runs-on: ubuntu-latest
     needs: mat
-    if: failure()
+    if: jobs.mat.steps.mfmf.status == "failure"
     steps:
       - run: exit 1

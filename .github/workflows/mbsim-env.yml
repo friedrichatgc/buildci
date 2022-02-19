@@ -1,4 +1,4 @@
-name: MBSim-Env
+name: MBSim-Env Build
 on: [push]
 env:
   # tagname and servername of remote mbsimenv server
@@ -19,6 +19,7 @@ env:
   mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
 jobs:
   get_ci_branches:
+    name: Get CI Branch Combinations
     runs-on: ubuntu-latest
     outputs:
       branchesOutput: ${{steps.branchesStep.outputs.branchesStepOutput}}
@@ -59,6 +60,7 @@ jobs:
           print("::set-output name=branchesStepOutput::"+json.dumps(branches))
           print("::set-output name=branchesExistStepOutput::"+str(int(len(branches)>0)))
   build:
+    name: "Build ${{matrix.os.buildType}}: ${{matrix.branches.fmatvecBranch}} ${{matrix.branches.hdf5serieBranch}} ${{matrix.branches.openmbvBranch}} ${{matrix.branches.mbsimBranch}}"
     runs-on: ubuntu-latest
     if: fromJson(needs.get_ci_branches.outputs.branchesExistOutput)
     needs: get_ci_branches
@@ -75,6 +77,9 @@ jobs:
       - name: "Dump build config"
         run: >
           echo -e " buildType = ${{matrix.os.buildType}}
+                    mfmfGITHUB_RUN_ATTEMPT = ${{github.run_attempt}}
+                    mfmfGITHUB_RUN_ID = ${{github.run_id}}
+                    mfmfGITHUB_RUN_NUMBER = ${{github.run_number}}
                     image = ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
                     fmatvecBranch = ${{matrix.branches.fmatvecBranch}}
                     hdf5serieBranch = ${{matrix.branches.hdf5serieBranch}}

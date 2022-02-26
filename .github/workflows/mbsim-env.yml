@@ -1,5 +1,9 @@
 name: MBSim-Env Build
-on: [push]
+on:
+  push:
+  schedule:
+    - cron: '36 23 * * *'
+    - cron: '45 9 * * *'
 env:
   # tagname and servername of remote mbsimenv server
   MBSIMENVTAGNAME: staging
@@ -18,106 +22,114 @@ env:
   mbsimenvsec_codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
   mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
 jobs:
-  get_ci_branches:
-    name: Get CI Branch Combinations
-    runs-on: ubuntu-latest
-    outputs:
-      branchesOutput: ${{steps.branchesStep.outputs.branchesStepOutput}}
-      branchesExistOutput: ${{steps.branchesStep.outputs.branchesExistStepOutput}}
+  mfmfdummyjob:
     steps:
-      - name: "Query MBSim-Env for CI branch combinations"
-        id: branchesStep
-        shell: python
-        run: |
-          import json
-          import requests
-          # get repo and branch name
-          repo="${{github.repository}}".split("/")[1]
-          print("mfmfremove repo="+repo)
-          repo="openmbv" #mfmf remove this line
-          branch="${{github.ref_name}}"
-          sha="${{github.sha}}"
-          print("mfmfremove sha="+sha)
-          sha="5e1108a787c298b481e31a5dfb2055eb3028f3d0" #mfmf remove this line
-          print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
-          # get branch combinations
-          response=requests.get("https://${{env.MBSIMENVWWW}}/service/db/getbranchcombi/CIBranches/", verify=False)
-          branchCombination=response.json()["data"]
-          # check repo
-          if repo=="fmatvec" or repo=="hdf5serie" or repo=="openmbv" or repo=="mbsim":
-            # all branch combinations to build
-            branches=list(filter(lambda x: x[repo+"Branch"]==branch, branchCombination))
-            # if no branch combination is found build this branch with "master" of all other repos
-            if len(branches)==0:
-              branches=[{"id": 1, "fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"}]
-              branches[0][repo+"Branch"]+="*"+sha
-            else:
-              # override repo branch with sha
-              for b in branches:
-                b[repo+"Branch"]+="*"+sha
-          else:
-            branches=[]
-          # set output
-          print("Branch combinations to build:\n"+json.dumps(branches, indent=2))
-          print("::set-output name=branchesStepOutput::"+json.dumps(branches))
-          print("::set-output name=branchesExistStepOutput::"+str(int(len(branches)>0)))
-  build:
-    name: "Build ${{matrix.os.buildType}}: ${{matrix.branches.fmatvecBranch}} ${{matrix.branches.hdf5serieBranch}} ${{matrix.branches.openmbvBranch}} ${{matrix.branches.mbsimBranch}}"
-    runs-on: ubuntu-latest
-    if: fromJson(needs.get_ci_branches.outputs.branchesExistOutput)
-    needs: get_ci_branches
-    strategy:
-      fail-fast: false
-      matrix:
-        branches: ${{fromJson(needs.get_ci_branches.outputs.branchesOutput)}}
-        os:
-          - buildType: "linux64-ci"
-            image: "mbsimenv/build"
-          - buildType: "win64-ci"
-            image: "mbsimenv/buildwin64"
-    steps:
-      - name: "Dump build config"
-        run: >
-          echo -e " buildType       = ${{matrix.os.buildType}}
-                    image           = ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
-                    fmatvecBranch   = ${{matrix.branches.fmatvecBranch}}
-                    hdf5serieBranch = ${{matrix.branches.hdf5serieBranch}}
-                    openmbvBranch   = ${{matrix.branches.openmbvBranch}}
-                    mbsimBranch     = ${{matrix.branches.mbsimBranch}}
-                    Triggered by repo = ${{github.repository}} branch = ${{github.ref_name}} sha = ${{github.sha}}" | tr -s ' '
-      - name: "Pull docker build image"
-        run: docker image pull ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}} && mkdir -m 777 -p ${{github.workspace}}/mbsim-env
-      - name: "Run build/examples"
-        run: >
-          docker run
-          --init
-          --label buildtype=${{matrix.os.buildType}}
-          --env MBSIMENVDATABASE
-          --env MBSIMENVFILESTORAGE
-          --env MBSIMENVSERVERNAME
-          --env MBSIMENVTAGNAME
-          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}})
-          --env mbsimenvsec_githubStatusAccessToken
-          --env mbsimenvsec_djangoSecretKey
-          --env mbsimenvsec_postgresPassword
-          --env mbsimenvsec_codecovUploadToken_fmatvec
-          --env mbsimenvsec_codecovUploadToken_hdf5serie
-          --env mbsimenvsec_codecovUploadToken_openmbv
-          --env mbsimenvsec_codecovUploadToken_mbsim
-          -v ${{github.workspace}}/mbsim-env:/mbsim-env
-          ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
-          --buildType ${{matrix.os.buildType}}
-          --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Action</a>'
-          -j $(nproc)
-          --fmatvecBranch ${{matrix.branches.fmatvecBranch}}
-          --hdf5serieBranch ${{matrix.branches.hdf5serieBranch}}
-          --openmbvBranch ${{matrix.branches.openmbvBranch}}
-          --mbsimBranch ${{matrix.branches.mbsimBranch}}
-      - name: "Detailed build/examples output"
-        if: always()
-        shell: python
-        run: |
-          import json
-          with open("${{github.workspace}}/mbsim-env/local/.buildInfo.json", "r") as f:
-            buildInfo=json.load(f)
-          print("https://${{env.MBSIMENVSERVERNAME}}/builds/run/"+str(buildInfo["buildRunID"])+"/")
+      - name: mfmfdummyrunpushevent
+        if: github.event_name == 'push'
+        run: echo mfmfpushevent && date -u
+      - name: mfmfdummyrunschedevent
+        if: github.event_name == 'schedule'
+        run: echo mfmfschedevent && date -u
+#  get_ci_branches:
+#    name: Get CI Branch Combinations
+#    runs-on: ubuntu-latest
+#    outputs:
+#      branchesOutput: ${{steps.branchesStep.outputs.branchesStepOutput}}
+#      branchesExistOutput: ${{steps.branchesStep.outputs.branchesExistStepOutput}}
+#    steps:
+#      - name: "Query MBSim-Env for CI branch combinations"
+#        id: branchesStep
+#        shell: python
+#        run: |
+#          import json
+#          import requests
+#          # get repo and branch name
+#          repo="${{github.repository}}".split("/")[1]
+#          print("mfmfremove repo="+repo)
+#          repo="openmbv" #mfmf remove this line
+#          branch="${{github.ref_name}}"
+#          sha="${{github.sha}}"
+#          print("mfmfremove sha="+sha)
+#          sha="5e1108a787c298b481e31a5dfb2055eb3028f3d0" #mfmf remove this line
+#          print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
+#          # get branch combinations
+#          response=requests.get("https://${{env.MBSIMENVWWW}}/service/db/getbranchcombi/CIBranches/", verify=False)
+#          branchCombination=response.json()["data"]
+#          # check repo
+#          if repo=="fmatvec" or repo=="hdf5serie" or repo=="openmbv" or repo=="mbsim":
+#            # all branch combinations to build
+#            branches=list(filter(lambda x: x[repo+"Branch"]==branch, branchCombination))
+#            # if no branch combination is found build this branch with "master" of all other repos
+#            if len(branches)==0:
+#              branches=[{"id": 1, "fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"}]
+#              branches[0][repo+"Branch"]+="*"+sha
+#            else:
+#              # override repo branch with sha
+#              for b in branches:
+#                b[repo+"Branch"]+="*"+sha
+#          else:
+#            branches=[]
+#          # set output
+#          print("Branch combinations to build:\n"+json.dumps(branches, indent=2))
+#          print("::set-output name=branchesStepOutput::"+json.dumps(branches))
+#          print("::set-output name=branchesExistStepOutput::"+str(int(len(branches)>0)))
+#  build:
+#    name: "Build ${{matrix.os.buildType}}: ${{matrix.branches.fmatvecBranch}} ${{matrix.branches.hdf5serieBranch}} ${{matrix.branches.openmbvBranch}} ${{matrix.branches.mbsimBranch}}"
+#    runs-on: ubuntu-latest
+#    if: fromJson(needs.get_ci_branches.outputs.branchesExistOutput)
+#    needs: get_ci_branches
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        branches: ${{fromJson(needs.get_ci_branches.outputs.branchesOutput)}}
+#        os:
+#          - buildType: "linux64-ci"
+#            image: "mbsimenv/build"
+#          - buildType: "win64-ci"
+#            image: "mbsimenv/buildwin64"
+#    steps:
+#      - name: "Dump build config"
+#        run: >
+#          echo -e " buildType       = ${{matrix.os.buildType}}
+#                    image           = ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
+#                    fmatvecBranch   = ${{matrix.branches.fmatvecBranch}}
+#                    hdf5serieBranch = ${{matrix.branches.hdf5serieBranch}}
+#                    openmbvBranch   = ${{matrix.branches.openmbvBranch}}
+#                    mbsimBranch     = ${{matrix.branches.mbsimBranch}}
+#                    Triggered by repo = ${{github.repository}} branch = ${{github.ref_name}} sha = ${{github.sha}}" | tr -s ' '
+#      - name: "Pull docker build image"
+#        run: docker image pull ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}} && mkdir -m 777 -p ${{github.workspace}}/mbsim-env
+#      - name: "Run build/examples"
+#        run: >
+#          docker run
+#          --init
+#          --label buildtype=${{matrix.os.buildType}}
+#          --env MBSIMENVDATABASE
+#          --env MBSIMENVFILESTORAGE
+#          --env MBSIMENVSERVERNAME
+#          --env MBSIMENVTAGNAME
+#          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}})
+#          --env mbsimenvsec_githubStatusAccessToken
+#          --env mbsimenvsec_djangoSecretKey
+#          --env mbsimenvsec_postgresPassword
+#          --env mbsimenvsec_codecovUploadToken_fmatvec
+#          --env mbsimenvsec_codecovUploadToken_hdf5serie
+#          --env mbsimenvsec_codecovUploadToken_openmbv
+#          --env mbsimenvsec_codecovUploadToken_mbsim
+#          -v ${{github.workspace}}/mbsim-env:/mbsim-env
+#          ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
+#          --buildType ${{matrix.os.buildType}}
+#          --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Action</a>'
+#          -j $(nproc)
+#          --fmatvecBranch ${{matrix.branches.fmatvecBranch}}
+#          --hdf5serieBranch ${{matrix.branches.hdf5serieBranch}}
+#          --openmbvBranch ${{matrix.branches.openmbvBranch}}
+#          --mbsimBranch ${{matrix.branches.mbsimBranch}}
+#      - name: "Detailed build/examples output"
+#        if: always()
+#        shell: python
+#        run: |
+#          import json
+#          with open("${{github.workspace}}/mbsim-env/local/.buildInfo.json", "r") as f:
+#            buildInfo=json.load(f)
+#          print("https://${{env.MBSIMENVSERVERNAME}}/builds/run/"+str(buildInfo["buildRunID"])+"/")

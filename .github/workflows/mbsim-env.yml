@@ -90,7 +90,10 @@ jobs:
                     hdf5serieBranch = ${{matrix.branches.hdf5serieBranch}}
                     openmbvBranch   = ${{matrix.branches.openmbvBranch}}
                     mbsimBranch     = ${{matrix.branches.mbsimBranch}}
-                    Triggered by repo = ${{github.repository}} branch = ${{github.ref_name}} sha = ${{github.sha}}" | tr -s ' '
+                    Triggered by repo = ${{github.repository}}
+                                 branch = ${{github.ref_name}}
+                                 sha = ${{github.sha}}
+                                 event = ${{github.event_name}}" | tr -s ' '
 #      - name: "Pull docker build image"
 #        run: docker image pull ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}} && mkdir -m 777 -p ${{github.workspace}}/mbsim-env
 #      - name: "Run build/examples"

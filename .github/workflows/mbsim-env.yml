@@ -43,7 +43,7 @@ jobs:
           sha="5e1108a787c298b481e31a5dfb2055eb3028f3d0" #mfmf remove this line
           print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
           # get branch combinations
-          ci=${{github.event_name}}=="push"
+          ci="${{github.event_name}}"=="push"
           model="CIBranches" if ci else "DailyBranches"
           response=requests.get("https://${{env.MBSIMENVWWW}}/service/db/getbranchcombi/"+model+"/", verify=False)
           branchCombination=response.json()["data"]

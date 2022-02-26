@@ -3,7 +3,7 @@ on:
   push:
   schedule:
     - cron: '36 23 * * *'
-    - cron: '45 9 * * *'
+    - cron: '45 21 * * *'
 env:
   # tagname and servername of remote mbsimenv server
   MBSIMENVTAGNAME: staging

@@ -33,9 +33,11 @@ jobs:
           import requests
           # get repo and branch name
           repo="${{github.repository}}".split("/")[1]
+          print("mfmfremove repo="+repo)
           repo="openmbv" #mfmf remove this line
           branch="${{github.ref_name}}"
           sha="${{github.sha}}"
+          print("mfmfremove sha="+sha)
           sha="5e1108a787c298b481e31a5dfb2055eb3028f3d0" #mfmf remove this line
           print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
           # get branch combinations
@@ -48,7 +50,7 @@ jobs:
             # if no branch combination is found build this branch with "master" of all other repos
             if len(branches)==0:
               branches=[{"id": 1, "fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"}]
-              branches[0][repo+"Branch"]=sha
+              branches[0][repo+"Branch"]+="*"+sha
             else:
               # override repo branch with sha
               for b in branches:
@@ -56,7 +58,7 @@ jobs:
           else:
             branches=[]
           # set output
-          print("Branch combinations to build:\n"+json.dumps(branches))
+          print("Branch combinations to build:\n"+json.dumps(branches, indent=2))
           print("::set-output name=branchesStepOutput::"+json.dumps(branches))
           print("::set-output name=branchesExistStepOutput::"+str(int(len(branches)>0)))
   build:
@@ -76,15 +78,13 @@ jobs:
     steps:
       - name: "Dump build config"
         run: >
-          echo -e " buildType = ${{matrix.os.buildType}}
-                    mfmfGITHUB_RUN_ATTEMPT = ${{github.run_attempt}}
-                    mfmfGITHUB_RUN_ID = ${{github.run_id}}
-                    mfmfGITHUB_RUN_NUMBER = ${{github.run_number}}
-                    image = ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
-                    fmatvecBranch = ${{matrix.branches.fmatvecBranch}}
+          echo -e " buildType       = ${{matrix.os.buildType}}
+                    image           = ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
+                    fmatvecBranch   = ${{matrix.branches.fmatvecBranch}}
                     hdf5serieBranch = ${{matrix.branches.hdf5serieBranch}}
-                    openmbvBranch = ${{matrix.branches.openmbvBranch}}
-                    mbsimBranch = ${{matrix.branches.mbsimBranch}}" | tr -s ' '
+                    openmbvBranch   = ${{matrix.branches.openmbvBranch}}
+                    mbsimBranch     = ${{matrix.branches.mbsimBranch}}
+                    Triggered by repo = ${{github.repository}} branch = ${{github.ref_name}} sha = ${{github.sha}}" | tr -s ' '
       - name: "Pull docker build image"
         run: docker image pull ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}} && mkdir -m 777 -p ${{github.workspace}}/mbsim-env
       - name: "Run build/examples"

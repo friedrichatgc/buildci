@@ -55,7 +55,7 @@ jobs:
                             {"buildType": "linux64-dailybuild", "image": "mbsimenv/build"     },
                             {"buildType": "win64-dailybuild"  , "image": "mbsimenv/buildwin64"},
                           ]}
-          elif ci and repo=="fmatvec" or repo=="hdf5serie" or repo=="openmbv" or repo=="mbsim":
+          elif ci:
             # all branch combinations to build
             branches=list(filter(lambda x: x[repo+"Branch"]==branch, branchCombination))
             # if no branch combination is found build this branch with "master" of all other repos
@@ -71,10 +71,8 @@ jobs:
                             {"buildType": "linux64-ci", "image": "mbsimenv/build"     },
                             {"buildType": "win64-ci"  , "image": "mbsimenv/buildwin64"},
                           ]}
-          else:
-            branches=[]
           # set output
-          print("Branch combinations to build:\n"+json.dumps(branches, indent=2))
+          print("Build matrix:\n"+json.dumps(matrix, indent=2))
           print("::set-output name=matrixStepOutput::"+json.dumps(matrix))
   build:
     name: "Build ${{matrix.os.buildType}}: ${{matrix.branches.fmatvecBranch}} ${{matrix.branches.hdf5serieBranch}} ${{matrix.branches.openmbvBranch}} ${{matrix.branches.mbsimBranch}}"

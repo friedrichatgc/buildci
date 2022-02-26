@@ -23,6 +23,7 @@ env:
   mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
 jobs:
   mfmfdummyjob:
+    runs-on: ubuntu-latest
     steps:
       - name: mfmfdummyrunpushevent
         if: github.event_name == 'push'

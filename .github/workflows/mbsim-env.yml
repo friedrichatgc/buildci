@@ -105,7 +105,7 @@ jobs:
           key: ccache-${{matrix.os.image}}-${{matrix.os.buildType}}-${{matrix.branches.id}}
           restore-keys: ccache-${{matrix.os.image}}-
       - name: "Run build/examples"
-        run: which gcc && which ccache && ccache -s && echo "int main(){return 0;}" > main.c && gcc -c main.c && ccache -s
+        run: which gcc && which ccache && ccache -s && echo "int main(){return 0;}" > main.c && ccache gcc -c main.c && ccache -s
 
 
 

@@ -102,8 +102,12 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{github.workspace}}/mbsim-ccache
-          key: ccache-${{matrix.os.image}}--${{github.run_id}}-${{github.run_attempt}}-${{matrix.os.buildType}}-${{matrix.branches.id}}
-          restore-keys: ccache-${{matrix.os.image}}--
+          key: ccache-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-${{matrix.os.buildType}}--${{github.run_id}}-${{github.run_attempt}}-${{matrix.os.buildType}}-${{matrix.branches.id}}
+          restore-keys: |
+            ccache-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-${{matrix.os.buildType}}--
+            ccache-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-
+            ccache-${{matrix.os.image}}-
+            ccache-
       - name: "Run build/examples"
         run: >
           docker run
@@ -140,3 +144,4 @@ jobs:
           with open("${{github.workspace}}/mbsim-env/local/.buildInfo.json", "r") as f:
             buildInfo=json.load(f)
           print("https://${{env.MBSIMENVSERVERNAME}}/builds/run/"+str(buildInfo["buildRunID"])+"/")
+      - run: du -sch ${{github.workspace}}/mbsim-env ${{github.workspace}}/mbsim-ccache #mfmfremove

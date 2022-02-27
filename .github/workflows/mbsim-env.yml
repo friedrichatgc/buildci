@@ -13,8 +13,7 @@ jobs:
         ENVB: myenvb
       volumes:
         - ${{github.workspace}}/mbsim-env:/mbsim-env
-      options:
-        - --init
+      options: --init
     steps:
       - name: "Query MBSim-Env for CI branch combinations and generate build matrix"
         run: echo xxxx $ENVA $ENVB

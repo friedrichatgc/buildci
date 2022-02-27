@@ -102,8 +102,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.ccache
-          key: ccache-${{matrix.os.image}}-${{github.run_id}}-${{github.run_attempt}}
-          restore-keys: ccache-${{matrix.os.image}}-
+          key: ccache-${{matrix.os.image}}--${{github.run_id}}-${{github.run_attempt}}-${{matrix.os.buildType}}-${{matrix.branches.id}}
+          restore-keys: ccache-${{matrix.os.image}}--
       - name: "Run build/examples"
         run: which gcc && which ccache && ccache -s && echo "int main(){return 0;}" > main.c && ccache gcc -c main.c && ccache -s
 

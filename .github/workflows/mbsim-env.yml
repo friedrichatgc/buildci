@@ -6,6 +6,7 @@ env:
 jobs:
   get_matrix:
     name: Get Build Matrix
+    runs-on: ubuntu-latest
     container:
       image: alpine:3.8
       env:

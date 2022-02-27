@@ -114,7 +114,7 @@ jobs:
           --env mbsimenvsec_codecovUploadToken_openmbv
           --env mbsimenvsec_codecovUploadToken_mbsim
           -v ${{github.workspace}}/mbsim-env:/mbsim-env
-           ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
+          ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
           --buildType ${{matrix.os.buildType}}
           --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Action</a>'
           -j $(nproc)

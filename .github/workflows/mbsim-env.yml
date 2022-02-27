@@ -15,6 +15,10 @@ jobs:
         - ${{github.workspace}}/mbsim-env:/mbsim-env
       options:
         - --init
+    steps:
+      - name: "Query MBSim-Env for CI branch combinations and generate build matrix"
+        with:
+          args: echo xxxx $ENVA $ENVB
 
 
 

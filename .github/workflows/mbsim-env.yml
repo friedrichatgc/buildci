@@ -61,7 +61,7 @@ jobs:
             # if no branch combination is found build this branch with "master" of all other repos
             if len(branches)==0:
               branches=[{"id": 1, "fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"}]
-              branches[0][repo+"Branch"]+="*"+sha
+              branches[0][repo+"Branch"]=branch+"*"+sha
             else:
               # override repo branch with sha
               for b in branches:
@@ -98,7 +98,7 @@ jobs:
         run: >
           docker image pull ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}} &&
           mkdir -m 777 -p ${{github.workspace}}/mbsim-env ${{github.workspace}}/mbsim-ccache
-      - name: "Cache ccache"
+      - name: "Cache ccache directory"
         uses: actions/cache@v2
         with:
           path: ${{github.workspace}}/mbsim-ccache
@@ -108,8 +108,20 @@ jobs:
             ccache-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-
             ccache-${{matrix.os.image}}-
             ccache-
-      - name: "Fix ccache file permissions"
+      - name: "Cache mbsim-env directory"
+        uses: actions/cache@v2
+        with:
+          path: ${{github.workspace}}/mbsim-env
+          key: mbsim-env-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-${{matrix.os.buildType}}--${{github.run_id}}-${{github.run_attempt}}-${{matrix.os.buildType}}-${{matrix.branches.id}}
+          restore-keys: |
+            mbsim-env-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-${{matrix.os.buildType}}--
+            mbsim-env-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-
+            mbsim-env-${{matrix.os.image}}-
+            mbsim-env-
+      - name: "Fix cached ccache file permissions"
         run: chmod -R 777 ${{github.workspace}}/mbsim-ccache # the docker user id is different than the current user id
+      - name: "Fix cached mbsim-env file permissions"
+        run: chmod -R 777 ${{github.workspace}}/mbsim-env # the docker user id is different than the current user id
       - name: "Run build/examples"
         run: >
           docker run
@@ -146,4 +158,3 @@ jobs:
           with open("${{github.workspace}}/mbsim-env/local/.buildInfo.json", "r") as f:
             buildInfo=json.load(f)
           print("https://${{env.MBSIMENVSERVERNAME}}/builds/run/"+str(buildInfo["buildRunID"])+"/")
-      - run: du -sch ${{github.workspace}}/mbsim-env ${{github.workspace}}/mbsim-ccache #mfmfremove

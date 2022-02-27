@@ -108,6 +108,8 @@ jobs:
             ccache-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-
             ccache-${{matrix.os.image}}-
             ccache-
+      - name: "Fix ccache file permissions"
+        run: chmod -R 777 ${{github.workspace}}/mbsim-ccache # the docker user id is different than the current user id
       - name: "Run build/examples"
         run: >
           docker run

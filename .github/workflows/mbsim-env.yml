@@ -108,20 +108,8 @@ jobs:
             ccache-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-
             ccache-${{matrix.os.image}}-
             ccache-
-      - name: "Cache mbsim-env directory"
-        uses: actions/cache@v2
-        with:
-          path: ${{github.workspace}}/mbsim-env
-          key: mbsim-env-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-${{matrix.os.buildType}}--${{github.run_id}}-${{github.run_attempt}}-${{matrix.os.buildType}}-${{matrix.branches.id}}
-          restore-keys: |
-            mbsim-env-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-${{matrix.os.buildType}}--
-            mbsim-env-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-
-            mbsim-env-${{matrix.os.image}}-
-            mbsim-env-
       - name: "Fix cached ccache file permissions"
         run: chmod -R 777 ${{github.workspace}}/mbsim-ccache # the docker user id is different than the current user id
-      - name: "Fix cached mbsim-env file permissions"
-        run: chmod -R 777 ${{github.workspace}}/mbsim-env # the docker user id is different than the current user id
       - name: "Run build/examples"
         run: >
           docker run

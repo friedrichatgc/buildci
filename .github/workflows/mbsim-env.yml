@@ -94,39 +94,53 @@ jobs:
                                  branch = ${{github.ref_name}}
                                  sha = ${{github.sha}}
                                  event = ${{github.event_name}}" | tr -s ' '
-      - name: "Pull docker build image"
-        run: docker image pull ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}} && mkdir -m 777 -p ${{github.workspace}}/mbsim-env
+
+
+
+      - name: "Cache ccache"
+        uses: actions/cache@v2
+        with:
+          path: ~/.ccache
+          key: ccache-${{matrix.os.image}}-${{matrix.os.buildType}}-${{matrix.branches.id}}
+          restore-keys: ccache-${{matrix.os.image}}-
       - name: "Run build/examples"
-        run: >
-          docker run
-          --init
-          --label buildtype=${{matrix.os.buildType}}
-          --env MBSIMENVDATABASE
-          --env MBSIMENVFILESTORAGE
-          --env MBSIMENVSERVERNAME
-          --env MBSIMENVTAGNAME
-          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}})
-          --env mbsimenvsec_githubStatusAccessToken
-          --env mbsimenvsec_djangoSecretKey
-          --env mbsimenvsec_postgresPassword
-          --env mbsimenvsec_codecovUploadToken_fmatvec
-          --env mbsimenvsec_codecovUploadToken_hdf5serie
-          --env mbsimenvsec_codecovUploadToken_openmbv
-          --env mbsimenvsec_codecovUploadToken_mbsim
-          -v ${{github.workspace}}/mbsim-env:/mbsim-env
-          ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
-          --buildType ${{matrix.os.buildType}}
-          --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Action</a>'
-          -j $(nproc)
-          --fmatvecBranch ${{matrix.branches.fmatvecBranch}}
-          --hdf5serieBranch ${{matrix.branches.hdf5serieBranch}}
-          --openmbvBranch ${{matrix.branches.openmbvBranch}}
-          --mbsimBranch ${{matrix.branches.mbsimBranch}}
-      - name: "Detailed build/examples output"
-        if: always()
-        shell: python
-        run: |
-          import json
-          with open("${{github.workspace}}/mbsim-env/local/.buildInfo.json", "r") as f:
-            buildInfo=json.load(f)
-          print("https://${{env.MBSIMENVSERVERNAME}}/builds/run/"+str(buildInfo["buildRunID"])+"/")
+        run: which gcc && which ccache && ccache -s && echo "int main(){return 0;}" > main.c && gcc -c main.c && ccache -s
+
+
+
+#      - name: "Pull docker build image"
+#        run: docker image pull ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}} && mkdir -m 777 -p ${{github.workspace}}/mbsim-env
+#      - name: "Run build/examples"
+#        run: >
+#          docker run
+#          --init
+#          --label buildtype=${{matrix.os.buildType}}
+#          --env MBSIMENVDATABASE
+#          --env MBSIMENVFILESTORAGE
+#          --env MBSIMENVSERVERNAME
+#          --env MBSIMENVTAGNAME
+#          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}})
+#          --env mbsimenvsec_githubStatusAccessToken
+#          --env mbsimenvsec_djangoSecretKey
+#          --env mbsimenvsec_postgresPassword
+#          --env mbsimenvsec_codecovUploadToken_fmatvec
+#          --env mbsimenvsec_codecovUploadToken_hdf5serie
+#          --env mbsimenvsec_codecovUploadToken_openmbv
+#          --env mbsimenvsec_codecovUploadToken_mbsim
+#          -v ${{github.workspace}}/mbsim-env:/mbsim-env
+#          ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
+#          --buildType ${{matrix.os.buildType}}
+#          --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Action</a>'
+#          -j $(nproc)
+#          --fmatvecBranch ${{matrix.branches.fmatvecBranch}}
+#          --hdf5serieBranch ${{matrix.branches.hdf5serieBranch}}
+#          --openmbvBranch ${{matrix.branches.openmbvBranch}}
+#          --mbsimBranch ${{matrix.branches.mbsimBranch}}
+#      - name: "Detailed build/examples output"
+#        if: always()
+#        shell: python
+#        run: |
+#          import json
+#          with open("${{github.workspace}}/mbsim-env/local/.buildInfo.json", "r") as f:
+#            buildInfo=json.load(f)
+#          print("https://${{env.MBSIMENVSERVERNAME}}/builds/run/"+str(buildInfo["buildRunID"])+"/")

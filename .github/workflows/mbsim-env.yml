@@ -97,6 +97,7 @@ jobs:
 
 
 
+      - run: apt install -y ccache
       - name: "Cache ccache"
         uses: actions/cache@v2
         with:

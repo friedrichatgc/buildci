@@ -106,13 +106,14 @@ jobs:
       fail-fast: false
       matrix: ${{fromJson(needs.get_matrix.outputs.matrixOutput)}}
     container:
-      image: ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
+#mfmf      image: ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
+      image: ${{matrix.os.image}}:staging
       env:
         MBSIMENVDATABASE:
         MBSIMENVFILESTORAGE:
         MBSIMENVSERVERNAME:
         MBSIMENVTAGNAME:
-        MBSIMENVIMAGEID: $(mfmf docker image inspect -f "{{.Id}}" ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}})
+#mfmf        MBSIMENVIMAGEID: $(mfmf docker image inspect -f "{{.Id}}" ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}})
         mbsimenvsec_githubStatusAccessToken:
         mbsimenvsec_djangoSecretKey:
         mbsimenvsec_postgresPassword:

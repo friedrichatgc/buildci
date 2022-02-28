@@ -132,7 +132,6 @@ jobs:
           ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}}
           --buildType ${{matrix.os.buildType}}
           --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Action</a>'
-          --dumpCcacheStats
           -j $(nproc)
           --fmatvecBranch ${{matrix.branches.fmatvecBranch}}
           --hdf5serieBranch ${{matrix.branches.hdf5serieBranch}}

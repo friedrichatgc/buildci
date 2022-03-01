@@ -1,3 +1,37 @@
+name: test
+on:
+  push:
+jobs:
+  start:
+    name: start
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo start
+  mid:
+    name: mid
+    runs-on: ubuntu-latest
+    needs: start
+    strategy:
+      matrix:
+        buildType: [1, 2]
+        branch: [3, 4]
+        example: ["a", "b"]
+    steps:
+      - run: echo mid buildType=${{matrix.buildType}} branch=${{matrix.branch}} example=${{matrix.example}}
+  end:
+    name: end
+    runs-on: ubuntu-latest
+    needs: mid
+    strategy:
+      matrix:
+        buildType: [1, 2]
+        branch: [3, 4]
+    steps:
+      - run: echo end buildType=${{matrix.buildType}} branch=${{matrix.branch}}
+
+
+
+
 name: MBSim-Env Build
 on:
   push:

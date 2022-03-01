@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - if: always()
-        run: echo "ls databasemedia" | sshpass -p${{env.mbsimenvsec_filestoragePassword}} sftp -P 11122 dockeruser@www.mbsim-env.de
+        run: echo "ls databasemedia" | sshpass -p${{env.mbsimenvsec_filestoragePassword}} sftp -o StrictHostKeyChecking=no -P 11122 dockeruser@www.mbsim-env.de
       - if: always()
-        run: echo "ls databasemedia" | sshpass -p$mbsimenvsec_filestoragePassword sftp -P 11122 dockeruser@www.mbsim-env.de
+        run: echo "ls databasemedia" | sshpass -p$mbsimenvsec_filestoragePassword sftp -o StrictHostKeyChecking=no -P 11122 dockeruser@www.mbsim-env.de
 
 
 

@@ -2,32 +2,38 @@ name: test
 on:
   push:
 jobs:
-  start:
-    name: start
+  build1:
+    if: true
+    name: build1
     runs-on: ubuntu-latest
     steps:
-      - run: echo start
-  mid:
-    name: mid
-    runs-on: ubuntu-latest
-    needs: start
+      - run: echo build1
+  example1:
+    if: true
+    needs: build1
     strategy:
       matrix:
-        buildType: [1, 2]
-        branch: [3, 4]
-        example: ["a", "b"]
-    steps:
-      - run: echo mid buildType=${{matrix.buildType}} branch=${{matrix.branch}} example=${{matrix.example}}
-  end:
-    name: end
+        example: [1, 2]
+    name: example1
     runs-on: ubuntu-latest
-    needs: mid
+    steps:
+      - run: echo example1
+  build2:
+    if: false
+    name: build2
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo build2
+  example2:
+    if: false
+    needs: build2
     strategy:
       matrix:
-        buildType: [1, 2]
-        branch: [3, 4]
+        example: [1, 2]
+    name: example2
+    runs-on: ubuntu-latest
     steps:
-      - run: echo end buildType=${{matrix.buildType}} branch=${{matrix.branch}}
+      - run: echo example2
 
 
 

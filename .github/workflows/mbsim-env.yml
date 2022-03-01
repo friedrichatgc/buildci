@@ -38,6 +38,7 @@ jobs:
           --env mbsimenvsec_githubStatusAccessToken
           --env mbsimenvsec_djangoSecretKey
           --env mbsimenvsec_postgresPassword
+          --env mbsimenvsec_filestoragePassword
           --env mbsimenvsec_codecovUploadToken_fmatvec
           --env mbsimenvsec_codecovUploadToken_hdf5serie
           --env mbsimenvsec_codecovUploadToken_openmbv
@@ -177,6 +178,7 @@ jobs:
 #          --env mbsimenvsec_githubStatusAccessToken
 #          --env mbsimenvsec_djangoSecretKey
 #          --env mbsimenvsec_postgresPassword
+#          --env mbsimenvsec_filestoragePassword
 #          --env mbsimenvsec_codecovUploadToken_fmatvec
 #          --env mbsimenvsec_codecovUploadToken_hdf5serie
 #          --env mbsimenvsec_codecovUploadToken_openmbv

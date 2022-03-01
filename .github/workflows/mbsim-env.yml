@@ -25,6 +25,8 @@ jobs:
     steps:
       - name: "pull"
         run: docker image pull mbsimenv/builddoc:staging
+      - name: "Add ssh host-key of filestorage server" # django-storages cannot be configured to do so
+        run: echo "exit" | sshpass -p$mbsimenvsec_filestoragePassword sftp -o StrictHostKeyChecking=no sftp://dockeruser@${{env.MBSIMENVFILESTORAGE}}/
       - name: "run"
         run: >
           docker run

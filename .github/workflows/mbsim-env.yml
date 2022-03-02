@@ -52,8 +52,8 @@ jobs:
             matrix={"branches": branchCombination,
                     "os": [
                             {"buildType": "linux64-dailydebug", "image": "mbsimenv/build"     },
-                            {"buildType": "linux64-dailybuild", "image": "mbsimenv/build"     },
-                            {"buildType": "win64-dailybuild"  , "image": "mbsimenv/buildwin64"},
+                            {"buildType": "linux64-dailyrelease", "image": "mbsimenv/build"     },
+                            {"buildType": "win64-dailyrelease"  , "image": "mbsimenv/buildwin64"},
                           ]}
           elif ci:
             # all branch combinations to build

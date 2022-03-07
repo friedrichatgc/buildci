@@ -57,9 +57,9 @@ jobs:
           if eventName=="schedule":
             matrix={"branches": branchCombination,
                     "os": [
-                            {"buildType": "linux64-dailydebug"  , "image": "mbsimenv/build"     , "args": "--valgrindExamples"},
-          #                  {"buildType": "linux64-dailyrelease", "image": "mbsimenv/build"     , "args": ""},
-          #                  {"buildType": "win64-dailyrelease"  , "image": "mbsimenv/buildwin64", "args": ""},
+          #mfmf                  {"buildType": "linux64-dailydebug"  , "image": "mbsimenv/build"     , "args": "--valgrindExamples"},
+          #mfmf                  {"buildType": "linux64-dailyrelease", "image": "mbsimenv/build"     , "args": ""},
+                            {"buildType": "win64-dailyrelease"  , "image": "mbsimenv/buildwin64", "args": ""},
                           ]}
           elif eventName=="push":
             # all branch combinations to build

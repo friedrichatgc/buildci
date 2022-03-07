@@ -42,8 +42,8 @@ jobs:
           print("mfmfremove sha="+sha)
           sha="5e1108a787c298b481e31a5dfb2055eb3028f3d0" #mfmf remove this line
           print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
-          #mfmf eventName="${{github.event_name}}"
-          eventName="schedule"
+          eventName="${{github.event_name}}"
+          #mfmf eventName="schedule"
           # get branch combinations
           if eventName=="push":
             model="CIBranches"

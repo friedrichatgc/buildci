@@ -42,8 +42,7 @@ jobs:
           print("mfmfremove sha="+sha)
           sha="5e1108a787c298b481e31a5dfb2055eb3028f3d0" #mfmf remove this line
           print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
-          #mfmf eventName="${{github.event_name}}"
-          eventName="schedule"
+          eventName="${{github.event_name}}"
           # get branch combinations
           if eventName=="push":
             model="CIBranches"
@@ -104,16 +103,21 @@ jobs:
         run: >
           docker image pull ${{matrix.os.image}}:${{env.MBSIMENVTAGNAME}} &&
           mkdir -m 777 -p ${{github.workspace}}/mbsim-env ${{github.workspace}}/mbsim-ccache
+      - name: "Create matrix UUID"
+        shell: python
+        id: matrixUUIDStep
+        run: |
+          import uuid
+          print("::set-output name=matrixUUIDStepOutput::"+str(uuid.uuid4()))
       - name: "Cache ccache directory"
         uses: actions/cache@v2
         with:
           path: ${{github.workspace}}/mbsim-ccache
-          key: ccache-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-${{matrix.os.buildType}}--${{github.run_id}}-${{github.run_attempt}}-${{matrix.os.buildType}}-${{matrix.branches.id}}
+          key: ccache1-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-${{matrix.os.buildType}}--${{steps.matrixUUIDStep.outputs.matrixUUIDStepOutput}}
           restore-keys: |
-            ccache-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-${{matrix.os.buildType}}--
-            ccache-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-
-            ccache-${{matrix.os.image}}-
-            ccache-
+            ccache1-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-${{matrix.os.buildType}}--
+            ccache1-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-
+            ccache1-${{matrix.os.image}}-
       - name: "Fix cached ccache file permissions"
         run: chmod -R 777 ${{github.workspace}}/mbsim-ccache # the docker user id is different than the current user id
       - name: "Run build/examples"

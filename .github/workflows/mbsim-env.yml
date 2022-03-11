@@ -55,11 +55,11 @@ jobs:
           # check repo
           if eventName=="schedule":
             matrix={"branches": branchCombination,
-                    "os": [
-                            {"buildType": "linux64-dailydebug"  , "image": "mbsimenv/build"     , "args": "--valgrindExamples"},
-                            {"buildType": "linux64-dailyrelease", "image": "mbsimenv/build"     , "args": ""},
-                            {"buildType": "win64-dailyrelease"  , "image": "mbsimenv/buildwin64", "args": ""},
-                          ]}
+              "os": [
+                {"buildType": "linux64-dailydebug"  , "image": "mbsimenv/build"     ,  "args": "--valgrindExamples"},
+                {"buildType": "linux64-dailyrelease", "image": "mbsimenv/build"     ,  "args": ""},
+                {"buildType": "win64-dailyrelease"  , "image": "mbsimenv/buildwin64",  "args": ""},
+              ]}
           elif eventName=="push":
             # all branch combinations to build
             branches=list(filter(lambda x: x[repo+"Branch"]==branch, branchCombination))
@@ -72,10 +72,10 @@ jobs:
               for b in branches:
                 b[repo+"Branch"]+="*"+sha
             matrix={"branches": branches,
-                    "os": [
-                            {"buildType": "linux64-ci", "image": "mbsimenv/build"     , "args": ""},
-                            {"buildType": "win64-ci"  , "image": "mbsimenv/buildwin64", "args": ""},
-                          ]}
+              "os": [
+                {"buildType": "linux64-ci", "image": "mbsimenv/build"     , "args": ""},
+                {"buildType": "win64-ci"  , "image": "mbsimenv/buildwin64", "args": ""},
+              ]}
           # set output
           print("Build matrix:\n"+json.dumps(matrix, indent=2))
           print("::set-output name=matrixStepOutput::"+json.dumps(matrix))
@@ -113,13 +113,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{github.workspace}}/mbsim-ccache
-          key: ccache1-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-${{matrix.os.buildType}}--${{steps.matrixUUIDStep.outputs.matrixUUIDStepOutput}}
-#          restore-keys: |
-#            ccache1-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-${{matrix.os.buildType}}--
-#            ccache1-${{matrix.os.image}}-${{env.MBSIMENVTAGNAME}}-
-#            ccache1-${{matrix.os.image}}-
-#ccache size for linux64-ci 1.8GB 365MB
-#ccache size for win64-ci   2.4GB ?
+          key: ccache-${{matrix.os.buildType}}--${{steps.matrixUUIDStep.outputs.matrixUUIDStepOutput}}
+          restore-keys: |
+            ccache-${{matrix.os.buildType}}--
       - name: "Fix cached ccache file permissions"
         run: chmod -R 777 ${{github.workspace}}/mbsim-ccache # the docker user id is different than the current user id
       - name: "Run build/examples"
@@ -146,13 +142,14 @@ jobs:
           --buildType ${{matrix.os.buildType}}
           --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Action</a>'
           -j $(nproc)
+          --ccacheSize 5
           --fmatvecBranch ${{matrix.branches.fmatvecBranch}}
           --hdf5serieBranch ${{matrix.branches.hdf5serieBranch}}
           --openmbvBranch ${{matrix.branches.openmbvBranch}}
           --mbsimBranch ${{matrix.branches.mbsimBranch}}
           ${{matrix.os.args}}
           || exit 0
-#mfmf remove exit 0???????????
+          # do not report error (is handled by www.mbsime-env.de and cache should also be saved in case of errors)
       - name: "Detailed build/examples output"
         if: always()
         shell: python

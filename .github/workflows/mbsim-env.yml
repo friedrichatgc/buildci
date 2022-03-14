@@ -118,7 +118,6 @@ jobs:
             ccache-${{matrix.os.buildType}}--
       - name: "Fix cached ccache file permissions"
         run: chmod -R 777 ${{github.workspace}}/mbsim-ccache # the docker user id is different than the current user id
-      - run: nproc && cat /proc/cpuinfo || exit 0 #mfmf
       - name: "Run build/examples"
         run: >
           docker run

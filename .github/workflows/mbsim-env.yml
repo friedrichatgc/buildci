@@ -7,30 +7,21 @@ jobs:
   build_short:
     name: Build - basic exampels
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
-    secrets:
-      githubStatusAccessToken:
-      djangoSecretKey:
-      postgresPassword:
-      filestoragePassword:
-      codecovUploadToken_fmatvec:
-      codecovUploadToken_hdf5serie:
-      codecovUploadToken_openmbv:
-      codecovUploadToken_mbsim:
     with:
       matrixInput: ''
+    secrets:
+      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      djangoSecretKey: ${{secrets.djangoSecretKey}}
+      postgresPassword: ${{secrets.postgresPassword}}
+      filestoragePassword: ${{secrets.filestoragePassword}}
+      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
   build_long:
     name: Build - all examples
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     if: github.event_name=='schedule'
-    secrets:
-      githubStatusAccessToken:
-      djangoSecretKey:
-      postgresPassword:
-      filestoragePassword:
-      codecovUploadToken_fmatvec:
-      codecovUploadToken_hdf5serie:
-      codecovUploadToken_openmbv:
-      codecovUploadToken_mbsim:
     with:
       matrixInput: |
         {"data":
@@ -41,3 +32,12 @@ jobs:
               {"buildType": "linux64-dailydebug"  , "image": "mbsimenv/build"     ,  "args": "--valgrindExamples"},
           }]
         }
+    secrets:
+      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      djangoSecretKey: ${{secrets.djangoSecretKey}}
+      postgresPassword: ${{secrets.postgresPassword}}
+      filestoragePassword: ${{secrets.filestoragePassword}}
+      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}

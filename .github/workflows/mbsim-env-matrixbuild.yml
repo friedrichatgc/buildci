@@ -5,6 +5,15 @@ on:
       matrixInput:
         required: true
         type: string
+    secrets:
+      githubStatusAccessToken:
+      djangoSecretKey:
+      postgresPassword:
+      filestoragePassword:
+      codecovUploadToken_fmatvec:
+      codecovUploadToken_hdf5serie:
+      codecovUploadToken_openmbv:
+      codecovUploadToken_mbsim:
 env:
   # tagname and servername of remote mbsimenv server
   MBSIMENVTAGNAME: staging

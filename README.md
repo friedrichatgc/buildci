@@ -14,7 +14,6 @@ Current Daily Build Status of the MBSim-Environment
 | win64-dailyrelease | build | [![image](https://www.mbsim-env.de/service/builds/current/win64-dailyrelease/nrFailed.svg) / ![image](https://www.mbsim-env.de/service/builds/current/win64-dailyrelease/nrAll.svg)](https://www.mbsim-env.de/builds/run/current/win64-dailyrelease/) |
 | win64-dailyrelease | examples | [![image](https://www.mbsim-env.de/service/runexamples/current/win64-dailyrelease/nrFailed.svg) / ![image](https://www.mbsim-env.de/service/runexamples/current/win64-dailyrelease/nrAll.svg)](https://www.mbsim-env.de/runexamples/run/current/win64-dailyrelease/) |
 | - | manuals | [![image](https://www.mbsim-env.de/service/manuals/nrFailed.svg) / ![image](https://www.mbsim-env.de/service/manuals/nrAll.svg)](https://www.mbsim-env.de/service/home/#manuals) |
-| CI-debug | build/examples | [latest](https://www.mbsim-env.de/service/latestbranchcombibuilds/CIBranches/) |
 
 
 

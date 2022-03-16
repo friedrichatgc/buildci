@@ -85,7 +85,8 @@ jobs:
   build:
     name: "Build ${{matrix.os.buildType}}: ${{matrix.branches.fmatvecBranch}} ${{matrix.branches.hdf5serieBranch}} ${{matrix.branches.openmbvBranch}} ${{matrix.branches.mbsimBranch}}"
     runs-on: ubuntu-latest
-    needs: ${{inputs.matrixInput=='' && fromJson("['get_matrix']") || fromJson("[]")}}
+    needs: get_matrix
+    if: always()
     strategy:
       fail-fast: false
       matrix: ${{inputs.matrixInput=='' && fromJson(needs.get_matrix.outputs.matrixOutput) || fromJson(inputs.matrixInput)}}

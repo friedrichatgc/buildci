@@ -5,14 +5,32 @@ on:
     - cron: '36 23 * * *'
 jobs:
   build_short:
-    name: Build / basic exampels
+    name: Build - basic exampels
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+    secrets:
+      githubStatusAccessToken:
+      djangoSecretKey:
+      postgresPassword:
+      filestoragePassword:
+      codecovUploadToken_fmatvec:
+      codecovUploadToken_hdf5serie:
+      codecovUploadToken_openmbv:
+      codecovUploadToken_mbsim:
     with:
       matrixInput: ''
   build_long:
-    name: Build / all examples
+    name: Build - all examples
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     if: github.event_name=='schedule'
+    secrets:
+      githubStatusAccessToken:
+      djangoSecretKey:
+      postgresPassword:
+      filestoragePassword:
+      codecovUploadToken_fmatvec:
+      codecovUploadToken_hdf5serie:
+      codecovUploadToken_openmbv:
+      codecovUploadToken_mbsim:
     with:
       matrixInput: |
         {"data":

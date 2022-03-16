@@ -7,13 +7,21 @@ on:
         type: string
     secrets:
       githubStatusAccessToken:
+        required: true
       djangoSecretKey:
+        required: true
       postgresPassword:
+        required: true
       filestoragePassword:
+        required: true
       codecovUploadToken_fmatvec:
+        required: true
       codecovUploadToken_hdf5serie:
+        required: true
       codecovUploadToken_openmbv:
+        required: true
       codecovUploadToken_mbsim:
+        required: true
 env:
   # tagname and servername of remote mbsimenv server
   MBSIMENVTAGNAME: staging

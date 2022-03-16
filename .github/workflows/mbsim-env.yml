@@ -4,7 +4,13 @@ on:
   schedule:
     - cron: '36 23 * * *'
 jobs:
-  build:
+  build_short:
+    name: Build / basic exampels
+    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+    with:
+      matrixInput: ''
+  build_long:
+    name: Build / all examples
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     with:
       matrixInput: |

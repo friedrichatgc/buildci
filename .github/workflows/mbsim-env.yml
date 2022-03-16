@@ -79,7 +79,7 @@ jobs:
           # set output
           print("Build matrix:\n"+json.dumps(matrix, indent=2))
           print("::set-output name=matrixStepOutput::"+json.dumps(matrix))
-  build:
-    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
-    with:
-      matrixInput: ${{needs.get_matrix.outputs.matrixOutput}}
+#  build:
+#    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+#    with:
+#      matrixInput: ${{needs.get_matrix.outputs.matrixOutput}}

@@ -12,6 +12,7 @@ jobs:
   build_long:
     name: Build / all examples
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+    if: github.event_name=='schedule'
     with:
       matrixInput: |
         {"data":

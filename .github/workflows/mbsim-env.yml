@@ -7,4 +7,4 @@ jobs:
   build:
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     with:
-      matrixInput: "abc"
+      matrixInput: ""

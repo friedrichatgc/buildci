@@ -86,7 +86,7 @@ jobs:
             branches=list(filter(lambda x: x[repo+"Branch"]==branch, branchCombination))
             # if no branch combination is found build this branch with "master" of all other repos
             if len(branches)==0:
-              branches=[{"id": 1, "fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"}]
+              branches=[{"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"}]
               branches[0][repo+"Branch"]=branch+"*"+sha
             else:
               # override repo branch with sha
@@ -118,8 +118,6 @@ jobs:
       fail-fast: false
       matrix: ${{inputs.matrixInput=='' && fromJson(needs.get_matrix.outputs.matrixOutput) || fromJson(inputs.matrixInput)}}
     steps:
-      - run: echo a ${{env.MBSIMENVFILESTORAGE}} b ${{env.mbsimenvsec_githubStatusAccessToken}} c
-      - run: echo a $MBSIMENVFILESTORAGE b $mbsimenvsec_githubStatusAccessToken c
       - name: "Dump build config"
         run: >
           echo -e " buildType       = ${{matrix.data.os.buildType}}

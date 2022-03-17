@@ -4,8 +4,8 @@ on:
   schedule:
     - cron: '36 23 * * *'
 jobs:
-  build_short:
-    name: Build - basic exampels
+  build_basic:
+    name: Build & Basic Examples
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     with:
       matrixInput: ''
@@ -18,8 +18,8 @@ jobs:
       codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
       codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
-  build_long:
-    name: Build - all examples
+  build:
+    name: Build
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     if: github.event_name=='schedule'
     with:
@@ -27,9 +27,9 @@ jobs:
         {"data":
           [{
             "branches": 
-              {"id": 1, "fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
+              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
             "os":
-              {"buildType": "linux64-dailydebug"  , "image": "mbsimenv/build"     ,  "args": "--valgrindExamples"},
+              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--valgrindExamples"},
           }]
         }
     secrets:
@@ -41,3 +41,21 @@ jobs:
       codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
       codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+  examples:
+    name: "All examples"
+    runs-on: ubuntu-latest
+    needs: build
+    if: always()
+    strategy:
+      fail-fast: false
+      matrix:
+        index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] # at most 10 jobs can run in parallel
+    steps:
+      - run: echo ${{matrix.index}}/10
+  post-examples:
+    name: "Post all examples"
+    runs-on: ubuntu-latest
+    needs: examples
+    if: always()
+    steps:
+      - run: echo Post all examples

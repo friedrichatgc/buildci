@@ -193,10 +193,10 @@ jobs:
           with open("${{github.workspace}}/mbsim-env/local/.buildInfo.json", "r") as f:
             buildInfo=json.load(f)
           print("https://${{env.MBSIMENVSERVERNAME}}/builds/run/"+str(buildInfo["buildRunID"])+"/")
-      - name: "Zip artifact .../mbsim-env/local/ for upload"
+      - name: "Archive artifact .../mbsim-env/local/ for upload"
         if: inputs.uploadArtifactInput
         run: tar -czf ${{github.workspace}}/mbsim-env/local.tar.gz ${{github.workspace}}/mbsim-env/local/
-      - name: "Upload artifact zip .../mbsim-env/local/"
+      - name: "Upload artifact archive .../mbsim-env/local/"
         if: inputs.uploadArtifactInput
         uses: actions/upload-artifact@v3
         with:

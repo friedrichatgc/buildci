@@ -48,11 +48,12 @@ jobs:
 #    name: "dumm examples"
 #    runs-on: ubuntu-latest
 #    steps:
-##artifactdownload      - name: "Download artifact archive .../mbsim-env/local/"
+#      - name: "Download artifact archive .../mbsim-env/local/"
 ##artifactdownload        uses: actions/download-artifact@v3
 ##artifactdownload        with:
 ##artifactdownload          name: mbsim-env-local
 ##artifactdownload          path: ${{github.workspace}}
+#        run: wget sdlfj -O ${{github.workspace}}/local.tar.gz # replace this with artifactdownload
 #      - name: "Unarchive artifact .../mbsim-env/local/"
 #        run: >
 #          mkdir -p ${{github.workspace}}/mbsim-env/ &&

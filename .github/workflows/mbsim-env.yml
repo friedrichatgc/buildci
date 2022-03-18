@@ -48,17 +48,6 @@ jobs:
     name: "dumm examples"
     runs-on: ubuntu-latest
     steps:
-      - run: mkdir -p ${{github.workspace}}/mbsim-env/local/include ${{github.workspace}}/mbsim-env/local/bin
-      - run: echo aa > ${{github.workspace}}/mbsim-env/local/aa.txt
-      - run: echo bb > ${{github.workspace}}/mbsim-env/local/include/bb.txt
-      - run: echo cc > ${{github.workspace}}/mbsim-env/local/bin/cc.txt
-      - name: "Archive artifact .../mbsim-env/local/ for upload"
-        run: tar -czf ${{github.workspace}}/mbsim-env/local.tar.gz -C ${{github.workspace}}/mbsim-env/ local/
-      - name: "Upload artifact archive .../mbsim-env/local/"
-        uses: actions/upload-artifact@v3
-        with:
-          name: mbsim-env-local
-          path: ${{github.workspace}}/mbsim-env/local.tar.gz
       - name: "Download artifact archive .../mbsim-env/local/"
         uses: actions/download-artifact@v3
         with:

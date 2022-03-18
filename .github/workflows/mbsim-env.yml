@@ -53,7 +53,7 @@ jobs:
       - run: echo bb > ${{github.workspace}}/mbsim-env/local/include/bb.txt
       - run: echo cc > ${{github.workspace}}/mbsim-env/local/bin/cc.txt
       - name: "Archive artifact .../mbsim-env/local/ for upload"
-        run: tar -czf ${{github.workspace}}/mbsim-env/local.tar.gz ${{github.workspace}}/mbsim-env/local/
+        run: tar -czf ${{github.workspace}}/mbsim-env/local.tar.gz -C ${{github.workspace}}/mbsim-env/ local/
       - name: "Upload artifact archive .../mbsim-env/local/"
         uses: actions/upload-artifact@v3
         with:
@@ -66,8 +66,8 @@ jobs:
           path: ${{github.workspace}}
       - name: "Unarchive artifact .../mbsim-env/local/"
         run: >
-          mkdir -p ${{github.workspace}}/mbsim-env/local/ &&
-          tar -xzf ${{github.workspace}}/local.tar.gz -C ${{github.workspace}}/mbsim-env/local/
+          mkdir -p ${{github.workspace}}/mbsim-env/ &&
+          tar -xzf ${{github.workspace}}/local.tar.gz -C ${{github.workspace}}/mbsim-env/
       - run: ls -R ${{github.workspace}}/mbsim-env/local/
 #mfmf  examplesPre:
 #mfmf    name: "Pre examples"

@@ -9,6 +9,7 @@ jobs:
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     with:
       matrixInput: ''
+      uploadArtifactInput: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -32,6 +33,7 @@ jobs:
               {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--disableRunExamples"},
           }]
         }
+      uploadArtifactInput: true
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -41,8 +43,6 @@ jobs:
       codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
       codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
-    steps:
-      - run: echo Run examples
   examplesPre:
     name: "Pre examples"
     runs-on: ubuntu-latest

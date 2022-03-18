@@ -5,6 +5,9 @@ on:
       matrixInput:
         required: true
         type: string
+      uploadArtifactInput:
+        required: true
+        type: boolean
     secrets:
       githubStatusAccessToken:
         required: true
@@ -189,3 +192,9 @@ jobs:
           with open("${{github.workspace}}/mbsim-env/local/.buildInfo.json", "r") as f:
             buildInfo=json.load(f)
           print("https://${{env.MBSIMENVSERVERNAME}}/builds/run/"+str(buildInfo["buildRunID"])+"/")
+      - name: "Upload artifact .../mbsim-env/local/"
+        if: inputs.uploadArtifactInput
+        uses: actions/upload-artifact@v3
+        with:
+          name: mbsim-env-local
+          path: ${{github.workspace}}/mbsim-env/local/

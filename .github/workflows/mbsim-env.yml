@@ -23,7 +23,7 @@ jobs:
     name: Build
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     #mfmf if: github.event_name=='schedule'
-    if: true
+    if: true #mfmf
     with:
       matrixInput: |
         {"data":

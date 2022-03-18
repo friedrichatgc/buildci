@@ -4,79 +4,85 @@ on:
   schedule:
     - cron: '36 23 * * *'
 jobs:
-  build_basic:
-    name: Build & Basic Examples
-    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
-    with:
-      matrixInput: ''
-      uploadArtifactInput: false
-    secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
-      djangoSecretKey: ${{secrets.djangoSecretKey}}
-      postgresPassword: ${{secrets.postgresPassword}}
-      filestoragePassword: ${{secrets.filestoragePassword}}
-      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
-      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
-      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
-      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
-  build:
-    name: Build
-    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
-    #mfmf if: github.event_name=='schedule'
-    if: true #mfmf
-    with:
-      matrixInput: |
-        {"data":
-          [{
-            "branches": 
-              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
-            "os":
-              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--disableRunExamples"},
-          }]
-        }
-      uploadArtifactInput: true
-    secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
-      djangoSecretKey: ${{secrets.djangoSecretKey}}
-      postgresPassword: ${{secrets.postgresPassword}}
-      filestoragePassword: ${{secrets.filestoragePassword}}
-      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
-      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
-      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
-      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
-#  dummy:
-#    name: "dumm examples"
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: "Download artifact archive .../mbsim-env/local/"
-##artifactdownload        uses: actions/download-artifact@v3
-##artifactdownload        with:
-##artifactdownload          name: mbsim-env-local
-##artifactdownload          path: ${{github.workspace}}
-#        run: wget sdlfj -O ${{github.workspace}}/local.tar.gz # replace this with artifactdownload
-#      - name: "Unarchive artifact .../mbsim-env/local/"
-#        run: >
-#          mkdir -p ${{github.workspace}}/mbsim-env/ &&
-#          tar -xzf ${{github.workspace}}/local.tar.gz -C ${{github.workspace}}/mbsim-env/
-##mfmf  examplesPre:
-##mfmf    name: "Pre examples"
-##mfmf    runs-on: ubuntu-latest
-##mfmf    needs: build
-##mfmf    steps:
-##mfmf      - run: echo Pre examples
-##mfmf  examplesRun:
-##mfmf    name: "Run examples"
-##mfmf    runs-on: ubuntu-latest
-##mfmf    needs: examplesPre
-##mfmf    strategy:
-##mfmf      fail-fast: false
-##mfmf      matrix:
-##mfmf        index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] # at most 10 jobs can run in parallel
-##mfmf    steps:
-##mfmf      - run: echo Run examples ${{matrix.index}}/10
-##mfmf  examplesPos:
-##mfmf    name: "Post examples"
-##mfmf    runs-on: ubuntu-latest
-##mfmf    needs: examplesRun
-##mfmf    steps:
-##mfmf      - run: echo Post examples
+#mfmf  build_basic:
+#mfmf    name: Build & Basic Examples
+#mfmf    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+#mfmf    with:
+#mfmf      matrixInput: ''
+#mfmf      uploadArtifactInput: false
+#mfmf    secrets:
+#mfmf      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+#mfmf      djangoSecretKey: ${{secrets.djangoSecretKey}}
+#mfmf      postgresPassword: ${{secrets.postgresPassword}}
+#mfmf      filestoragePassword: ${{secrets.filestoragePassword}}
+#mfmf      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+#mfmf      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+#mfmf      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+#mfmf      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+#mfmf  build:
+#mfmf    name: Build
+#mfmf    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+#mfmf    #mfmf if: github.event_name=='schedule'
+#mfmf    if: true #mfmf
+#mfmf    with:
+#mfmf      matrixInput: |
+#mfmf        {"data":
+#mfmf          [{
+#mfmf            "branches": 
+#mfmf              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
+#mfmf            "os":
+#mfmf              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--disableRunExamples"},
+#mfmf          }]
+#mfmf        }
+#mfmf      uploadArtifactInput: true
+#mfmf    secrets:
+#mfmf      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+#mfmf      djangoSecretKey: ${{secrets.djangoSecretKey}}
+#mfmf      postgresPassword: ${{secrets.postgresPassword}}
+#mfmf      filestoragePassword: ${{secrets.filestoragePassword}}
+#mfmf      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+#mfmf      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+#mfmf      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+#mfmf      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+
+
+
+
+
+
+  dummy:
+    name: "dumm examples"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Download artifact archive .../mbsim-env/local/"
+#artifactdownload        uses: actions/download-artifact@v3
+#artifactdownload        with:
+#artifactdownload          name: mbsim-env-local
+#artifactdownload          path: ${{github.workspace}}
+        run: wget https://www.mbsim-env.de:11443/8465739265725648/xx/local.tar.gz -O ${{github.workspace}}/local.tar.gz # replace this with artifactdownload
+      - name: "Unarchive artifact .../mbsim-env/local/"
+        run: >
+          mkdir -p ${{github.workspace}}/mbsim-env/ &&
+          tar -xzf ${{github.workspace}}/local.tar.gz -C ${{github.workspace}}/mbsim-env/
+#mfmf  examplesPre:
+#mfmf    name: "Pre examples"
+#mfmf    runs-on: ubuntu-latest
+#mfmf    needs: build
+#mfmf    steps:
+#mfmf      - run: echo Pre examples
+#mfmf  examplesRun:
+#mfmf    name: "Run examples"
+#mfmf    runs-on: ubuntu-latest
+#mfmf    needs: examplesPre
+#mfmf    strategy:
+#mfmf      fail-fast: false
+#mfmf      matrix:
+#mfmf        index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] # at most 10 jobs can run in parallel
+#mfmf    steps:
+#mfmf      - run: echo Run examples ${{matrix.index}}/10
+#mfmf  examplesPos:
+#mfmf    name: "Post examples"
+#mfmf    runs-on: ubuntu-latest
+#mfmf    needs: examplesRun
+#mfmf    steps:
+#mfmf      - run: echo Post examples

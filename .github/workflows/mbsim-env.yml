@@ -50,39 +50,61 @@ jobs:
 
 
 
-  dummy:
-    name: "dumm examples"
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: "Download artifact archive .../mbsim-env/local/"
-#artifactdownload        uses: actions/download-artifact@v3
-#artifactdownload        with:
-#artifactdownload          name: mbsim-env-local
-#artifactdownload          path: ${{github.workspace}}
-        run: wget https://www.mbsim-env.de:11443/8465739265725648/xx/local.tar.gz -O ${{github.workspace}}/local.tar.gz # replace this with artifactdownload
-      - name: "Unarchive artifact .../mbsim-env/local/"
-        run: >
-          mkdir -p ${{github.workspace}}/mbsim-env/ &&
-          tar -xzf ${{github.workspace}}/local.tar.gz -C ${{github.workspace}}/mbsim-env/
-#mfmf  examplesPre:
-#mfmf    name: "Pre examples"
-#mfmf    runs-on: ubuntu-latest
-#mfmf    needs: build
-#mfmf    steps:
-#mfmf      - run: echo Pre examples
-#mfmf  examplesRun:
-#mfmf    name: "Run examples"
-#mfmf    runs-on: ubuntu-latest
-#mfmf    needs: examplesPre
-#mfmf    strategy:
-#mfmf      fail-fast: false
-#mfmf      matrix:
-#mfmf        index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] # at most 10 jobs can run in parallel
-#mfmf    steps:
-#mfmf      - run: echo Run examples ${{matrix.index}}/10
-#mfmf  examplesPos:
-#mfmf    name: "Post examples"
-#mfmf    runs-on: ubuntu-latest
-#mfmf    needs: examplesRun
-#mfmf    steps:
-#mfmf      - run: echo Post examples
+      - run: echo dummy build
+#  dummy:
+#    name: "dumm examples"
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: "Download artifact archive .../mbsim-env/local/"
+##artifactdownload        uses: actions/download-artifact@v3
+##artifactdownload        with:
+##artifactdownload          name: mbsim-env-local
+##artifactdownload          path: ${{github.workspace}}
+#        run: wget -q https://www.mbsim-env.de:11443/8465739265725648/xx/local.tar.gz -O ${{github.workspace}}/local.tar.gz # replace this with artifactdownload
+#      - name: "Unarchive artifact .../mbsim-env/local/"
+#        run: >
+#          mkdir -p ${{github.workspace}}/mbsim-env/ &&
+#          tar -xzf ${{github.workspace}}/local.tar.gz -C ${{github.workspace}}/mbsim-env/
+  examplesPre:
+    name: "Pre examples"
+    needs: build
+    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+    with:
+      matrixInput: |
+        {"data":
+          [{
+            "branches": 
+              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"}, #mfmf use sha not branchname
+            "os":
+              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--runExamplesPre"},
+          }]
+        }
+      uploadArtifactInput: false
+    secrets:
+      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      djangoSecretKey: ${{secrets.djangoSecretKey}}
+      postgresPassword: ${{secrets.postgresPassword}}
+      filestoragePassword: ${{secrets.filestoragePassword}}
+      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+#  examplesRun:
+#    name: "Run examples"
+#    runs-on: ubuntu-latest
+#    needs: examplesPre
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] # at most 10 jobs can run in parallel
+#    steps:
+#      - run: echo Run examples ${{matrix.index}}/10
+#  examplesPos:
+#    name: "Post examples"
+#    runs-on: ubuntu-latest
+#    needs: examplesRun
+#    steps:
+#      - run: echo Post examples

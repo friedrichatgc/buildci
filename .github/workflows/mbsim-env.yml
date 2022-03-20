@@ -44,7 +44,7 @@ jobs:
           sha="5e1108a787c298b481e31a5dfb2055eb3028f3d0" #mfmf remove this line
           print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
           eventName="${{github.event_name}}"
-          #eventName="schedule" #mfmf
+          eventName="schedule" #mfmf
           # get branch combinations
           if eventName=="push":
             model="CIBranches"
@@ -109,8 +109,8 @@ jobs:
   build:
     name: Build
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
-    if: github.event_name=='schedule'
-    #if: true #mfmf
+    #if: github.event_name=='schedule'
+    if: true #mfmf
     with:
       matrixInput: |
         {"data":

@@ -25,102 +25,30 @@ on:
         required: true
       codecovUploadToken_mbsim:
         required: true
-env:
-  # tagname and servername of remote mbsimenv server
-  MBSIMENVTAGNAME: staging
-  MBSIMENVSERVERNAME: wwwstaging.mbsim-env.de
-  # connect to this server:port for www, database and filestorage
-  MBSIMENVWWW: www.mbsim-env.de:10443
-  MBSIMENVDATABASE: www.mbsim-env.de:15432
-  MBSIMENVFILESTORAGE: www.mbsim-env.de:11122
-  # get secrets
-  mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
-  mbsimenvsec_djangoSecretKey: ${{secrets.djangoSecretKey}}
-  mbsimenvsec_postgresPassword: ${{secrets.postgresPassword}}
-  mbsimenvsec_filestoragePassword: ${{secrets.filestoragePassword}}
-  mbsimenvsec_codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
-  mbsimenvsec_codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
-  mbsimenvsec_codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
-  mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+#env:
+#  # tagname and servername of remote mbsimenv server
+#  MBSIMENVTAGNAME: staging
+#  MBSIMENVSERVERNAME: wwwstaging.mbsim-env.de
+#  # connect to this server:port for www, database and filestorage
+#  MBSIMENVWWW: www.mbsim-env.de:10443
+#  MBSIMENVDATABASE: www.mbsim-env.de:15432
+#  MBSIMENVFILESTORAGE: www.mbsim-env.de:11122
+#  # get secrets
+#  mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+#  mbsimenvsec_djangoSecretKey: ${{secrets.djangoSecretKey}}
+#  mbsimenvsec_postgresPassword: ${{secrets.postgresPassword}}
+#  mbsimenvsec_filestoragePassword: ${{secrets.filestoragePassword}}
+#  mbsimenvsec_codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+#  mbsimenvsec_codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+#  mbsimenvsec_codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+#  mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
 jobs:
-  get_matrix:
-    name: Get Build Matrix
-    if: ${{inputs.matrixInput==''}}
-    runs-on: ubuntu-latest
-    outputs:
-      matrixOutput: ${{steps.matrixStep.outputs.matrixStepOutput}}
-    steps:
-      - name: "Query MBSim-Env for branch combinations and generate build matrix"
-        id: matrixStep
-        shell: python
-        run: |
-          import json
-          import requests
-          import itertools
-          # get repo and branch name
-          repo="${{github.repository}}".split("/")[1]
-          print("mfmfremove repo="+repo)
-          repo="openmbv" #mfmf remove this line
-          branch="${{github.ref_name}}"
-          sha="${{github.sha}}"
-          print("mfmfremove sha="+sha)
-          sha="5e1108a787c298b481e31a5dfb2055eb3028f3d0" #mfmf remove this line
-          print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
-          eventName="${{github.event_name}}"
-          eventName="schedule" #mfmf
-          # get branch combinations
-          if eventName=="push":
-            model="CIBranches"
-          elif eventName=="schedule":
-            model="DailyBranches"
-          else:
-            raise RuntimeError("Unknown event name")
-          response=requests.get("https://${{env.MBSIMENVWWW}}/service/db/getbranchcombi/"+model+"/", verify=False)
-          branchCombination=response.json()["data"]
-          # check repo
-          if eventName=="schedule":
-            matrix={"branches": branchCombination,
-              "os": [
-                {"buildType": "linux64-dailydebug"  , "image": "mbsimenv/build"     ,  "args": ""},
-                {"buildType": "linux64-dailyrelease", "image": "mbsimenv/build"     ,  "args": ""},
-                {"buildType": "win64-dailyrelease"  , "image": "mbsimenv/buildwin64",  "args": ""},
-              ]}
-          elif eventName=="push":
-            # all branch combinations to build
-            branches=list(filter(lambda x: x[repo+"Branch"]==branch, branchCombination))
-            # if no branch combination is found build this branch with "master" of all other repos
-            if len(branches)==0:
-              branches=[{"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"}]
-              branches[0][repo+"Branch"]=branch+"*"+sha
-            else:
-              # override repo branch with sha
-              for b in branches:
-                b[repo+"Branch"]+="*"+sha
-            matrix={"branches": branches,
-              "os": [
-                {"buildType": "linux64-ci", "image": "mbsimenv/build"     , "args": ""},
-                {"buildType": "win64-ci"  , "image": "mbsimenv/buildwin64", "args": ""},
-              ]}
-          # linearize matrix and remove master, linux-dailydebug combination
-          matrix=itertools.product(matrix["branches"], matrix["os"])
-          matrix=map(lambda x: {"branches": x[0], "os": x[1]}, matrix)
-          matrix=filter(lambda x: x["os"]["buildType"]!="linux64-dailydebug" or
-                                  x["branches"]["fmatvecBranch"]!="master" or
-                                  x["branches"]["hdf5serieBranch"]!="master" or
-                                  x["branches"]["openmbvBranch"]!="master" or
-                                  x["branches"]["mbsimBranch"]!="master", matrix)
-          matrix={"data": list(matrix)}
-          # set output
-          print("Build matrix:\n"+json.dumps(matrix, indent=2))
-          print("::set-output name=matrixStepOutput::"+json.dumps(matrix))
   build:
     name: "Build ${{matrix.data.os.buildType}}: ${{matrix.data.branches.fmatvecBranch}} ${{matrix.data.branches.hdf5serieBranch}} ${{matrix.data.branches.openmbvBranch}} ${{matrix.data.branches.mbsimBranch}}"
     runs-on: ubuntu-latest
-    needs: get_matrix
-    if: always()
     strategy:
       fail-fast: false
-      matrix: ${{inputs.matrixInput=='' && fromJson(needs.get_matrix.outputs.matrixOutput) || fromJson(inputs.matrixInput)}}
+      matrix: ${{fromJson(inputs.matrixInput)}}
     steps:
       - name: "Dump build config"
         run: >
@@ -153,40 +81,39 @@ jobs:
             ccache-${{matrix.data.os.buildType}}--
       - name: "Fix cached ccache file permissions"
         run: chmod -R 777 ${{github.workspace}}/mbsim-ccache # the docker user id is different than the current user id
-      - name: "Run build/examples"
-        run: >
-          docker run
-          --init
-          --label buildtype=${{matrix.data.os.buildType}}
-          --env MBSIMENVDATABASE
-          --env MBSIMENVFILESTORAGE
-          --env MBSIMENVSERVERNAME
-          --env MBSIMENVTAGNAME
-          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.data.os.image}}:${{env.MBSIMENVTAGNAME}})
-          --env mbsimenvsec_githubStatusAccessToken
-          --env mbsimenvsec_djangoSecretKey
-          --env mbsimenvsec_postgresPassword
-          --env mbsimenvsec_filestoragePassword
-          --env mbsimenvsec_codecovUploadToken_fmatvec
-          --env mbsimenvsec_codecovUploadToken_hdf5serie
-          --env mbsimenvsec_codecovUploadToken_openmbv
-          --env mbsimenvsec_codecovUploadToken_mbsim
-          -v ${{github.workspace}}/mbsim-env:/mbsim-env
-          -v ${{github.workspace}}/mbsim-ccache:/mbsim-ccache
-          ${{matrix.data.os.image}}:${{env.MBSIMENVTAGNAME}}
-          --buildType ${{matrix.data.os.buildType}}
-          --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Actions</a>'
-          -j $(nproc)
-          --ccacheSize 5
-          --fmatvecBranch ${{matrix.data.branches.fmatvecBranch}}
-          --hdf5serieBranch ${{matrix.data.branches.hdf5serieBranch}}
-          --openmbvBranch ${{matrix.data.branches.openmbvBranch}}
-          --mbsimBranch ${{matrix.data.branches.mbsimBranch}}
-          ${{matrix.data.os.args}}
-          || exit 0
-          # do not report error (is handled by www.mbsime-env.de and cache should also be saved in case of errors)
+#      - name: "Run build/examples"
+#        run: >
+#          docker run
+#          --init
+#          --label buildtype=${{matrix.data.os.buildType}}
+#          --env MBSIMENVDATABASE
+#          --env MBSIMENVFILESTORAGE
+#          --env MBSIMENVSERVERNAME
+#          --env MBSIMENVTAGNAME
+#          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.data.os.image}}:${{env.MBSIMENVTAGNAME}})
+#          --env mbsimenvsec_githubStatusAccessToken
+#          --env mbsimenvsec_djangoSecretKey
+#          --env mbsimenvsec_postgresPassword
+#          --env mbsimenvsec_filestoragePassword
+#          --env mbsimenvsec_codecovUploadToken_fmatvec
+#          --env mbsimenvsec_codecovUploadToken_hdf5serie
+#          --env mbsimenvsec_codecovUploadToken_openmbv
+#          --env mbsimenvsec_codecovUploadToken_mbsim
+#          -v ${{github.workspace}}/mbsim-env:/mbsim-env
+#          -v ${{github.workspace}}/mbsim-ccache:/mbsim-ccache
+#          ${{matrix.data.os.image}}:${{env.MBSIMENVTAGNAME}}
+#          --buildType ${{matrix.data.os.buildType}}
+#          --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Actions</a>'
+#          -j $(nproc)
+#          --ccacheSize 5
+#          --fmatvecBranch ${{matrix.data.branches.fmatvecBranch}}
+#          --hdf5serieBranch ${{matrix.data.branches.hdf5serieBranch}}
+#          --openmbvBranch ${{matrix.data.branches.openmbvBranch}}
+#          --mbsimBranch ${{matrix.data.branches.mbsimBranch}}
+#          ${{matrix.data.os.args}}
+#          || exit 0
+#          # do not report error (is handled by www.mbsime-env.de and cache should also be saved in case of errors)
       - name: "Detailed build/examples output"
-        if: always()
         shell: python
         run: |
           import json

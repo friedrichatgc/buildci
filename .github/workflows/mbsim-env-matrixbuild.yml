@@ -8,6 +8,21 @@ on:
       uploadArtifactInput:
         required: true
         type: boolean
+      MBSIMENVTAGNAME:
+        required: true
+        type: string
+      MBSIMENVSERVERNAME:
+        required: true
+        type: string
+      MBSIMENVWWW:
+        required: true
+        type: string
+      MBSIMENVDATABASE:
+        required: true
+        type: string
+      MBSIMENVFILESTORAGE:
+        required: true
+        type: string
     secrets:
       githubStatusAccessToken:
         required: true

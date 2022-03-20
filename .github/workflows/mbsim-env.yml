@@ -97,6 +97,11 @@ jobs:
     with:
       matrixInput: ${{needs.getBuildMatrix.outputs.matrixOutput}}
       uploadArtifactInput: false
+      MBSIMENVTAGNAME: ${{env.MBSIMENVTAGNAME}}
+      MBSIMENVSERVERNAME: ${{env.MBSIMENVSERVERNAME}}
+      MBSIMENVWWW: ${{env.MBSIMENVWWW}}
+      MBSIMENVDATABASE: ${{env.MBSIMENVDATABASE}}
+      MBSIMENVFILESTORAGE: ${{env.MBSIMENVFILESTORAGE}}
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -122,6 +127,11 @@ jobs:
           }]
         }
       uploadArtifactInput: true
+      MBSIMENVTAGNAME: ${{env.MBSIMENVTAGNAME}}
+      MBSIMENVSERVERNAME: ${{env.MBSIMENVSERVERNAME}}
+      MBSIMENVWWW: ${{env.MBSIMENVWWW}}
+      MBSIMENVDATABASE: ${{env.MBSIMENVDATABASE}}
+      MBSIMENVFILESTORAGE: ${{env.MBSIMENVFILESTORAGE}}
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}

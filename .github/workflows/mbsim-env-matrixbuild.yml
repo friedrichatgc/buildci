@@ -26,22 +26,22 @@ on:
       codecovUploadToken_mbsim:
         required: true
 #env:
-#  # tagname and servername of remote mbsimenv server
-#  MBSIMENVTAGNAME: staging
-#  MBSIMENVSERVERNAME: wwwstaging.mbsim-env.de
-#  # connect to this server:port for www, database and filestorage
-#  MBSIMENVWWW: www.mbsim-env.de:10443
-#  MBSIMENVDATABASE: www.mbsim-env.de:15432
-#  MBSIMENVFILESTORAGE: www.mbsim-env.de:11122
-#  # get secrets
-#  mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
-#  mbsimenvsec_djangoSecretKey: ${{secrets.djangoSecretKey}}
-#  mbsimenvsec_postgresPassword: ${{secrets.postgresPassword}}
-#  mbsimenvsec_filestoragePassword: ${{secrets.filestoragePassword}}
-#  mbsimenvsec_codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
-#  mbsimenvsec_codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
-#  mbsimenvsec_codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
-#  mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+  # tagname and servername of remote mbsimenv server
+  MBSIMENVTAGNAME: ${{inputs.MBSIMENVTAGNAME}}
+  MBSIMENVSERVERNAME: ${{inputs.MBSIMENVSERVERNAME}}
+  # connect to this server:port for www, database and filestorage
+  MBSIMENVWWW: ${{inputs.MBSIMENVWWW}}
+  MBSIMENVDATABASE: ${{inputs.MBSIMENVDATABASE}}
+  MBSIMENVFILESTORAGE: ${{inputs.MBSIMENVFILESTORAGE}}
+  # get secrets
+  mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+  mbsimenvsec_djangoSecretKey: ${{secrets.djangoSecretKey}}
+  mbsimenvsec_postgresPassword: ${{secrets.postgresPassword}}
+  mbsimenvsec_filestoragePassword: ${{secrets.filestoragePassword}}
+  mbsimenvsec_codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+  mbsimenvsec_codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+  mbsimenvsec_codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+  mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
 jobs:
   build:
     name: "Build ${{matrix.data.os.buildType}}: ${{matrix.data.branches.fmatvecBranch}} ${{matrix.data.branches.hdf5serieBranch}} ${{matrix.data.branches.openmbvBranch}} ${{matrix.data.branches.mbsimBranch}}"
@@ -81,38 +81,38 @@ jobs:
             ccache-${{matrix.data.os.buildType}}--
       - name: "Fix cached ccache file permissions"
         run: chmod -R 777 ${{github.workspace}}/mbsim-ccache # the docker user id is different than the current user id
-#      - name: "Run build/examples"
-#        run: >
-#          docker run
-#          --init
-#          --label buildtype=${{matrix.data.os.buildType}}
-#          --env MBSIMENVDATABASE
-#          --env MBSIMENVFILESTORAGE
-#          --env MBSIMENVSERVERNAME
-#          --env MBSIMENVTAGNAME
-#          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.data.os.image}}:${{env.MBSIMENVTAGNAME}})
-#          --env mbsimenvsec_githubStatusAccessToken
-#          --env mbsimenvsec_djangoSecretKey
-#          --env mbsimenvsec_postgresPassword
-#          --env mbsimenvsec_filestoragePassword
-#          --env mbsimenvsec_codecovUploadToken_fmatvec
-#          --env mbsimenvsec_codecovUploadToken_hdf5serie
-#          --env mbsimenvsec_codecovUploadToken_openmbv
-#          --env mbsimenvsec_codecovUploadToken_mbsim
-#          -v ${{github.workspace}}/mbsim-env:/mbsim-env
-#          -v ${{github.workspace}}/mbsim-ccache:/mbsim-ccache
-#          ${{matrix.data.os.image}}:${{env.MBSIMENVTAGNAME}}
-#          --buildType ${{matrix.data.os.buildType}}
-#          --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Actions</a>'
-#          -j $(nproc)
-#          --ccacheSize 5
-#          --fmatvecBranch ${{matrix.data.branches.fmatvecBranch}}
-#          --hdf5serieBranch ${{matrix.data.branches.hdf5serieBranch}}
-#          --openmbvBranch ${{matrix.data.branches.openmbvBranch}}
-#          --mbsimBranch ${{matrix.data.branches.mbsimBranch}}
-#          ${{matrix.data.os.args}}
-#          || exit 0
-#          # do not report error (is handled by www.mbsime-env.de and cache should also be saved in case of errors)
+      - name: "Run build/examples"
+        run: >
+          docker run
+          --init
+          --label buildtype=${{matrix.data.os.buildType}}
+          --env MBSIMENVDATABASE
+          --env MBSIMENVFILESTORAGE
+          --env MBSIMENVSERVERNAME
+          --env MBSIMENVTAGNAME
+          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.data.os.image}}:${{env.MBSIMENVTAGNAME}})
+          --env mbsimenvsec_githubStatusAccessToken
+          --env mbsimenvsec_djangoSecretKey
+          --env mbsimenvsec_postgresPassword
+          --env mbsimenvsec_filestoragePassword
+          --env mbsimenvsec_codecovUploadToken_fmatvec
+          --env mbsimenvsec_codecovUploadToken_hdf5serie
+          --env mbsimenvsec_codecovUploadToken_openmbv
+          --env mbsimenvsec_codecovUploadToken_mbsim
+          -v ${{github.workspace}}/mbsim-env:/mbsim-env
+          -v ${{github.workspace}}/mbsim-ccache:/mbsim-ccache
+          ${{matrix.data.os.image}}:${{env.MBSIMENVTAGNAME}}
+          --buildType ${{matrix.data.os.buildType}}
+          --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Actions</a>'
+          -j $(nproc)
+          --ccacheSize 5
+          --fmatvecBranch ${{matrix.data.branches.fmatvecBranch}}
+          --hdf5serieBranch ${{matrix.data.branches.hdf5serieBranch}}
+          --openmbvBranch ${{matrix.data.branches.openmbvBranch}}
+          --mbsimBranch ${{matrix.data.branches.mbsimBranch}}
+          ${{matrix.data.os.args}}
+          || exit 0
+          # do not report error (is handled by www.mbsime-env.de and cache should also be saved in case of errors)
       - name: "Detailed build/examples output"
         shell: python
         run: |

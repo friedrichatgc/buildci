@@ -40,7 +40,7 @@ on:
         required: true
       codecovUploadToken_mbsim:
         required: true
-#env:
+env:
   # tagname and servername of remote mbsimenv server
   MBSIMENVTAGNAME: ${{inputs.MBSIMENVTAGNAME}}
   MBSIMENVSERVERNAME: ${{inputs.MBSIMENVSERVERNAME}}

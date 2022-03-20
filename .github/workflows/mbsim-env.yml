@@ -21,154 +21,81 @@ env:
   mbsimenvsec_codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
   mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
 jobs:
-  getBuildMatrix:
-    name: Get Build Matrix
-    runs-on: ubuntu-latest
-    outputs:
-      matrixOutput: ${{steps.matrixStep.outputs.matrixStepOutput}}
-    steps:
-      - name: "Query MBSim-Env for branch combinations and generate build matrix"
-        id: matrixStep
-        shell: python
-        run: |
-          import json
-          import requests
-          import itertools
-          # get repo and branch name
-          repo="${{github.repository}}".split("/")[1]
-          print("mfmfremove repo="+repo)
-          repo="openmbv" #mfmf remove this line
-          branch="${{github.ref_name}}"
-          sha="${{github.sha}}"
-          print("mfmfremove sha="+sha)
-          sha="5e1108a787c298b481e31a5dfb2055eb3028f3d0" #mfmf remove this line
-          print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
-          eventName="${{github.event_name}}"
-          eventName="schedule" #mfmf
-          # get branch combinations
-          if eventName=="push":
-            model="CIBranches"
-          elif eventName=="schedule":
-            model="DailyBranches"
-          else:
-            raise RuntimeError("Unknown event name")
-          response=requests.get("https://${{env.MBSIMENVWWW}}/service/db/getbranchcombi/"+model+"/", verify=False)
-          branchCombination=response.json()["data"]
-          # check repo
-          if eventName=="schedule":
-            matrix={"branches": branchCombination,
-              "os": [
-                {"buildType": "linux64-dailydebug"  , "image": "mbsimenv/build"     ,  "args": ""},
-                {"buildType": "linux64-dailyrelease", "image": "mbsimenv/build"     ,  "args": ""},
-                {"buildType": "win64-dailyrelease"  , "image": "mbsimenv/buildwin64",  "args": ""},
-              ]}
-          elif eventName=="push":
-            # all branch combinations to build
-            branches=list(filter(lambda x: x[repo+"Branch"]==branch, branchCombination))
-            # if no branch combination is found build this branch with "master" of all other repos
-            if len(branches)==0:
-              branches=[{"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"}]
-              branches[0][repo+"Branch"]=branch+"*"+sha
-            else:
-              # override repo branch with sha
-              for b in branches:
-                b[repo+"Branch"]+="*"+sha
-            matrix={"branches": branches,
-              "os": [
-                {"buildType": "linux64-ci", "image": "mbsimenv/build"     , "args": ""},
-                {"buildType": "win64-ci"  , "image": "mbsimenv/buildwin64", "args": ""},
-              ]}
-          # linearize matrix and remove master, linux-dailydebug combination
-          matrix=itertools.product(matrix["branches"], matrix["os"])
-          matrix=map(lambda x: {"branches": x[0], "os": x[1]}, matrix)
-          matrix=filter(lambda x: x["os"]["buildType"]!="linux64-dailydebug" or
-                                  x["branches"]["fmatvecBranch"]!="master" or
-                                  x["branches"]["hdf5serieBranch"]!="master" or
-                                  x["branches"]["openmbvBranch"]!="master" or
-                                  x["branches"]["mbsimBranch"]!="master", matrix)
-          matrix={"data": list(matrix)}
-          # set output
-          print("Build matrix:\n"+json.dumps(matrix, indent=2))
-          print("::set-output name=matrixStepOutput::"+json.dumps(matrix))
-  buildMatrix:
-    name: Build & Basic Examples
-    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
-    needs: getBuildMatrix
-    with:
-      matrixInput: ${{needs.getBuildMatrix.outputs.matrixOutput}}
-      uploadArtifactInput: false
-    secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
-      djangoSecretKey: ${{secrets.djangoSecretKey}}
-      postgresPassword: ${{secrets.postgresPassword}}
-      filestoragePassword: ${{secrets.filestoragePassword}}
-      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
-      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
-      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
-      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
-  build:
-    name: Build
-    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
-    #if: github.event_name=='schedule'
-    if: true #mfmf
-    with:
-      matrixInput: |
-        {"data":
-          [{
-            "branches": 
-              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
-            "os":
-              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--disableRunExamples"},
-          }]
-        }
-      uploadArtifactInput: true
-    secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
-      djangoSecretKey: ${{secrets.djangoSecretKey}}
-      postgresPassword: ${{secrets.postgresPassword}}
-      filestoragePassword: ${{secrets.filestoragePassword}}
-      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
-      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
-      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
-      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
-
-
-
-
-
-
-#mfmf  build:
+#mfmf  getBuildMatrix:
+#mfmf    name: Get Build Matrix
 #mfmf    runs-on: ubuntu-latest
+#mfmf    outputs:
+#mfmf      matrixOutput: ${{steps.matrixStep.outputs.matrixStepOutput}}
 #mfmf    steps:
-#mfmf      - run: echo dummy build
-#mfmf#  dummy:
-#mfmf#    name: "dumm examples"
-#mfmf#    runs-on: ubuntu-latest
-#mfmf#    steps:
-#mfmf#      - name: "Download artifact archive .../mbsim-env/local/"
-#mfmf##artifactdownload        uses: actions/download-artifact@v3
-#mfmf##artifactdownload        with:
-#mfmf##artifactdownload          name: mbsim-env-local
-#mfmf##artifactdownload          path: ${{github.workspace}}
-#mfmf#        run: wget -q https://www.mbsim-env.de:11443/8465739265725648/xx/local.tar.gz -O ${{github.workspace}}/local.tar.gz # replace this with artifactdownload
-#mfmf#      - name: "Unarchive artifact .../mbsim-env/local/"
-#mfmf#        run: >
-#mfmf#          mkdir -p ${{github.workspace}}/mbsim-env/ &&
-#mfmf#          tar -xzf ${{github.workspace}}/local.tar.gz -C ${{github.workspace}}/mbsim-env/
-#mfmf  examplesPre:
-#mfmf    name: "Pre examples"
-#mfmf    needs: build
+#mfmf      - name: "Query MBSim-Env for branch combinations and generate build matrix"
+#mfmf        id: matrixStep
+#mfmf        shell: python
+#mfmf        run: |
+#mfmf          import json
+#mfmf          import requests
+#mfmf          import itertools
+#mfmf          # get repo and branch name
+#mfmf          repo="${{github.repository}}".split("/")[1]
+#mfmf          print("mfmfremove repo="+repo)
+#mfmf          repo="openmbv" #mfmf remove this line
+#mfmf          branch="${{github.ref_name}}"
+#mfmf          sha="${{github.sha}}"
+#mfmf          print("mfmfremove sha="+sha)
+#mfmf          sha="5e1108a787c298b481e31a5dfb2055eb3028f3d0" #mfmf remove this line
+#mfmf          print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
+#mfmf          eventName="${{github.event_name}}"
+#mfmf          eventName="schedule" #mfmf
+#mfmf          # get branch combinations
+#mfmf          if eventName=="push":
+#mfmf            model="CIBranches"
+#mfmf          elif eventName=="schedule":
+#mfmf            model="DailyBranches"
+#mfmf          else:
+#mfmf            raise RuntimeError("Unknown event name")
+#mfmf          response=requests.get("https://${{env.MBSIMENVWWW}}/service/db/getbranchcombi/"+model+"/", verify=False)
+#mfmf          branchCombination=response.json()["data"]
+#mfmf          # check repo
+#mfmf          if eventName=="schedule":
+#mfmf            matrix={"branches": branchCombination,
+#mfmf              "os": [
+#mfmf                {"buildType": "linux64-dailydebug"  , "image": "mbsimenv/build"     ,  "args": ""},
+#mfmf                {"buildType": "linux64-dailyrelease", "image": "mbsimenv/build"     ,  "args": ""},
+#mfmf                {"buildType": "win64-dailyrelease"  , "image": "mbsimenv/buildwin64",  "args": ""},
+#mfmf              ]}
+#mfmf          elif eventName=="push":
+#mfmf            # all branch combinations to build
+#mfmf            branches=list(filter(lambda x: x[repo+"Branch"]==branch, branchCombination))
+#mfmf            # if no branch combination is found build this branch with "master" of all other repos
+#mfmf            if len(branches)==0:
+#mfmf              branches=[{"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"}]
+#mfmf              branches[0][repo+"Branch"]=branch+"*"+sha
+#mfmf            else:
+#mfmf              # override repo branch with sha
+#mfmf              for b in branches:
+#mfmf                b[repo+"Branch"]+="*"+sha
+#mfmf            matrix={"branches": branches,
+#mfmf              "os": [
+#mfmf                {"buildType": "linux64-ci", "image": "mbsimenv/build"     , "args": ""},
+#mfmf                {"buildType": "win64-ci"  , "image": "mbsimenv/buildwin64", "args": ""},
+#mfmf              ]}
+#mfmf          # linearize matrix and remove master, linux-dailydebug combination
+#mfmf          matrix=itertools.product(matrix["branches"], matrix["os"])
+#mfmf          matrix=map(lambda x: {"branches": x[0], "os": x[1]}, matrix)
+#mfmf          matrix=filter(lambda x: x["os"]["buildType"]!="linux64-dailydebug" or
+#mfmf                                  x["branches"]["fmatvecBranch"]!="master" or
+#mfmf                                  x["branches"]["hdf5serieBranch"]!="master" or
+#mfmf                                  x["branches"]["openmbvBranch"]!="master" or
+#mfmf                                  x["branches"]["mbsimBranch"]!="master", matrix)
+#mfmf          matrix={"data": list(matrix)}
+#mfmf          # set output
+#mfmf          print("Build matrix:\n"+json.dumps(matrix, indent=2))
+#mfmf          print("::set-output name=matrixStepOutput::"+json.dumps(matrix))
+#mfmf  buildMatrix:
+#mfmf    name: Build & Basic Examples
 #mfmf    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
-#mfmf    with: # mfmf use git sha1 instead of branchname
-#mfmf      matrixInput: |
-#mfmf        {"data":
-#mfmf          [{
-#mfmf            "branches": 
-#mfmf              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
-#mfmf            "os":
-#mfmf              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--runExamplesPre"},
-#mfmf          }]
-#mfmf        }
+#mfmf    needs: getBuildMatrix
+#mfmf    with:
+#mfmf      matrixInput: ${{needs.getBuildMatrix.outputs.matrixOutput}}
 #mfmf      uploadArtifactInput: false
 #mfmf    secrets:
 #mfmf      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
@@ -179,19 +106,95 @@ jobs:
 #mfmf      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
 #mfmf      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
 #mfmf      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
-#mfmf#  examplesRun:
-#mfmf#    name: "Run examples"
-#mfmf#    runs-on: ubuntu-latest
-#mfmf#    needs: examplesPre
-#mfmf#    strategy:
-#mfmf#      fail-fast: false
-#mfmf#      matrix:
-#mfmf#        index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] # at most 10 jobs can run in parallel
-#mfmf#    steps:
-#mfmf#      - run: echo Run examples ${{matrix.index}}/10
-#mfmf#  examplesPos:
-#mfmf#    name: "Post examples"
-#mfmf#    runs-on: ubuntu-latest
-#mfmf#    needs: examplesRun
-#mfmf#    steps:
-#mfmf#      - run: echo Post examples
+#mfmf  buildPartitionedExamples:
+#mfmf    name: Build
+#mfmf    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+#mfmf    #if: github.event_name=='schedule'
+#mfmf    if: true #mfmf
+#mfmf    with:
+#mfmf      matrixInput: |
+#mfmf        {"data":
+#mfmf          [{
+#mfmf            "branches": 
+#mfmf              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
+#mfmf            "os":
+#mfmf              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--disableRunExamples"},
+#mfmf          }]
+#mfmf        }
+#mfmf      uploadArtifactInput: true
+#mfmf    secrets:
+#mfmf      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+#mfmf      djangoSecretKey: ${{secrets.djangoSecretKey}}
+#mfmf      postgresPassword: ${{secrets.postgresPassword}}
+#mfmf      filestoragePassword: ${{secrets.filestoragePassword}}
+#mfmf      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+#mfmf      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+#mfmf      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+#mfmf      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+
+
+
+
+
+
+  buildPartitionedExamples:
+    runs-on: ubuntu-latest
+    outputs:
+      buildInfo: '{"buildRunID": 123, "repo": {"fmatvec": "74764a", "hdf5serie": "74764b", "openmbv": "74764c", "mbsim": "74764d"}}'
+    steps:
+      - run: echo dummy build
+#  dummy:
+#    name: "dumm examples"
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: "Download artifact archive .../mbsim-env/local/"
+##artifactdownload        uses: actions/download-artifact@v3
+##artifactdownload        with:
+##artifactdownload          name: mbsim-env-local
+##artifactdownload          path: ${{github.workspace}}
+#        run: wget -q https://www.mbsim-env.de:11443/8465739265725648/xx/local.tar.gz -O ${{github.workspace}}/local.tar.gz # replace this with artifactdownload
+#      - name: "Unarchive artifact .../mbsim-env/local/"
+#        run: >
+#          mkdir -p ${{github.workspace}}/mbsim-env/ &&
+#          tar -xzf ${{github.workspace}}/local.tar.gz -C ${{github.workspace}}/mbsim-env/
+  examplesPre:
+    name: "Pre examples"
+    needs: buildPartitionedExamples
+    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+    with: # mfmf use git sha1 instead of branchname
+      matrixInput: |
+        {"data":
+          [{
+            "branches": 
+              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
+            "os":
+              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--runExamplesPre"},
+          }]
+        }
+      uploadArtifactInput: false
+      buildInfo: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+    secrets:
+      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      djangoSecretKey: ${{secrets.djangoSecretKey}}
+      postgresPassword: ${{secrets.postgresPassword}}
+      filestoragePassword: ${{secrets.filestoragePassword}}
+      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+#  examplesRun:
+#    name: "Run examples"
+#    runs-on: ubuntu-latest
+#    needs: examplesPre
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] # at most 10 jobs can run in parallel
+#    steps:
+#      - run: echo Run examples ${{matrix.index}}/10
+#  examplesPos:
+#    name: "Post examples"
+#    runs-on: ubuntu-latest
+#    needs: examplesRun
+#    steps:
+#      - run: echo Post examples

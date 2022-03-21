@@ -97,6 +97,7 @@ jobs:
 #mfmf    with:
 #mfmf      matrixInput: ${{needs.getBuildMatrix.outputs.matrixOutput}}
 #mfmf      uploadArtifactInput: false
+#mfmf      cacheInput: true
 #mfmf    secrets:
 #mfmf      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
 #mfmf      djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -122,6 +123,7 @@ jobs:
 #mfmf          }]
 #mfmf        }
 #mfmf      uploadArtifactInput: true
+#mfmf      cacheInput: true
 #mfmf    secrets:
 #mfmf      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
 #mfmf      djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -176,6 +178,7 @@ jobs:
           }]
         }
       uploadArtifactInput: false
+      cacheInput: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}

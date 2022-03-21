@@ -75,6 +75,7 @@ jobs:
           docker image pull ${{matrix.data.os.image}}:${{env.MBSIMENVTAGNAME}} &&
           mkdir -m 777 -p ${{github.workspace}}/mbsim-env ${{github.workspace}}/mbsim-ccache
       - name: "Create matrix UUID"
+        if: inputs.cacheInput
         shell: python
         id: matrixUUIDStep
         run: |

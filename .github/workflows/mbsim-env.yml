@@ -166,9 +166,13 @@ jobs:
         {"data":
           [{
             "branches": 
-              {"fmatvecBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.fmatvec}}", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
+              {"fmatvecBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.fmatvec}}",
+               "hdf5serieBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.hdf5serie}}",
+               "openmbvBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.openmbv}}",
+               "mbsimBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.mbsim}}"},
             "os":
-              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--runExamplesPre"},
+              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",
+               "args": "--runExamplesPre --buildRunID ${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).buildRunID}}"},
           }]
         }
       uploadArtifactInput: false

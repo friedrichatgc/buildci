@@ -142,7 +142,7 @@ jobs:
   buildPartitionedExamples:
     runs-on: ubuntu-latest
     outputs:
-      buildInfo: '{"buildRunID": 123, "repo": {"fmatvec": "74764a", "hdf5serie": "74764b", "openmbv": "74764c", "mbsim": "74764d"}}'
+      buildInfo: '{"mfmf": false, "buildRunID": 123, "repo": {"fmatvec": "74764a", "hdf5serie": "74764b", "openmbv": "74764c", "mbsim": "74764d"}}'
     steps:
       - run: echo dummy build
 #  dummy:
@@ -168,16 +168,16 @@ jobs:
         {"data":
           [{
             "branches": 
-              {"fmatvecBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.fmatvec}}",
-               "hdf5serieBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.hdf5serie}}",
-               "openmbvBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.openmbv}}",
-               "mbsimBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.mbsim}}"},
+              {"fmatvecBranch": "a",
+               "hdf5serieBranch": "a",
+               "openmbvBranch": "a",
+               "mbsimBranch": "a"},
             "os":
               {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",
-               "args": "--runExamplesPre --buildRunID 7"}
+               "args": "--runExamplesPre --buildRunID 3"}
           }]
         }
-      uploadArtifactInput: false
+      uploadArtifactInput: ${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).mfmf}}
       cacheInput: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}

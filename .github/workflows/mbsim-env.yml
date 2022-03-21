@@ -143,8 +143,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       buildInfo: '{"buildRunID": 123, "repo": {"fmatvec": "74764a", "hdf5serie": "74764b", "openmbv": "74764c", "mbsim": "74764d"}}'
-      mfmfs: a
-      mfmfi: 3
     steps:
       - run: echo dummy build
 #  dummy:
@@ -163,33 +161,12 @@ jobs:
 #          tar -xzf ${{github.workspace}}/local.tar.gz -C ${{github.workspace}}/mbsim-env/
   examplesPre:
     name: "Pre examples"
+    runs-on: ubuntu-latest
     needs: buildPartitionedExamples
-    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
-    with:
-      matrixInput: |
-        {"data":
-          [{
-            "branches": 
-              {"fmatvecBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.mfmfs)}}",
-               "hdf5serieBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.mfmfs)}}",
-               "openmbvBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.mfmfs)}}",
-               "mbsimBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.mfmfs)}}"},
-            "os":
-              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",
-               "args": "--runExamplesPre --buildRunID 444"}
-          }]
-        }
-      uploadArtifactInput: false
-      cacheInput: false
-    secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
-      djangoSecretKey: ${{secrets.djangoSecretKey}}
-      postgresPassword: ${{secrets.postgresPassword}}
-      filestoragePassword: ${{secrets.filestoragePassword}}
-      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
-      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
-      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
-      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+    steps:
+      - run: echo Pre examples ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      - run: echo Pre examples ${{needs.buildPartitionedExamples.outputs.buildInfo.buildRunID}}
+      - run: echo Pre examples ${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).buildRunID}}
 #  examplesRun:
 #    name: "Run examples"
 #    runs-on: ubuntu-latest

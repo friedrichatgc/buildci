@@ -159,6 +159,7 @@ jobs:
 #          tar -xzf ${{github.workspace}}/local.tar.gz -C ${{github.workspace}}/mbsim-env/
   examplesPre:
     name: "Pre examples"
+    runs-on: ubuntu-latest
     needs: buildPartitionedExamples
     steps:
       - run: echo ${{needs.buildPartitionedExamples.outputs.buildInfo}}

@@ -143,7 +143,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       buildInfo: '{"buildRunID": 123, "repo": {"fmatvec": "74764a", "hdf5serie": "74764b", "openmbv": "74764c", "mbsim": "74764d"}}'
-      mfmfs: "a"
+      mfmfs: a
       mfmfi: 3
     steps:
       - run: echo dummy build
@@ -170,10 +170,10 @@ jobs:
         {"data":
           [{
             "branches": 
-              {"fmatvecBranch": ${{fromJson(needs.buildPartitionedExamples.outputs.mfmfs)}},
-               "hdf5serieBranch": ${{fromJson(needs.buildPartitionedExamples.outputs.mfmfs)}},
-               "openmbvBranch": ${{fromJson(needs.buildPartitionedExamples.outputs.mfmfs)}},
-               "mbsimBranch": ${{fromJson(needs.buildPartitionedExamples.outputs.mfmfs)}}},
+              {"fmatvecBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.mfmfs)}}",
+               "hdf5serieBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.mfmfs)}}",
+               "openmbvBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.mfmfs)}}",
+               "mbsimBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.mfmfs)}}"},
             "os":
               {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",
                "args": "--runExamplesPre --buildRunID 444"}

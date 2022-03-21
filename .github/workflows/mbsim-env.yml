@@ -159,37 +159,28 @@ jobs:
 #          tar -xzf ${{github.workspace}}/local.tar.gz -C ${{github.workspace}}/mbsim-env/
   examplesPre:
     name: "Pre examples"
-    runs-on: ubuntu-latest
     needs: buildPartitionedExamples
-    steps:
-      - run: echo ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-      - run: echo ${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).buildRunID}}
-      - run: echo ${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.fmatvec}}
-#  examplesPre:
-#    name: "Pre examples"
-#    needs: buildPartitionedExamples
-#    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
-#    with: # mfmf use git sha1 instead of branchname
-#      matrixInput: |
-#        {"data":
-#          [{
-#            "branches": 
-#              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
-#            "os":
-#              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--runExamplesPre"},
-#          }]
-#        }
-#      uploadArtifactInput: false
-#      buildInfo: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-#    secrets:
-#      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
-#      djangoSecretKey: ${{secrets.djangoSecretKey}}
-#      postgresPassword: ${{secrets.postgresPassword}}
-#      filestoragePassword: ${{secrets.filestoragePassword}}
-#      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
-#      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
-#      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
-#      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+    with: # mfmf use git sha1 instead of branchname
+      matrixInput: |
+        {"data":
+          [{
+            "branches": 
+              {"fmatvecBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.fmatvec}}", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
+            "os":
+              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--runExamplesPre"},
+          }]
+        }
+      uploadArtifactInput: false
+    secrets:
+      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      djangoSecretKey: ${{secrets.djangoSecretKey}}
+      postgresPassword: ${{secrets.postgresPassword}}
+      filestoragePassword: ${{secrets.filestoragePassword}}
+      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
 #  examplesRun:
 #    name: "Run examples"
 #    runs-on: ubuntu-latest

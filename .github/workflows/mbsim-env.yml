@@ -164,19 +164,7 @@ jobs:
     needs: buildPartitionedExamples
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     with:
-      matrixInput: |
-        {"data":
-          [{
-            "branches": 
-              {"fmatvecBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.fmatvec}}",
-               "hdf5serieBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.hdf5serie}}",
-               "openmbvBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.openmbv}}",
-               "mbsimBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.mbsim}}"},
-            "os":
-              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",
-               "args": "--runExamplesPre --buildRunID 1"}
-          }]
-        }
+      matrixInput: '{"data": [{ "branches": {"fmatvecBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.fmatvec}}", "hdf5serieBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.hdf5serie}}", "openmbvBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.openmbv}}", "mbsimBranch": "${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).repo.mbsim}}"}, "os": {"buildType": "linux64-dailydebug", "image": "mbsimenv/build", "args": "--runExamplesPre --buildRunID ${{fromJson(needs.buildPartitionedExamples.outputs.buildInfo).buildRunID}}"} }] }'
       uploadArtifactInput: false
       cacheInput: false
     secrets:

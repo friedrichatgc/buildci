@@ -8,9 +8,6 @@ on:
       uploadArtifactInput:
         required: true
         type: boolean
-      cacheInput:
-        required: true
-        type: boolean
     outputs:
       buildInfo:
         value: ${{jobs.build.outputs.buildInfoOutput}}
@@ -75,14 +72,12 @@ jobs:
           docker image pull ${{matrix.data.os.image}}:${{env.MBSIMENVTAGNAME}} &&
           mkdir -m 777 -p ${{github.workspace}}/mbsim-env ${{github.workspace}}/mbsim-ccache
       - name: "Create matrix UUID"
-        if: inputs.cacheInput
         shell: python
         id: matrixUUIDStep
         run: |
           import uuid
           print("::set-output name=matrixUUIDStepOutput::"+str(uuid.uuid4()))
       - name: "Cache ccache directory"
-        if: inputs.cacheInput
         uses: actions/cache@v2
         with:
           path: ${{github.workspace}}/mbsim-ccache
@@ -90,7 +85,6 @@ jobs:
           restore-keys: |
             ccache-${{matrix.data.os.buildType}}--
       - name: "Fix cached ccache file permissions"
-        if: inputs.cacheInput
         run: chmod -R 777 ${{github.workspace}}/mbsim-ccache # the docker user id is different than the current user id
       - name: "Run build/examples"
         run: >

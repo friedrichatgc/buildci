@@ -162,9 +162,10 @@ jobs:
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: buildPartitionedExamples
     with:
-      matrixInput:
-        data:
-          - "--runExamplesPre"
+      matrixInput: |
+        {"data": [
+          "--runExamplesPre"
+        ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
@@ -180,12 +181,13 @@ jobs:
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: examplesPre
     with:
-      matrixInput:
-        data:
-          - "--runExamplesPartition 0/4"
-          - "--runExamplesPartition 1/4"
-          - "--runExamplesPartition 2/4"
-          - "--runExamplesPartition 3/4"
+      matrixInput: |
+        {"data": [
+          "--runExamplesPartition 0/4",
+          "--runExamplesPartition 1/4",
+          "--runExamplesPartition 2/4",
+          "--runExamplesPartition 3/4"
+        ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
@@ -201,9 +203,10 @@ jobs:
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: examplesRun
     with:
-      matrixInput:
-        data:
-          - "--runExamplesPos"
+      matrixInput: |
+        {"data": [
+          "--runExamplesPost"
+        ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}

@@ -142,7 +142,7 @@ jobs:
     outputs:
       buildInfo: '{"buildRunID": 123, "repo": {"fmatvec": "74764a", "hdf5serie": "74764b", "openmbv": "74764c", "mbsim": "74764d"}}'
     steps:
-      - run: echo testdata > ${{github.workspace}}/mbsim-env/local.tar.gz
+      - run: mkdir -p ${{github.workspace}}/mbsim-env && echo testdata > ${{github.workspace}}/mbsim-env/local.tar.gz
       - name: "Upload artifact archive .../mbsim-env/local/"
         if: inputs.uploadArtifactInput
         uses: actions/upload-artifact@v3

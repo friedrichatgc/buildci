@@ -137,12 +137,19 @@ jobs:
 
 
 
-  buildPartitionedExamples:
+  buildPartitionedExamples: #mfmf only for testing, replace by above job
     runs-on: ubuntu-latest
     outputs:
       buildInfo: '{"buildRunID": 123, "repo": {"fmatvec": "74764a", "hdf5serie": "74764b", "openmbv": "74764c", "mbsim": "74764d"}}'
     steps:
-      - run: echo dummy build
+      - run: echo testdata > ${{github.workspace}}/mbsim-env/local.tar.gz
+      - name: "Upload artifact archive .../mbsim-env/local/"
+        if: inputs.uploadArtifactInput
+        uses: actions/upload-artifact@v3
+        with:
+          name: mbsim-env-local
+          retention-days: 1
+          path: ${{github.workspace}}/mbsim-env/local.tar.gz
 #  dummy:
 #    name: "dumm examples"
 #    runs-on: ubuntu-latest
@@ -179,7 +186,7 @@ jobs:
   examplesRun:
     name: "Run examples"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
-    needs: examplesPre
+    needs: [buildPartitionedExamples, examplesPre]
     with:
       matrixInput: |
         {"data": [
@@ -201,7 +208,7 @@ jobs:
   examplesPost:
     name: "Post examples"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
-    needs: examplesRun
+    needs: [buildPartitionedExamples, examplesRun]
     with:
       matrixInput: |
         {"data": [

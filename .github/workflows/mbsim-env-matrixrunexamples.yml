@@ -50,42 +50,45 @@ jobs:
       fail-fast: false
       matrix: ${{fromJson(inputs.matrixInput)}}
     steps:
-       - run: echo '${{inputs.matrixInput}}' #mfmf
-       - run: echo '${{inputs.buildInfoInput}}' #mfmf
-#      - name: "Pull docker build image"
-#        run: >
-#          docker image pull mbsimenv/build:${{env.MBSIMENVTAGNAME}} &&
-#          mkdir -m 777 -p ${{github.workspace}}/mbsim-env ${{github.workspace}}/mbsim-ccache
-#      - name: "Run build/examples"
-#        run: >
-#          docker run
-#          --init
-#          --label buildtype=linux64-dailydebug
-#          --env MBSIMENVDATABASE
-#          --env MBSIMENVFILESTORAGE
-#          --env MBSIMENVSERVERNAME
-#          --env MBSIMENVTAGNAME
-#          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" mbsimenv/build:${{env.MBSIMENVTAGNAME}})
-#          --env mbsimenvsec_githubStatusAccessToken
-#          --env mbsimenvsec_djangoSecretKey
-#          --env mbsimenvsec_postgresPassword
-#          --env mbsimenvsec_filestoragePassword
-#          --env mbsimenvsec_codecovUploadToken_fmatvec
-#          --env mbsimenvsec_codecovUploadToken_hdf5serie
-#          --env mbsimenvsec_codecovUploadToken_openmbv
-#          --env mbsimenvsec_codecovUploadToken_mbsim
-#          -v ${{github.workspace}}/mbsim-env:/mbsim-env
-#          -v ${{github.workspace}}/mbsim-ccache:/mbsim-ccache
-#          mbsimenv/build:${{env.MBSIMENVTAGNAME}}
-#          --buildType linux64-dailydebug
-#          --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Actions</a>'
-#          -j $(nproc)
-#          --ccacheSize 5
-#          --fmatvecBranch ${{fromJson(inputs.buildInfoInput).repo.fmatvec}}
-#          --hdf5serieBranch ${{fromJson(inputs.buildInfoInput).repo.hdf5serie}}
-#          --openmbvBranch ${{fromJson(inputs.buildInfoInput).repo.openmbv}}
-#          --mbsimBranch ${{fromJson(inputs.buildInfoInput).repo.mbsim}}
-#          --buildRunID ${{fromJson(inputs.buildInfoInput).buildRunID}}
-#          ${{matrix.data}}
-#          || exit 0
-#          # do not report error (is handled by www.mbsime-env.de and cache should also be saved in case of errors)
+      - name: "Download artifact archive .../mbsim-env/local/"
+        uses: actions/download-artifact@v3
+        with:
+          name: mbsim-env-local
+          path: ${{github.workspace}}
+      - name: "Pull docker build image"
+        run: >
+          docker image pull mbsimenv/build:${{env.MBSIMENVTAGNAME}} &&
+          mkdir -m 777 -p ${{github.workspace}}/mbsim-env ${{github.workspace}}/mbsim-ccache
+      - name: "Run build/examples"
+        run: >
+          docker run
+          --init
+          --label buildtype=linux64-dailydebug
+          --env MBSIMENVDATABASE
+          --env MBSIMENVFILESTORAGE
+          --env MBSIMENVSERVERNAME
+          --env MBSIMENVTAGNAME
+          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" mbsimenv/build:${{env.MBSIMENVTAGNAME}})
+          --env mbsimenvsec_githubStatusAccessToken
+          --env mbsimenvsec_djangoSecretKey
+          --env mbsimenvsec_postgresPassword
+          --env mbsimenvsec_filestoragePassword
+          --env mbsimenvsec_codecovUploadToken_fmatvec
+          --env mbsimenvsec_codecovUploadToken_hdf5serie
+          --env mbsimenvsec_codecovUploadToken_openmbv
+          --env mbsimenvsec_codecovUploadToken_mbsim
+          -v ${{github.workspace}}/mbsim-env:/mbsim-env
+          -v ${{github.workspace}}/mbsim-ccache:/mbsim-ccache
+          mbsimenv/build:${{env.MBSIMENVTAGNAME}}
+          --buildType linux64-dailydebug
+          --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Actions</a>'
+          -j $(nproc)
+          --ccacheSize 5
+          --fmatvecBranch ${{fromJson(inputs.buildInfoInput).repo.fmatvec}}
+          --hdf5serieBranch ${{fromJson(inputs.buildInfoInput).repo.hdf5serie}}
+          --openmbvBranch ${{fromJson(inputs.buildInfoInput).repo.openmbv}}
+          --mbsimBranch ${{fromJson(inputs.buildInfoInput).repo.mbsim}}
+          --buildRunID ${{fromJson(inputs.buildInfoInput).buildRunID}}
+          ${{matrix.data}}
+          || exit 0
+          # do not report error (is handled by www.mbsime-env.de and cache should also be saved in case of errors)

@@ -50,8 +50,8 @@ jobs:
       fail-fast: false
       matrix: ${{fromJson(inputs.matrixInput)}}
     steps:
-       - run: echo ${{inputs.matrixInput}} #mfmf
-       - run: echo ${{inputs.buildInfoInput}} #mfmf
+       - run: echo '${{inputs.matrixInput}}' #mfmf
+       - run: echo '${{inputs.buildInfoInput}}' #mfmf
 #      - name: "Pull docker build image"
 #        run: >
 #          docker image pull mbsimenv/build:${{env.MBSIMENVTAGNAME}} &&

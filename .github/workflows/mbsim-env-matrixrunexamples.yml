@@ -8,6 +8,9 @@ on:
       buildInfoInput:
         required: true
         type: string
+      downloadArtifactInput:
+        required: true
+        type: boolean
     secrets:
       githubStatusAccessToken:
         required: true
@@ -51,10 +54,17 @@ jobs:
       matrix: ${{fromJson(inputs.matrixInput)}}
     steps:
       - name: "Download artifact archive .../mbsim-env/local/"
-        uses: actions/download-artifact@v3
-        with:
-          name: mbsim-env-local
-          path: ${{github.workspace}}
+        if: inputs.downloadArtifactInput
+#artifactdownload        uses: actions/download-artifact@v3
+#artifactdownload        with:
+#artifactdownload          name: mbsim-env-local
+#artifactdownload          path: ${{github.workspace}}
+        run: wget -q https://www.mbsim-env.de:11443/8465739265725648/xx/local.tar.gz -O ${{github.workspace}}/local.tar.gz # replace this with artifactdownload
+      - name: "Unarchive artifact .../mbsim-env/local/"
+        if: inputs.downloadArtifactInput
+        run: >
+          mkdir -p ${{github.workspace}}/mbsim-env/ &&
+          tar -xzf ${{github.workspace}}/local.tar.gz -C ${{github.workspace}}/mbsim-env/
       - name: "Pull docker build image"
         run: >
           docker image pull mbsimenv/build:${{env.MBSIMENVTAGNAME}} &&

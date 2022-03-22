@@ -149,20 +149,6 @@ jobs:
           name: mbsim-env-local
           retention-days: 1
           path: ${{github.workspace}}/mbsim-env/local.tar.gz
-#  dummy:
-#    name: "dumm examples"
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: "Download artifact archive .../mbsim-env/local/"
-##artifactdownload        uses: actions/download-artifact@v3
-##artifactdownload        with:
-##artifactdownload          name: mbsim-env-local
-##artifactdownload          path: ${{github.workspace}}
-#        run: wget -q https://www.mbsim-env.de:11443/8465739265725648/xx/local.tar.gz -O ${{github.workspace}}/local.tar.gz # replace this with artifactdownload
-#      - name: "Unarchive artifact .../mbsim-env/local/"
-#        run: >
-#          mkdir -p ${{github.workspace}}/mbsim-env/ &&
-#          tar -xzf ${{github.workspace}}/local.tar.gz -C ${{github.workspace}}/mbsim-env/
   examplesPre:
     name: "Pre examples"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
@@ -173,6 +159,7 @@ jobs:
           "--runExamplesPre"
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      downloadArtifactInput: true
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -195,6 +182,7 @@ jobs:
           "--runExamplesPartition 3/4"
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      downloadArtifactInput: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -214,6 +202,7 @@ jobs:
           "--runExamplesPost"
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      downloadArtifactInput: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}

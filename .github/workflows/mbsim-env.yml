@@ -144,7 +144,6 @@ jobs:
     steps:
       - run: mkdir -p ${{github.workspace}}/mbsim-env && echo testdata > ${{github.workspace}}/mbsim-env/local.tar.gz
       - name: "Upload artifact archive .../mbsim-env/local/"
-        if: inputs.uploadArtifactInput
         uses: actions/upload-artifact@v3
         with:
           name: mbsim-env-local

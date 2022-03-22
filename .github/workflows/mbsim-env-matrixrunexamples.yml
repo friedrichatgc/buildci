@@ -1,0 +1,91 @@
+name: MBSim-Env Matrix Runexamples
+on:
+  workflow_call:
+    inputs:
+      matrixInput:
+        required: true
+        type: string
+      buildInfoInput:
+        required: true
+        type: string
+    secrets:
+      githubStatusAccessToken:
+        required: true
+      djangoSecretKey:
+        required: true
+      postgresPassword:
+        required: true
+      filestoragePassword:
+        required: true
+      codecovUploadToken_fmatvec:
+        required: true
+      codecovUploadToken_hdf5serie:
+        required: true
+      codecovUploadToken_openmbv:
+        required: true
+      codecovUploadToken_mbsim:
+        required: true
+env:
+  # tagname and servername of remote mbsimenv server
+  MBSIMENVTAGNAME: staging
+  MBSIMENVSERVERNAME: wwwstaging.mbsim-env.de
+  # connect to this server:port for www, database and filestorage
+  MBSIMENVWWW: www.mbsim-env.de:10443
+  MBSIMENVDATABASE: www.mbsim-env.de:15432
+  MBSIMENVFILESTORAGE: www.mbsim-env.de:11122
+  # get secrets
+  mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+  mbsimenvsec_djangoSecretKey: ${{secrets.djangoSecretKey}}
+  mbsimenvsec_postgresPassword: ${{secrets.postgresPassword}}
+  mbsimenvsec_filestoragePassword: ${{secrets.filestoragePassword}}
+  mbsimenvsec_codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+  mbsimenvsec_codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+  mbsimenvsec_codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+  mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+jobs:
+  runexamples:
+    name: "Partitioned Runexamples"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(inputs.matrixInput)}}
+    steps:
+       - run: echo ${{inputs.matrixInput}} #mfmf
+       - run: echo ${{inputs.buildInfoInput}} #mfmf
+#      - name: "Pull docker build image"
+#        run: >
+#          docker image pull mbsimenv/build:${{env.MBSIMENVTAGNAME}} &&
+#          mkdir -m 777 -p ${{github.workspace}}/mbsim-env ${{github.workspace}}/mbsim-ccache
+#      - name: "Run build/examples"
+#        run: >
+#          docker run
+#          --init
+#          --label buildtype=linux64-dailydebug
+#          --env MBSIMENVDATABASE
+#          --env MBSIMENVFILESTORAGE
+#          --env MBSIMENVSERVERNAME
+#          --env MBSIMENVTAGNAME
+#          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" mbsimenv/build:${{env.MBSIMENVTAGNAME}})
+#          --env mbsimenvsec_githubStatusAccessToken
+#          --env mbsimenvsec_djangoSecretKey
+#          --env mbsimenvsec_postgresPassword
+#          --env mbsimenvsec_filestoragePassword
+#          --env mbsimenvsec_codecovUploadToken_fmatvec
+#          --env mbsimenvsec_codecovUploadToken_hdf5serie
+#          --env mbsimenvsec_codecovUploadToken_openmbv
+#          --env mbsimenvsec_codecovUploadToken_mbsim
+#          -v ${{github.workspace}}/mbsim-env:/mbsim-env
+#          -v ${{github.workspace}}/mbsim-ccache:/mbsim-ccache
+#          mbsimenv/build:${{env.MBSIMENVTAGNAME}}
+#          --buildType linux64-dailydebug
+#          --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Actions</a>'
+#          -j $(nproc)
+#          --ccacheSize 5
+#          --fmatvecBranch ${{fromJson(inputs.buildInfoInput).repo.fmatvec}}
+#          --hdf5serieBranch ${{fromJson(inputs.buildInfoInput).repo.hdf5serie}}
+#          --openmbvBranch ${{fromJson(inputs.buildInfoInput).repo.openmbv}}
+#          --mbsimBranch ${{fromJson(inputs.buildInfoInput).repo.mbsim}}
+#          --buildRunID ${{fromJson(inputs.buildInfoInput).buildRunID}}
+#          ${{matrix.data}}
+#          || exit 0
+#          # do not report error (is handled by www.mbsime-env.de and cache should also be saved in case of errors)

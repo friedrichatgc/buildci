@@ -195,7 +195,7 @@ jobs:
   examplesPost:
     name: "Post examples"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
-    needs: [buildPartitionedExamples, examplesRun]
+    needs: [buildPartitionedExamples, examplesRun, examplesPre]
     with:
       matrixInput: |
         {"data": [

@@ -177,14 +177,12 @@ jobs:
     with:
       matrixInput: |
         {"data": [
-          "--runExamplesPartition 0/4",
-          "--runExamplesPartition 1/4",
-          "--runExamplesPartition 2/4",
-          "--runExamplesPartition 3/4"
+          "--runExamplesPartition 0/2",
+          "--runExamplesPartition 1/2"
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
-      downloadArtifactInput: false
+      downloadArtifactInput: true
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}

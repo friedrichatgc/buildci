@@ -8,9 +8,15 @@ on:
       buildInfoInput:
         required: true
         type: string
+      runexamplesInfoInput:
+        required: true
+        type: string
       downloadArtifactInput:
         required: true
         type: boolean
+    outputs:
+      runexamplesInfo:
+        value: ${{jobs.runexamples.outputs.runexamplesInfoOutput}}
     secrets:
       githubStatusAccessToken:
         required: true
@@ -49,6 +55,8 @@ jobs:
   runexamples:
     name: "Partitioned Runexamples"
     runs-on: ubuntu-latest
+    outputs:
+      runexamplesInfoOutput: ${{steps.runexamplesDetails.outputs.runexamplesInfoStepOutput}}
     strategy:
       fail-fast: false
       matrix: ${{fromJson(inputs.matrixInput)}}
@@ -99,6 +107,20 @@ jobs:
           --openmbvBranch ${{fromJson(inputs.buildInfoInput).repo.openmbv}}
           --mbsimBranch ${{fromJson(inputs.buildInfoInput).repo.mbsim}}
           --buildRunID ${{fromJson(inputs.buildInfoInput).buildRunID}}
+          --runID ${{fromJson(inputs.runexamplesInfoInput).runID}}
           ${{matrix.data}}
           || exit 0
           # do not report error (is handled by www.mbsime-env.de and cache should also be saved in case of errors)
+      - name: "Detailed examples output"
+        id: runexamplesDetails
+        shell: python
+        run: |
+          import json
+          try:
+            with open("${{github.workspace}}/mbsim-env/local/.runexamplesInfo.json", "r") as f:
+              runexamplesInfo=json.load(f)
+            print("https://${{env.MBSIMENVSERVERNAME}}/runexamples/run/"+str(runexamplesInfo["runID"])+"/")
+            print("::set-output name=runexamplesInfoStepOutput::"+json.dumps(runexamplesInfo))
+          except:
+            print("No runexamplesInfo file found")
+            print("::set-output name=runexamplesInfoStepOutput::{}")

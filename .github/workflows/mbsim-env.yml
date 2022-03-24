@@ -159,6 +159,7 @@ jobs:
           "--runExamplesPre"
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      runexamplesInfoInput: '{"runID": -1}'
       downloadArtifactInput: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
@@ -182,6 +183,7 @@ jobs:
           "--runExamplesPartition 3/4"
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
       downloadArtifactInput: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
@@ -202,6 +204,7 @@ jobs:
           "--runExamplesPost"
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
       downloadArtifactInput: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}

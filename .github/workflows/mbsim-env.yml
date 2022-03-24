@@ -1,8 +1,8 @@
 name: MBSim-Env Build
 on:
   push:
-  schedule:
-    - cron: '36 23 * * *'
+#mfmf  schedule:
+#mfmf    - cron: '36 23 * * *'
 env:
   # tagname and servername of remote mbsimenv server
   MBSIMENVTAGNAME: staging
@@ -140,7 +140,7 @@ jobs:
   buildPartitionedExamples: #mfmf only for testing, replace by above job
     runs-on: ubuntu-latest
     outputs:
-      buildInfo: '{"buildRunID": 123, "repo": {"fmatvec": "74764a", "hdf5serie": "74764b", "openmbv": "74764c", "mbsim": "74764d"}}'
+      buildInfo: '{"buildRunID": 361, "repo": {"fmatvec": "35a29020748fbd8ba4edd2cd8af64bc373e11942", "hdf5serie": "69cdbbb08e4a45953ad2aa797f130c00deca11f9", "openmbv": "0d49cfae1bba4ae11a080ced7b1fc0dc71c8be9a", "mbsim": "be0f36e3437aa8ce9aacbdede704aeaa6fe33228"}}'
     steps:
       - run: mkdir -p ${{github.workspace}}/mbsim-env && echo testdata > ${{github.workspace}}/mbsim-env/local.tar.gz
       - name: "Upload artifact archive .../mbsim-env/local/"

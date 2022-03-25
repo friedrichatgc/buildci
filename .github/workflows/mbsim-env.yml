@@ -96,7 +96,7 @@ jobs:
 #mfmf    needs: getBuildMatrix
 #mfmf    with:
 #mfmf      matrixInput: ${{needs.getBuildMatrix.outputs.matrixOutput}}
-#mfmf      uploadArtifactInput: false
+#mfmf      uploadArtifactLocalLcovInput: false
 #mfmf    secrets:
 #mfmf      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
 #mfmf      djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -121,7 +121,7 @@ jobs:
 #mfmf              {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--disableRunExamples"},
 #mfmf          }]
 #mfmf        }
-#mfmf      uploadArtifactInput: true
+#mfmf      uploadArtifactLocalLcovInput: true
 #mfmf    secrets:
 #mfmf      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
 #mfmf      djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -160,7 +160,9 @@ jobs:
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: '{"runID": -1}'
-      downloadArtifactInput: false
+      downloadArtifactLocalLcovInput: false
+      uploadArtifactLcovdataInput: false
+      downloadArtifactLcovdataInput: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -182,7 +184,9 @@ jobs:
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
-      downloadArtifactInput: true
+      downloadArtifactLocalLcovInput: true
+      uploadArtifactLcovdataInput: true
+      downloadArtifactLcovdataInput: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -203,7 +207,9 @@ jobs:
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
-      downloadArtifactInput: true
+      downloadArtifactLocalLcovInput: true
+      uploadArtifactLcovdataInput: false
+      downloadArtifactLcovdataInput: true
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}

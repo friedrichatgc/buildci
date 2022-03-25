@@ -5,7 +5,7 @@ on:
       matrixInput:
         required: true
         type: string
-      uploadArtifactInput:
+      uploadArtifactLocalLcovInput:
         required: true
         type: boolean
     outputs:
@@ -132,7 +132,7 @@ jobs:
             print("No buildInfo file found")
             print("::set-output name=buildInfoStepOutput::{}")
       - name: "Archive artifact .../mbsim-env/ for upload"
-        if: inputs.uploadArtifactInput
+        if: inputs.uploadArtifactLocalLcovInput
         run: >
           (cd ${{github.workspace}}/mbsim-env/ && find -name "*.gcda" >  ${{github.workspace}}/local-cov.files) &&
           (cd ${{github.workspace}}/mbsim-env/ && find -name "*.gcno" >> ${{github.workspace}}/local-cov.files) &&
@@ -140,7 +140,7 @@ jobs:
           local/ -T ${{github.workspace}}/local-cov.files;
           rm -f ${{github.workspace}}/local-cov.files
       - name: "Upload artifact archive .../mbsim-env/local/"
-        if: inputs.uploadArtifactInput
+        if: inputs.uploadArtifactLocalLcovInput
         uses: actions/upload-artifact@v3
         with:
           name: mbsim-env-local-cov

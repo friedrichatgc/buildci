@@ -72,6 +72,7 @@ jobs:
 #artifactdownload        uses: actions/download-artifact@v3
 #artifactdownload        with:
 #artifactdownload          name: mbsim-env-local-cov
+#artifactdownload          path: ${{github.workspace}}
         run: wget -q https://www.mbsim-env.de:11443/8465739265725648/xx/local-cov.tar.gz -O ${{github.workspace}}/local-cov.tar.gz # replace this with artifactdownload
       - name: "Unarchive artifact .../mbsim-env/local/"
         if: inputs.downloadArtifactLocalLcovInput
@@ -84,6 +85,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: mbsim-env-covdata
+          path: ${{github.workspace}}/mbsim-env/local
+      - run: echo mfmf; find / -name "cov.trace.final*"
       - name: "Pull docker build image"
         run: >
           docker image pull mbsimenv/build:${{env.MBSIMENVTAGNAME}} &&

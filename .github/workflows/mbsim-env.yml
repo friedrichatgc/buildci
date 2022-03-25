@@ -203,7 +203,7 @@ jobs:
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
-      downloadArtifactInput: false
+      downloadArtifactInput: true
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}

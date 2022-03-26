@@ -149,14 +149,88 @@ jobs:
           name: mbsim-env-local-cov
           retention-days: 1
           path: ${{github.workspace}}/local-cov.tar.gz
-  examplesPre:
-    name: "Pre examples"
+#mfmf  examplesPre:
+#mfmf    name: "Pre examples"
+#mfmf    uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
+#mfmf    needs: buildPartitionedExamples
+#mfmf    with:
+#mfmf      matrixInput: |
+#mfmf        {"data": [
+#mfmf          "--runExamplesPre"
+#mfmf        ]}
+#mfmf      buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+#mfmf      runexamplesInfoInput: '{"runID": -1}'
+#mfmf      downloadArtifactLocalLcovInput: false
+#mfmf      uploadArtifactLcovdataInput: false
+#mfmf      downloadArtifactLcovdataInput: false
+#mfmf    secrets:
+#mfmf      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+#mfmf      djangoSecretKey: ${{secrets.djangoSecretKey}}
+#mfmf      postgresPassword: ${{secrets.postgresPassword}}
+#mfmf      filestoragePassword: ${{secrets.filestoragePassword}}
+#mfmf      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+#mfmf      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+#mfmf      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+#mfmf      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+#mfmf  examplesRun:
+#mfmf    name: "Run examples"
+#mfmf    uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
+#mfmf    needs: [buildPartitionedExamples, examplesPre]
+#mfmf    with:
+#mfmf      matrixInput: |
+#mfmf        {"data": [
+#mfmf          "--runExamplesPartition 0/2",
+#mfmf          "--runExamplesPartition 1/2"
+#mfmf        ]}
+#mfmf      buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+#mfmf      runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
+#mfmf      downloadArtifactLocalLcovInput: true
+#mfmf      uploadArtifactLcovdataInput: true
+#mfmf      downloadArtifactLcovdataInput: false
+#mfmf    secrets:
+#mfmf      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+#mfmf      djangoSecretKey: ${{secrets.djangoSecretKey}}
+#mfmf      postgresPassword: ${{secrets.postgresPassword}}
+#mfmf      filestoragePassword: ${{secrets.filestoragePassword}}
+#mfmf      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+#mfmf      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+#mfmf      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+#mfmf      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+#mfmf  examplesPost:
+#mfmf    name: "Post examples"
+#mfmf    uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
+#mfmf    needs: [buildPartitionedExamples, examplesRun, examplesPre]
+#mfmf    with:
+#mfmf      matrixInput: |
+#mfmf        {"data": [
+#mfmf          "--runExamplesPost"
+#mfmf        ]}
+#mfmf      buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+#mfmf      runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
+#mfmf      downloadArtifactLocalLcovInput: true
+#mfmf      uploadArtifactLcovdataInput: false
+#mfmf      downloadArtifactLcovdataInput: true
+#mfmf    secrets:
+#mfmf      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+#mfmf      djangoSecretKey: ${{secrets.djangoSecretKey}}
+#mfmf      postgresPassword: ${{secrets.postgresPassword}}
+#mfmf      filestoragePassword: ${{secrets.filestoragePassword}}
+#mfmf      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+#mfmf      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+#mfmf      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+#mfmf      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+
+
+
+  examplesPreValgrind:
+    name: "Pre examples valgrind"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
+#mfmf    needs: [buildPartitionedExamples, examplesPost]
     needs: buildPartitionedExamples
     with:
       matrixInput: |
         {"data": [
-          "--runExamplesPre"
+          "--runExamplesPre --valgrindExamples"
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: '{"runID": -1}'
@@ -172,18 +246,18 @@ jobs:
       codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
       codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
-  examplesRun:
-    name: "Run examples"
+  examplesRunValgrind:
+    name: "Run examples valgrind"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
-    needs: [buildPartitionedExamples, examplesPre]
+    needs: [buildPartitionedExamples, examplesPreValgrind]
     with:
       matrixInput: |
         {"data": [
-          "--runExamplesPartition 0/2",
-          "--runExamplesPartition 1/2"
+          "--runExamplesPartition 0/2 --valgrindExamples",
+          "--runExamplesPartition 1/2 --valgrindExamples"
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-      runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
+      runexamplesInfoInput: ${{needs.examplesPreValgrind.outputs.runexamplesInfo}}
       downloadArtifactLocalLcovInput: true
       uploadArtifactLcovdataInput: true
       downloadArtifactLcovdataInput: false
@@ -196,17 +270,17 @@ jobs:
       codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
       codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
-  examplesPost:
-    name: "Post examples"
+  examplesPostValgrind:
+    name: "Post examples valgrind"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
-    needs: [buildPartitionedExamples, examplesRun, examplesPre]
+    needs: [buildPartitionedExamples, examplesRunValgrind, examplesPreValgrind]
     with:
       matrixInput: |
         {"data": [
-          "--runExamplesPost"
+          "--runExamplesPost --valgrindExamples"
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-      runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
+      runexamplesInfoInput: ${{needs.examplesPreValgrind.outputs.runexamplesInfo}}
       downloadArtifactLocalLcovInput: true
       uploadArtifactLcovdataInput: false
       downloadArtifactLcovdataInput: true

@@ -168,8 +168,16 @@ jobs:
     with:
       matrixInput: |
         {"data": [
-          "--runExamplesPartition 0/2",
-          "--runExamplesPartition 1/2"
+          "--runExamplesPartition 0/10",
+          "--runExamplesPartition 1/10",
+          "--runExamplesPartition 2/10",
+          "--runExamplesPartition 3/10",
+          "--runExamplesPartition 4/10",
+          "--runExamplesPartition 5/10",
+          "--runExamplesPartition 6/10",
+          "--runExamplesPartition 7/10",
+          "--runExamplesPartition 8/10",
+          "--runExamplesPartition 9/10"
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
@@ -241,8 +249,16 @@ jobs:
     with:
       matrixInput: |
         {"data": [
-          "--runExamplesPartition 0/2 --valgrindExamples",
-          "--runExamplesPartition 1/2 --valgrindExamples"
+          "--runExamplesPartition 0/10 --valgrindExamples",
+          "--runExamplesPartition 1/10 --valgrindExamples",
+          "--runExamplesPartition 2/10 --valgrindExamples",
+          "--runExamplesPartition 3/10 --valgrindExamples",
+          "--runExamplesPartition 4/10 --valgrindExamples",
+          "--runExamplesPartition 5/10 --valgrindExamples",
+          "--runExamplesPartition 6/10 --valgrindExamples",
+          "--runExamplesPartition 7/10 --valgrindExamples",
+          "--runExamplesPartition 8/10 --valgrindExamples",
+          "--runExamplesPartition 9/10 --valgrindExamples"
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: ${{needs.examplesPreValgrind.outputs.runexamplesInfo}}

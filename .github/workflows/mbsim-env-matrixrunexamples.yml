@@ -86,7 +86,6 @@ jobs:
         with:
           name: mbsim-env-covdata
           path: ${{github.workspace}}/mbsim-env/local
-      - run: echo mfmf; find / -name "cov.trace.final*" || exit 0
       - name: "Pull docker build image"
         run: >
           docker image pull mbsimenv/build:${{env.MBSIMENVTAGNAME}} &&

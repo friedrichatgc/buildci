@@ -93,7 +93,7 @@ jobs:
           print("Build matrix:\n"+json.dumps(matrix, indent=2))
           print("::set-output name=matrixStepOutput::"+json.dumps(matrix))
   buildMatrix:
-    name: B&E
+    name: B&e
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     needs: getBuildMatrix
     with:
@@ -139,13 +139,13 @@ jobs:
 
 
   examplesPre:
-    name: "E"
+    name: "E pre"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: buildPartitionedExamples
     with:
       matrixInput: |
         {"data": [
-          {"args": "--runExamplesPre", "name": "pre"}
+          {"args": "--runExamplesPre", "name": ""}
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: '{"runID": -1}'
@@ -162,7 +162,7 @@ jobs:
       codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
   examplesRun:
-    name: "E"
+    name: "E part"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesPre]
     with:
@@ -194,13 +194,13 @@ jobs:
       codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
   examplesPost:
-    name: "E"
+    name: "E post"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesRun, examplesPre]
     with:
       matrixInput: |
         {"data": [
-          {"args": "--runExamplesPost", "name": "post"}
+          {"args": "--runExamplesPost", "name": ""}
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
@@ -220,13 +220,13 @@ jobs:
 
 
   examplesPreValgrind:
-    name: "E valgrind"
+    name: "E valgrind pre"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesPost]
     with:
       matrixInput: |
         {"data": [
-          {"args": "--runExamplesPre --valgrindExamples", "name": "pre"}
+          {"args": "--runExamplesPre --valgrindExamples", "name": ""}
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: '{"runID": -1}'
@@ -243,7 +243,7 @@ jobs:
       codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
   examplesRunValgrind:
-    name: "E valgrind"
+    name: "E valgrind part"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesPreValgrind]
     with:
@@ -275,13 +275,13 @@ jobs:
       codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
   examplesPostValgrind:
-    name: "E valgrind"
+    name: "E valgrind post"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesRunValgrind, examplesPreValgrind]
     with:
       matrixInput: |
         {"data": [
-          {"args": "--runExamplesPost --valgrindExamples", "name": "post"}
+          {"args": "--runExamplesPost --valgrindExamples", "name": ""}
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: ${{needs.examplesPreValgrind.outputs.runexamplesInfo}}

@@ -46,7 +46,8 @@ jobs:
           print("mfmfremove sha="+sha)
           sha="5e1108a787c298b481e31a5dfb2055eb3028f3d0" #mfmf remove this line
           print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
-          eventName="${{github.event_name}}"
+          #mfmf eventName="${{github.event_name}}"
+          eventName="schedule" #mfmf
           # get branch combinations
           if eventName=="push":
             model="CIBranches"
@@ -114,7 +115,8 @@ jobs:
   buildPartitionedExamples:
     name: B
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
-    if: github.event_name=='schedule'
+    #mfmf if: github.event_name=='schedule'
+    if: true #mfmf
     with:
       matrixInput: |
         {"data":
@@ -145,7 +147,7 @@ jobs:
     with:
       matrixInput: |
         {"data": [
-          {"args": "--runExamplesPre", "name": ""}
+          {"args": "--runExamplesPre"}
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: '{"runID": -1}'
@@ -162,22 +164,22 @@ jobs:
       codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
   examplesRun:
-    name: "E part"
+    name: "E worker"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesPre]
     with:
       matrixInput: |
         {"data": [
-          {"args": "--runExamplesPartition 0/10", "name": "1/10"},
-          {"args": "--runExamplesPartition 1/10", "name": "2/10"},
-          {"args": "--runExamplesPartition 2/10", "name": "3/10"},
-          {"args": "--runExamplesPartition 3/10", "name": "4/10"},
-          {"args": "--runExamplesPartition 4/10", "name": "5/10"},
-          {"args": "--runExamplesPartition 5/10", "name": "6/10"},
-          {"args": "--runExamplesPartition 6/10", "name": "7/10"},
-          {"args": "--runExamplesPartition 7/10", "name": "8/10"},
-          {"args": "--runExamplesPartition 8/10", "name": "9/10"},
-          {"args": "--runExamplesPartition 9/10", "name": "10/10"}
+          {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"}
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
@@ -200,7 +202,7 @@ jobs:
     with:
       matrixInput: |
         {"data": [
-          {"args": "--runExamplesPost", "name": ""}
+          {"args": "--runExamplesPost"}
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
@@ -226,7 +228,7 @@ jobs:
     with:
       matrixInput: |
         {"data": [
-          {"args": "--runExamplesPre --valgrindExamples", "name": ""}
+          {"args": "--runExamplesPre --valgrindExamples"}
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: '{"runID": -1}'
@@ -243,22 +245,22 @@ jobs:
       codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
   examplesRunValgrind:
-    name: "E valgrind part"
+    name: "E valgrind worker"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesPreValgrind]
     with:
       matrixInput: |
         {"data": [
-          {"args": "--runExamplesPartition 0/10 --valgrindExamples", "name": "1/10"},
-          {"args": "--runExamplesPartition 1/10 --valgrindExamples", "name": "2/10"},
-          {"args": "--runExamplesPartition 2/10 --valgrindExamples", "name": "3/10"},
-          {"args": "--runExamplesPartition 3/10 --valgrindExamples", "name": "4/10"},
-          {"args": "--runExamplesPartition 4/10 --valgrindExamples", "name": "5/10"},
-          {"args": "--runExamplesPartition 5/10 --valgrindExamples", "name": "6/10"},
-          {"args": "--runExamplesPartition 6/10 --valgrindExamples", "name": "7/10"},
-          {"args": "--runExamplesPartition 7/10 --valgrindExamples", "name": "8/10"},
-          {"args": "--runExamplesPartition 8/10 --valgrindExamples", "name": "9/10"},
-          {"args": "--runExamplesPartition 9/10 --valgrindExamples", "name": "10/10"}
+          {"args": "--runExamplesPartition --valgrindExamples"},
+          {"args": "--runExamplesPartition --valgrindExamples"},
+          {"args": "--runExamplesPartition --valgrindExamples"},
+          {"args": "--runExamplesPartition --valgrindExamples"},
+          {"args": "--runExamplesPartition --valgrindExamples"},
+          {"args": "--runExamplesPartition --valgrindExamples"},
+          {"args": "--runExamplesPartition --valgrindExamples"},
+          {"args": "--runExamplesPartition --valgrindExamples"},
+          {"args": "--runExamplesPartition --valgrindExamples"},
+          {"args": "--runExamplesPartition --valgrindExamples"}
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: ${{needs.examplesPreValgrind.outputs.runexamplesInfo}}
@@ -281,7 +283,7 @@ jobs:
     with:
       matrixInput: |
         {"data": [
-          {"args": "--runExamplesPost --valgrindExamples", "name": ""}
+          {"args": "--runExamplesPost --valgrindExamples"}
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
       runexamplesInfoInput: ${{needs.examplesPreValgrind.outputs.runexamplesInfo}}

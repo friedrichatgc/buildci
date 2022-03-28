@@ -59,7 +59,7 @@ env:
   mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
 jobs:
   runexamples:
-    name: "${{matrix.data.name}}"
+    name: ""
     runs-on: ubuntu-latest
     outputs:
       runexamplesInfoOutput: ${{steps.runexamplesDetails.outputs.runexamplesInfoStepOutput}}
@@ -142,4 +142,4 @@ jobs:
         with:
           name: mbsim-env-covdata
           retention-days: 1
-          path: ${{github.workspace}}/mbsim-env/local/cov.trace.final-*-*
+          path: ${{github.workspace}}/mbsim-env/local/cov.trace.final.part-*

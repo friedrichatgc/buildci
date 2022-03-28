@@ -179,6 +179,11 @@ jobs:
           {"args": "--runExamplesPartition"},
           {"args": "--runExamplesPartition"},
           {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"},
+          {"args": "--runExamplesPartition"},
           {"args": "--runExamplesPartition"}
         ]}
       buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
@@ -251,6 +256,11 @@ jobs:
     with:
       matrixInput: |
         {"data": [
+          {"args": "--runExamplesPartition --valgrindExamples"},
+          {"args": "--runExamplesPartition --valgrindExamples"},
+          {"args": "--runExamplesPartition --valgrindExamples"},
+          {"args": "--runExamplesPartition --valgrindExamples"},
+          {"args": "--runExamplesPartition --valgrindExamples"},
           {"args": "--runExamplesPartition --valgrindExamples"},
           {"args": "--runExamplesPartition --valgrindExamples"},
           {"args": "--runExamplesPartition --valgrindExamples"},

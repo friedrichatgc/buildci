@@ -228,7 +228,10 @@ jobs:
   examplesPreValgrind:
     name: "E valgrind pre"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
-    needs: [buildPartitionedExamples, examplesPost]
+    needs: [buildPartitionedExamples, examplesRun] # needs only buildPartitionedExamples;
+             # exampleRun is just added to priorize the normal runs over the valgrind run;
+             # moreover the dynamic scheduling does not work for parallel --runExamplesPartition jobs;
+             # (examplesPreValgrind is not stared before to ensure correct startTime recording in the MBSim-Env database)
     with:
       matrixInput: |
         {"data": [

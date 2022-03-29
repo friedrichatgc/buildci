@@ -59,7 +59,7 @@ env:
   mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
 jobs:
   runexamples:
-    name: ""
+    name: " "
     runs-on: ubuntu-latest
     outputs:
       runexamplesInfoOutput: ${{steps.runexamplesDetails.outputs.runexamplesInfoStepOutput}}

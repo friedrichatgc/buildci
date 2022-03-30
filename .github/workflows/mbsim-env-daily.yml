@@ -1,6 +1,5 @@
-name: MBSim-Env
+name: MBSim-Env Daily
 on:
-  push:
   schedule:
     - cron: '36 23 * * *'
 env:
@@ -28,7 +27,6 @@ jobs:
     name: Get build matrix
     uses: ./.github/workflows/mbsim-env-getbuildmatrix.yml
     with:
-      #mfmf dailyInput: ${{github.event_name=='schedule'}}
       dailyInput: true
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
@@ -61,8 +59,6 @@ jobs:
   buildPartitionedExamples:
     name: B
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
-    #mfmf if: github.event_name=='schedule'
-    if: true #mfmf
     with:
       matrixInput: |
         {"data":

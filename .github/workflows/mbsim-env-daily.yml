@@ -27,7 +27,7 @@ jobs:
     name: Get build matrix
     uses: ./.github/workflows/mbsim-env-getbuildmatrix.yml
     with:
-      dailyInput: true
+      dailyRun: true
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -42,8 +42,8 @@ jobs:
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     needs: getBuildMatrix
     with:
-      matrixInput: ${{needs.getBuildMatrix.outputs.matrixOutput}}
-      uploadArtifactLocalLcovInput: false
+      matrix: ${{needs.getBuildMatrix.outputs.matrix}}
+      uploadArtifactLocalLcov: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -60,7 +60,7 @@ jobs:
     name: B
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     with:
-      matrixInput: |
+      matrix: |
         {"data":
           [{
             "branches": 
@@ -69,7 +69,7 @@ jobs:
               {"buildType": "linux64-dailydebug", "image": "mbsimenv/build",  "args": "--disableRunExamples"},
           }]
         }
-      uploadArtifactLocalLcovInput: true
+      uploadArtifactLocalLcov: true
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -87,15 +87,15 @@ jobs:
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: buildPartitionedExamples
     with:
-      matrixInput: |
+      matrix: |
         {"data": [
           {"args": "--runExamplesPre"}
         ]}
-      buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-      runexamplesInfoInput: '{"runID": -1}'
-      downloadArtifactLocalLcovInput: false
-      uploadArtifactLcovdataInput: false
-      downloadArtifactLcovdataInput: false
+      buildInfoRun: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      runexamplesInfoRun: '{"runID": -1}'
+      downloadArtifactLocalLcovRun: false
+      uploadArtifactLcovdataRun: false
+      downloadArtifactLcovdataRun: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -110,7 +110,7 @@ jobs:
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesPre]
     with:
-      matrixInput: |
+      matrix: |
         {"data": [
           {"args": "--runExamplesPartition"},
           {"args": "--runExamplesPartition"},
@@ -127,11 +127,11 @@ jobs:
           {"args": "--runExamplesPartition"},
           {"args": "--runExamplesPartition"}
         ]}
-      buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-      runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
-      downloadArtifactLocalLcovInput: true
-      uploadArtifactLcovdataInput: true
-      downloadArtifactLcovdataInput: false
+      buildInfoRun: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      runexamplesInfoRun: ${{needs.examplesPre.outputs.runexamplesInfo}}
+      downloadArtifactLocalLcovRun: true
+      uploadArtifactLcovdataRun: true
+      downloadArtifactLcovdataRun: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -146,15 +146,15 @@ jobs:
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesRun, examplesPre]
     with:
-      matrixInput: |
+      matrix: |
         {"data": [
           {"args": "--runExamplesPost"}
         ]}
-      buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-      runexamplesInfoInput: ${{needs.examplesPre.outputs.runexamplesInfo}}
-      downloadArtifactLocalLcovInput: true
-      uploadArtifactLcovdataInput: false
-      downloadArtifactLcovdataInput: true
+      buildInfoRun: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      runexamplesInfoRun: ${{needs.examplesPre.outputs.runexamplesInfo}}
+      downloadArtifactLocalLcovRun: true
+      uploadArtifactLcovdataRun: false
+      downloadArtifactLcovdataRun: true
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -175,15 +175,15 @@ jobs:
              # moreover the dynamic scheduling does not work for parallel --runExamplesPartition jobs;
              # (examplesPreValgrind is not stared before to ensure correct startTime recording in the MBSim-Env database)
     with:
-      matrixInput: |
+      matrix: |
         {"data": [
           {"args": "--runExamplesPre --valgrindExamples"}
         ]}
-      buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-      runexamplesInfoInput: '{"runID": -1}'
-      downloadArtifactLocalLcovInput: false
-      uploadArtifactLcovdataInput: false
-      downloadArtifactLcovdataInput: false
+      buildInfoRun: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      runexamplesInfoRun: '{"runID": -1}'
+      downloadArtifactLocalLcovRun: false
+      uploadArtifactLcovdataRun: false
+      downloadArtifactLcovdataRun: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -198,7 +198,7 @@ jobs:
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesPreValgrind]
     with:
-      matrixInput: |
+      matrix: |
         {"data": [
           {"args": "--runExamplesPartition --valgrindExamples"},
           {"args": "--runExamplesPartition --valgrindExamples"},
@@ -215,11 +215,11 @@ jobs:
           {"args": "--runExamplesPartition --valgrindExamples"},
           {"args": "--runExamplesPartition --valgrindExamples"}
         ]}
-      buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-      runexamplesInfoInput: ${{needs.examplesPreValgrind.outputs.runexamplesInfo}}
-      downloadArtifactLocalLcovInput: true
-      uploadArtifactLcovdataInput: true
-      downloadArtifactLcovdataInput: false
+      buildInfo: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      runexamplesInfo: ${{needs.examplesPreValgrind.outputs.runexamplesInfo}}
+      downloadArtifactLocalLcov: true
+      uploadArtifactLcovdata: true
+      downloadArtifactLcovdata: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -234,15 +234,15 @@ jobs:
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesRunValgrind, examplesPreValgrind]
     with:
-      matrixInput: |
+      matrix: |
         {"data": [
           {"args": "--runExamplesPost --valgrindExamples"}
         ]}
-      buildInfoInput: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-      runexamplesInfoInput: ${{needs.examplesPreValgrind.outputs.runexamplesInfo}}
-      downloadArtifactLocalLcovInput: true
-      uploadArtifactLcovdataInput: false
-      downloadArtifactLcovdataInput: true
+      buildInfo: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      runexamplesInfo: ${{needs.examplesPreValgrind.outputs.runexamplesInfo}}
+      downloadArtifactLocalLcov: true
+      uploadArtifactLcovdata: false
+      downloadArtifactLcovdata: true
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}

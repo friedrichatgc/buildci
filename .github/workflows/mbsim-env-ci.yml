@@ -26,7 +26,7 @@ jobs:
     name: Get build matrix
     uses: ./.github/workflows/mbsim-env-getbuildmatrix.yml
     with:
-      dailyInput: false
+      dailyRun: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -41,8 +41,8 @@ jobs:
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     needs: getBuildMatrix
     with:
-      matrixInput: ${{needs.getBuildMatrix.outputs.matrixOutput}}
-      uploadArtifactLocalLcovInput: false
+      matrix: ${{needs.getBuildMatrix.outputs.matrix}}
+      uploadArtifactLocalLcov: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}

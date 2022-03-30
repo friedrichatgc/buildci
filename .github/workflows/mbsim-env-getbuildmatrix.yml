@@ -2,12 +2,12 @@ name: MBSim-Env Get Build Matrix
 on:
   workflow_call:
     inputs:
-      dailyInput:
+      dailyRun:
         required: true
         type: boolean
     outputs:
-      matrixOutput:
-        value: ${{jobs.getBuildMatrix.outputs.matrixOutput}}
+      matrix:
+        value: ${{jobs.getBuildMatrix.outputs.matrix}}
     secrets:
       githubStatusAccessToken:
         required: true
@@ -44,13 +44,13 @@ env:
   mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
 jobs:
   getBuildMatrix:
-    name: Get build matrix
+    name: "............................................................"
     runs-on: ubuntu-latest
     outputs:
-      matrixOutput: ${{steps.matrixStep.outputs.matrixStepOutput}}
+      matrix: ${{steps.matrix.outputs.matrix}}
     steps:
       - name: "Get branch combinations from MBSim-Env server"
-        id: matrixStep
+        id: matrix
         shell: python
         run: |
           import json
@@ -66,14 +66,14 @@ jobs:
           sha="5e1108a787c298b481e31a5dfb2055eb3028f3d0" #mfmf remove this line
           print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
           # get branch combinations
-          if "${{inputs.dailyInput}}"=="true":
+          if "${{inputs.dailyRun}}"=="true":
             model="DailyBranches"
           else:
             model="CIBranches"
           response=requests.get("https://${{env.MBSIMENVWWW}}/service/db/getbranchcombi/"+model+"/", verify=False)
           branchCombination=response.json()["data"]
           # check repo
-          if "${{inputs.dailyInput}}"=="true":
+          if "${{inputs.dailyRun}}"=="true":
             matrix={"branches": branchCombination,
               "os": [
                 {"buildType": "linux64-dailydebug"  , "image": "mbsimenv/build"     ,  "args": ""},
@@ -107,4 +107,4 @@ jobs:
           matrix={"data": list(matrix)}
           # set output
           print("Build matrix:\n"+json.dumps(matrix, indent=2))
-          print("::set-output name=matrixStepOutput::"+json.dumps(matrix))
+          print("::set-output name=matrix::"+json.dumps(matrix))

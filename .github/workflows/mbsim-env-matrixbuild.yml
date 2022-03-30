@@ -2,15 +2,15 @@ name: MBSim-Env Build
 on:
   workflow_call:
     inputs:
-      matrixInput:
+      matrix:
         required: true
         type: string
-      uploadArtifactLocalLcovInput:
+      uploadArtifactLocalLcov:
         required: true
         type: boolean
     outputs:
       buildInfo:
-        value: ${{jobs.build.outputs.buildInfoOutput}}
+        value: ${{jobs.build.outputs.buildInfo}}
     secrets:
       githubStatusAccessToken:
         required: true
@@ -50,10 +50,10 @@ jobs:
     name: "${{matrix.data.os.buildType}}: ${{matrix.data.branches.fmatvecBranch}} ${{matrix.data.branches.hdf5serieBranch}} ${{matrix.data.branches.openmbvBranch}} ${{matrix.data.branches.mbsimBranch}}"
     runs-on: ubuntu-latest
     outputs:
-      buildInfoOutput: ${{steps.buildDetails.outputs.buildInfoStepOutput}}
+      buildInfo: ${{steps.buildDetails.outputs.buildInfo}}
     strategy:
       fail-fast: false
-      matrix: ${{fromJson(inputs.matrixInput)}}
+      matrix: ${{fromJson(inputs.matrix)}}
     steps:
       - name: "Dump build config"
         run: >
@@ -73,15 +73,15 @@ jobs:
           mkdir -m 777 -p ${{github.workspace}}/mbsim-env ${{github.workspace}}/mbsim-ccache
       - name: "Create build matrix UUID"
         shell: python
-        id: matrixUUIDStep
+        id: matrixUUID
         run: |
           import uuid
-          print("::set-output name=matrixUUIDStepOutput::"+str(uuid.uuid4()))
+          print("::set-output name=matrixUUID::"+str(uuid.uuid4()))
       - name: "Cache: ccache"
         uses: actions/cache@v2
         with:
           path: ${{github.workspace}}/mbsim-ccache
-          key: ccache-${{matrix.data.os.buildType}}--${{steps.matrixUUIDStep.outputs.matrixUUIDStepOutput}}
+          key: ccache-${{matrix.data.os.buildType}}--${{steps.matrixUUID.outputs.matrixUUID}}
           restore-keys: |
             ccache-${{matrix.data.os.buildType}}--
       - name: "Cache: fix ccache file permissions"
@@ -125,12 +125,12 @@ jobs:
             with open("${{github.workspace}}/mbsim-env/local/.buildInfo.json", "r") as f:
               buildInfo=json.load(f)
             print("https://${{env.MBSIMENVSERVERNAME}}/builds/run/"+str(buildInfo["buildRunID"])+"/")
-            print("::set-output name=buildInfoStepOutput::"+json.dumps(buildInfo))
+            print("::set-output name=buildInfo::"+json.dumps(buildInfo))
           except:
             print("No buildInfo file found")
-            print("::set-output name=buildInfoStepOutput::{}")
+            print("::set-output name=buildInfo::{}")
       - name: "Artifact: tar/compress prefix and coverage-files"
-        if: inputs.uploadArtifactLocalLcovInput
+        if: inputs.uploadArtifactLocalLcov
         run: >
           (cd ${{github.workspace}}/mbsim-env/ && find -name "*.gcda" >  ${{github.workspace}}/local-cov.files) &&
           (cd ${{github.workspace}}/mbsim-env/ && find -name "*.gcno" >> ${{github.workspace}}/local-cov.files) &&
@@ -138,7 +138,7 @@ jobs:
           local/ -T ${{github.workspace}}/local-cov.files;
           rm -f ${{github.workspace}}/local-cov.files
       - name: "Artifact: upload prefix and coverage-files"
-        if: inputs.uploadArtifactLocalLcovInput
+        if: inputs.uploadArtifactLocalLcov
         uses: actions/upload-artifact@v3
         with:
           name: mbsim-env-local-cov

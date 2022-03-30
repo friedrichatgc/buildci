@@ -59,7 +59,7 @@ env:
   mbsimenvsec_codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
 jobs:
   runexamples:
-    name: "."
+    name: "..............."
     runs-on: ubuntu-latest
     outputs:
       runexamplesInfoOutput: ${{steps.runexamplesDetails.outputs.runexamplesInfoStepOutput}}
@@ -121,8 +121,6 @@ jobs:
           --buildRunID ${{fromJson(inputs.buildInfoInput).buildRunID}}
           --runID ${{fromJson(inputs.runexamplesInfoInput).runID}}
           ${{matrix.data.args}}
-          || exit 0
-          # do not report error (is handled by www.mbsime-env.de and cache should also be saved in case of errors)
       - name: "Dump link to MBSim-Env server"
         id: runexamplesDetails
         shell: python

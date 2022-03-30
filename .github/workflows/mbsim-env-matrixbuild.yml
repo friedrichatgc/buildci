@@ -116,8 +116,6 @@ jobs:
           --openmbvBranch ${{matrix.data.branches.openmbvBranch}}
           --mbsimBranch ${{matrix.data.branches.mbsimBranch}}
           ${{matrix.data.os.args}}
-          || exit 0
-          # do not report error (is handled by www.mbsime-env.de and cache should also be saved in case of errors)
       - name: "Dump link to MBSim-Env server"
         id: buildDetails
         shell: python

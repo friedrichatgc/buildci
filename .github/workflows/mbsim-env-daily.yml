@@ -1,5 +1,6 @@
 name: MBSim-Env Daily
 on:
+  push:
   schedule:
     - cron: '36 23 * * *'
 env:
@@ -91,11 +92,11 @@ jobs:
         {"data": [
           {"args": "--runExamplesPre"}
         ]}
-      buildInfoRun: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-      runexamplesInfoRun: '{"runID": -1}'
-      downloadArtifactLocalLcovRun: false
-      uploadArtifactLcovdataRun: false
-      downloadArtifactLcovdataRun: false
+      buildInfo: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      runexamplesInfo: '{"runID": -1}'
+      downloadArtifactLocalLcov: false
+      uploadArtifactLcovdata: false
+      downloadArtifactLcovdata: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -127,11 +128,11 @@ jobs:
           {"args": "--runExamplesPartition"},
           {"args": "--runExamplesPartition"}
         ]}
-      buildInfoRun: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-      runexamplesInfoRun: ${{needs.examplesPre.outputs.runexamplesInfo}}
-      downloadArtifactLocalLcovRun: true
-      uploadArtifactLcovdataRun: true
-      downloadArtifactLcovdataRun: false
+      buildInfo: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      runexamplesInfo: ${{needs.examplesPre.outputs.runexamplesInfo}}
+      downloadArtifactLocalLcov: true
+      uploadArtifactLcovdata: true
+      downloadArtifactLcovdata: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -150,11 +151,11 @@ jobs:
         {"data": [
           {"args": "--runExamplesPost"}
         ]}
-      buildInfoRun: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-      runexamplesInfoRun: ${{needs.examplesPre.outputs.runexamplesInfo}}
-      downloadArtifactLocalLcovRun: true
-      uploadArtifactLcovdataRun: false
-      downloadArtifactLcovdataRun: true
+      buildInfo: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      runexamplesInfo: ${{needs.examplesPre.outputs.runexamplesInfo}}
+      downloadArtifactLocalLcov: true
+      uploadArtifactLcovdata: false
+      downloadArtifactLcovdata: true
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
@@ -179,11 +180,11 @@ jobs:
         {"data": [
           {"args": "--runExamplesPre --valgrindExamples"}
         ]}
-      buildInfoRun: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
-      runexamplesInfoRun: '{"runID": -1}'
-      downloadArtifactLocalLcovRun: false
-      uploadArtifactLcovdataRun: false
-      downloadArtifactLcovdataRun: false
+      buildInfo: ${{needs.buildPartitionedExamples.outputs.buildInfo}}
+      runexamplesInfo: '{"runID": -1}'
+      downloadArtifactLocalLcov: false
+      uploadArtifactLcovdata: false
+      downloadArtifactLcovdata: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}

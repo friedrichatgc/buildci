@@ -110,13 +110,13 @@ jobs:
           --buildType ${{matrix.data.os.buildType}}
           --executor '<a class="MBSIMENV_EXECUTOR_GITHUBACTION" href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Actions</a>'
           -j $(nproc)
+          ${{github.run_attempt>1 && '--forceBuild' || ''}}
           --ccacheSize 5
           --fmatvecBranch ${{matrix.data.branches.fmatvecBranch}}
           --hdf5serieBranch ${{matrix.data.branches.hdf5serieBranch}}
           --openmbvBranch ${{matrix.data.branches.openmbvBranch}}
           --mbsimBranch ${{matrix.data.branches.mbsimBranch}}
           ${{matrix.data.os.args}}
-#mfmf add --forceBuild if ${{github.run_attempt}}>1
       - name: "Dump link to MBSim-Env server"
         id: buildDetails
         shell: python

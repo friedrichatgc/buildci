@@ -1,4 +1,3 @@
-#mfmf valgrind coverage is wrong (normal and valgrind cov seems to get added together)
 name: MBSim-Env Daily
 on:
   schedule:

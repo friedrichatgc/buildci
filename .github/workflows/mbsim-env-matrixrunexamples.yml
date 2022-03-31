@@ -140,4 +140,4 @@ jobs:
         with:
           name: mbsim-env-covdata
           retention-days: 1
-          path: ${{github.workspace}}/mbsim-env/local/cov.trace.final.part-*
+          path: ${{github.workspace}}/mbsim-env/local/cov.trace.final.part.*.*

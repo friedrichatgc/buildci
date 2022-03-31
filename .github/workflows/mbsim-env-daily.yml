@@ -1,6 +1,7 @@
+#mfmf valgrind coverage is wrong (normal and valgrind cov seems to get added together)
 name: MBSim-Env Daily
 on:
-  push:
+  push: #mfmf remove
   schedule:
     - cron: '36 23 * * *'
 env:
@@ -87,6 +88,7 @@ jobs:
     name: "E pre"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: buildPartitionedExamples
+    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}
     with:
       matrix: |
         {"data": [
@@ -110,6 +112,7 @@ jobs:
     name: "E worker"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesPre]
+    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}}
     with:
       matrix: |
         {"data": [
@@ -146,6 +149,7 @@ jobs:
     name: "E post"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesRun, examplesPre]
+    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}
     with:
       matrix: |
         {"data": [
@@ -175,6 +179,7 @@ jobs:
              # exampleRun is just added to priorize the normal runs over the valgrind run;
              # moreover the dynamic scheduling does not work for parallel --runExamplesPartition jobs;
              # (examplesPreValgrind is not stared before to ensure correct startTime recording in the MBSim-Env database)
+    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}
     with:
       matrix: |
         {"data": [
@@ -198,6 +203,7 @@ jobs:
     name: "E valgrind worker"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesPreValgrind]
+    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}}
     with:
       matrix: |
         {"data": [
@@ -234,6 +240,7 @@ jobs:
     name: "E valgrind post"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesRunValgrind, examplesPreValgrind]
+    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}
     with:
       matrix: |
         {"data": [

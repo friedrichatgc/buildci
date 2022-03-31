@@ -108,7 +108,7 @@ jobs:
           -v ${{github.workspace}}/mbsim-ccache:/mbsim-ccache
           ${{matrix.data.os.image}}:${{env.MBSIMENVTAGNAME}}
           --buildType ${{matrix.data.os.buildType}}
-          --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Actions</a>'
+          --executor '<a class="MBSIMENV_EXECUTOR_GITHUBACTION" href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Actions</a>'
           -j $(nproc)
           --ccacheSize 5
           --fmatvecBranch ${{matrix.data.branches.fmatvecBranch}}
@@ -116,6 +116,7 @@ jobs:
           --openmbvBranch ${{matrix.data.branches.openmbvBranch}}
           --mbsimBranch ${{matrix.data.branches.mbsimBranch}}
           ${{matrix.data.os.args}}
+#mfmf add --forceBuild if ${{github.run_attempt}}>1
       - name: "Dump link to MBSim-Env server"
         id: buildDetails
         shell: python
@@ -130,7 +131,7 @@ jobs:
             print("No buildInfo file found")
             print("::set-output name=buildInfo::{}")
       - name: "Artifact: tar/compress prefix and coverage-files"
-        if: inputs.uploadArtifactLocalLcov
+        if: inputs.uploadArtifactLocalLcov && !fromJson(steps.buildDetails.outputs.buildInfo).skipped
         run: >
           (cd ${{github.workspace}}/mbsim-env/ && find -name "*.gcda" >  ${{github.workspace}}/local-cov.files) &&
           (cd ${{github.workspace}}/mbsim-env/ && find -name "*.gcno" >> ${{github.workspace}}/local-cov.files) &&
@@ -138,7 +139,7 @@ jobs:
           local/ -T ${{github.workspace}}/local-cov.files;
           rm -f ${{github.workspace}}/local-cov.files
       - name: "Artifact: upload prefix and coverage-files"
-        if: inputs.uploadArtifactLocalLcov
+        if: inputs.uploadArtifactLocalLcov && !fromJson(steps.buildDetails.outputs.buildInfo).skipped
         uses: actions/upload-artifact@v3
         with:
           name: mbsim-env-local-cov

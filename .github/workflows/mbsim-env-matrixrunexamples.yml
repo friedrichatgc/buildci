@@ -111,7 +111,7 @@ jobs:
           -v ${{github.workspace}}/mbsim-ccache:/mbsim-ccache
           mbsimenv/build:${{env.MBSIMENVTAGNAME}}
           --buildType linux64-dailydebug
-          --executor '<a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Actions</a>'
+          --executor '<a class="MBSIMENV_EXECUTOR_GITHUBACTION" href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}/attempts/${{github.run_attempt}}">GitHub Actions</a>'
           -j $(nproc)
           --ccacheSize 5
           --fmatvecBranch ${{fromJson(inputs.buildInfo).repo.fmatvec}}

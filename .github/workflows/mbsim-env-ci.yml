@@ -1,6 +1,8 @@
 name: MBSim-Env CI
 on:
-  push:
+#  push:
+  schedule:
+    - cron: '36 23 * * *'
 env:
   # tagname and servername of remote mbsimenv server
   MBSIMENVTAGNAME: staging

@@ -88,7 +88,7 @@ jobs:
     name: "E pre"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: buildPartitionedExamples
-    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}
+    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}}
     with:
       matrix: |
         {"data": [
@@ -149,7 +149,7 @@ jobs:
     name: "E post"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesRun, examplesPre]
-    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}
+    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}}
     with:
       matrix: |
         {"data": [
@@ -179,7 +179,7 @@ jobs:
              # exampleRun is just added to priorize the normal runs over the valgrind run;
              # moreover the dynamic scheduling does not work for parallel --runExamplesPartition jobs;
              # (examplesPreValgrind is not stared before to ensure correct startTime recording in the MBSim-Env database)
-    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}
+    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}}
     with:
       matrix: |
         {"data": [
@@ -240,7 +240,7 @@ jobs:
     name: "E valgrind post"
     uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
     needs: [buildPartitionedExamples, examplesRunValgrind, examplesPreValgrind]
-    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}
+    if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}}
     with:
       matrix: |
         {"data": [

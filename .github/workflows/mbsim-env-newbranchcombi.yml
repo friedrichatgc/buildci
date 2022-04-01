@@ -1,6 +1,7 @@
-name: MBSim-Env Webhook
+name: MBSim-Env New Branch Combi
 on:
   repository_dispatch:
+    types: [branchCombiAdded]
 env:
   # tagname and servername of remote mbsimenv server
   MBSIMENVTAGNAME: staging

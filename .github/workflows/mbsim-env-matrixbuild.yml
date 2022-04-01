@@ -125,7 +125,10 @@ jobs:
           try:
             with open("${{github.workspace}}/mbsim-env/local/.buildInfo.json", "r") as f:
               buildInfo=json.load(f)
-            print("https://${{env.MBSIMENVSERVERNAME}}/builds/run/"+str(buildInfo["buildRunID"])+"/")
+            if buildInfo["skipped"]:
+              print("This build was skipped since the same build was already done")
+            else:
+              print("https://${{env.MBSIMENVSERVERNAME}}/builds/run/"+str(buildInfo["buildRunID"])+"/")
             print("::set-output name=buildInfo::"+json.dumps(buildInfo))
           except:
             print("No buildInfo file found")
@@ -145,3 +148,9 @@ jobs:
           name: mbsim-env-local-cov
           retention-days: 1
           path: ${{github.workspace}}/local-cov.tar.gz
+      #MISSING skip cache upload if ${{fromJson(steps.buildDetails.outputs.buildInfo).skipped}}
+
+
+
+#mfmf builddoc is not run by github actions
+#mfmf if a new ci branch combi is added run it on github actions

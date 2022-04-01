@@ -29,12 +29,14 @@ jobs:
     with:
       matrix:
         data:
-          - branches: ${{github.event.branches}}
+          - branches:
+              ${{github.event.branches}}
             os:
               buildType: "linux64-ci"
               image: "mbsimenv/build"
               args": ""
-          - branches: ${{github.event.branches}}
+          - branches:
+              ${{github.event.branches}}
             os:
               buildType: "win64-ci"
               image: "mbsimenv/buildwin64"
@@ -59,17 +61,20 @@ jobs:
     with:
       matrix:
         data:
-          - branches: ${{github.event.branches}}
+          - branches:
+              ${{github.event.branches}}
             os:
               buildType: "linux64-dailydebug"
               image: "mbsimenv/build"
               args: ""
-          - branches: ${{github.event.branches}}
+          - branches:
+              ${{github.event.branches}}
             os:
               buildType: "linux64-dailyrelease"
               image: "mbsimenv/build"
               args: ""
-          - branches: ${{github.event.branches}}
+          - branches:
+              ${{github.event.branches}}
             os:
               buildType: "win64-dailyrelease"
               image: "mbsimenv/buildwin64"

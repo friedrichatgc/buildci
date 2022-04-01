@@ -22,35 +22,43 @@ jobs:
 
 
 
-  buildNewCIBranchCombi:
-    name: B&e
-    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
-    if: ${{github.event.model=='CIBranches'}}
-    with:
-      matrix: |
-        {"data":
-          [{
-            "branches":
-              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
-            "os":
-              {"buildType": "linux64-ci", "image": "mbsimenv/build", "args": ""}
-          }, {
-            "branches":
-              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
-            "os":
-              {"buildType": "win64-ci", "image": "mbsimenv/buildwin64", "args": ""}
-          }]
-        }
-      uploadArtifactLocalLcov: false
-    secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
-      djangoSecretKey: ${{secrets.djangoSecretKey}}
-      postgresPassword: ${{secrets.postgresPassword}}
-      filestoragePassword: ${{secrets.filestoragePassword}}
-      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
-      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
-      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
-      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
+  dummy:
+    name: dummy
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo mfmf ${{github.event}}
+
+
+
+#  buildNewCIBranchCombi:
+#    name: B&e
+#    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+#    if: ${{github.event.model=='CIBranches'}}
+#    with:
+#      matrix: |
+#        {"data":
+#          [{
+#            "branches":
+#              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
+#            "os":
+#              {"buildType": "linux64-ci", "image": "mbsimenv/build", "args": ""}
+#          }, {
+#            "branches":
+#              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
+#            "os":
+#              {"buildType": "win64-ci", "image": "mbsimenv/buildwin64", "args": ""}
+#          }]
+#        }
+#      uploadArtifactLocalLcov: false
+#    secrets:
+#      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+#      djangoSecretKey: ${{secrets.djangoSecretKey}}
+#      postgresPassword: ${{secrets.postgresPassword}}
+#      filestoragePassword: ${{secrets.filestoragePassword}}
+#      codecovUploadToken_fmatvec: ${{secrets.codecovUploadToken_fmatvec}}
+#      codecovUploadToken_hdf5serie: ${{secrets.codecovUploadToken_hdf5serie}}
+#      codecovUploadToken_openmbv: ${{secrets.codecovUploadToken_openmbv}}
+#      codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
 
 
 

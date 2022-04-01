@@ -27,20 +27,20 @@ jobs:
     uses: ./.github/workflows/mbsim-env-matrixbuild.yml
     if: ${{github.event.model=='CIBranches'}}
     with:
-      matrix:
-        data:
-          - branches:
-              fmatvecBranch: "master"
-            os:
-              buildType: "linux64-ci"
-              image: "mbsimenv/build"
-              args: ""
-          - branches:
-              fmatvecBranch: "master"
-            os:
-              buildType: "win64-ci"
-              image: "mbsimenv/buildwin64"
-              args: ""
+      matrix: |
+        {"data":
+          [{
+            "branches":
+              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
+            "os":
+              {"buildType": "linux64-ci", "image": "mbsimenv/build", "args": ""}
+          }, {
+            "branches":
+              {"fmatvecBranch": "master", "hdf5serieBranch": "master", "openmbvBranch": "master", "mbsimBranch": "master"},
+            "os":
+              {"buildType": "win64-ci", "image": "mbsimenv/buildwin64", "args": ""}
+          }]
+        }
       uploadArtifactLocalLcov: false
     secrets:
       githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}

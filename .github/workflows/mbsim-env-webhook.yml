@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo 'mfmf ${{toJson(github.event)}}'
+      - run: echo 'mfmf ${{github.event.client_payload.model}}'
 
 
 

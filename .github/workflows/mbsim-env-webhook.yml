@@ -26,7 +26,7 @@ jobs:
     name: dummy
     runs-on: ubuntu-latest
     steps:
-      - run: echo mfmf ${{toJson(github.event)}}
+      - run: echo mfmf ${{toJSON(github.event)}}
 
 
 

@@ -31,11 +31,11 @@ jobs:
       matrix: |
         {"data":
           [{
-            "branches": ${{toJson(github.event.client_payload.branches=='CIBranches')}},
+            "branches": ${{toJson(github.event.client_payload.branches)}},
             "os":
               {"buildType": "linux64-ci", "image": "mbsimenv/build", "args": ""}
           }, {
-            "branches": ${{toJson(github.event.client_payload.branches=='CIBranches')}},
+            "branches": ${{toJson(github.event.client_payload.branches)}},
             "os":
               {"buildType": "win64-ci", "image": "mbsimenv/buildwin64", "args": ""}
           }]

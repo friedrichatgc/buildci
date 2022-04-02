@@ -270,8 +270,7 @@ jobs:
     name: dummy
     runs-on: ubuntu-latest
     outputs:
-      buildInfo:
-        value: ${{steps.dummy.outputs.buildInfo}}
+      buildInfo: ${{steps.dummy.outputs.buildInfo}}
     steps:
       - name: "dummy"
         run: echo '::set-output name=buildInfo::{"skipped":false,"repo":{"mbsim":"master"}}'

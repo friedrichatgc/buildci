@@ -1,5 +1,6 @@
 name: MBSim-Env Daily
 on:
+  push: #mfmf
   schedule:
     - cron: '36 23 * * *'
 concurrency: 

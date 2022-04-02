@@ -1,7 +1,8 @@
 name: MBSim-Env Daily
 on:
   schedule:
-    - cron: '36 23 * * *'
+#    - cron: '36 23 * * *'
+    - cron: '40 1 * * *'
 concurrency: 
   group: mbsim-env-daily
   cancel-in-progress: true

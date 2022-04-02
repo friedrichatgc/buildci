@@ -292,7 +292,6 @@ jobs:
           --env MBSIMENVFILESTORAGE
           --env MBSIMENVSERVERNAME
           --env MBSIMENVTAGNAME
-          --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" ${{matrix.data.os.image}}:${{env.MBSIMENVTAGNAME}})
           --env mbsimenvsec_githubStatusAccessToken
           --env mbsimenvsec_djangoSecretKey
           --env mbsimenvsec_postgresPassword

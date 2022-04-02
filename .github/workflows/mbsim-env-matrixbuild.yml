@@ -149,8 +149,3 @@ jobs:
           retention-days: 1
           path: ${{github.workspace}}/local-cov.tar.gz
       #MISSING skip cache upload if ${{fromJson(steps.buildDetails.outputs.buildInfo).skipped}}
-
-
-
-#mfmf builddoc is not run by github actions
-#mfmf if a new ci branch combi is added run it on github actions

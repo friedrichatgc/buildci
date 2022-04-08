@@ -24,7 +24,7 @@ on:
       runexamplesInfo:
         value: ${{jobs.runexamples.outputs.runexamplesInfo}}
     secrets:
-      githubStatusAccessToken:
+      githubAccessToken:
         required: true
       djangoSecretKey:
         required: true
@@ -49,7 +49,7 @@ env:
   MBSIMENVDATABASE: www.mbsim-env.de:15432
   MBSIMENVFILESTORAGE: www.mbsim-env.de:11122
   # get secrets
-  mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+  mbsimenvsec_githubAccessToken: ${{secrets.githubAccessToken}}
   mbsimenvsec_djangoSecretKey: ${{secrets.djangoSecretKey}}
   mbsimenvsec_postgresPassword: ${{secrets.postgresPassword}}
   mbsimenvsec_filestoragePassword: ${{secrets.filestoragePassword}}
@@ -99,7 +99,7 @@ jobs:
           --env MBSIMENVSERVERNAME
           --env MBSIMENVTAGNAME
           --env MBSIMENVIMAGEID=$(docker image inspect -f "{{.Id}}" mbsimenv/build:${{env.MBSIMENVTAGNAME}})
-          --env mbsimenvsec_githubStatusAccessToken
+          --env mbsimenvsec_githubAccessToken
           --env mbsimenvsec_djangoSecretKey
           --env mbsimenvsec_postgresPassword
           --env mbsimenvsec_filestoragePassword

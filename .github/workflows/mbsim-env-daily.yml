@@ -14,7 +14,7 @@ env:
   MBSIMENVDATABASE: www.mbsim-env.de:15432
   MBSIMENVFILESTORAGE: www.mbsim-env.de:11122
   # get secrets
-  mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+  mbsimenvsec_githubAccessToken: ${{secrets.githubAccessToken}}
   mbsimenvsec_djangoSecretKey: ${{secrets.djangoSecretKey}}
   mbsimenvsec_postgresPassword: ${{secrets.postgresPassword}}
   mbsimenvsec_filestoragePassword: ${{secrets.filestoragePassword}}
@@ -32,7 +32,7 @@ jobs:
     with:
       dailyRun: true
     secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      githubAccessToken: ${{secrets.githubAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
       postgresPassword: ${{secrets.postgresPassword}}
       filestoragePassword: ${{secrets.filestoragePassword}}
@@ -48,7 +48,7 @@ jobs:
       matrix: ${{needs.getBuildMatrix.outputs.matrix}}
       uploadArtifactLocalLcov: false
     secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      githubAccessToken: ${{secrets.githubAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
       postgresPassword: ${{secrets.postgresPassword}}
       filestoragePassword: ${{secrets.filestoragePassword}}
@@ -74,7 +74,7 @@ jobs:
         }
       uploadArtifactLocalLcov: true
     secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      githubAccessToken: ${{secrets.githubAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
       postgresPassword: ${{secrets.postgresPassword}}
       filestoragePassword: ${{secrets.filestoragePassword}}
@@ -101,7 +101,7 @@ jobs:
       uploadArtifactLcovdata: false
       downloadArtifactLcovdata: false
     secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      githubAccessToken: ${{secrets.githubAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
       postgresPassword: ${{secrets.postgresPassword}}
       filestoragePassword: ${{secrets.filestoragePassword}}
@@ -138,7 +138,7 @@ jobs:
       uploadArtifactLcovdata: true
       downloadArtifactLcovdata: false
     secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      githubAccessToken: ${{secrets.githubAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
       postgresPassword: ${{secrets.postgresPassword}}
       filestoragePassword: ${{secrets.filestoragePassword}}
@@ -162,7 +162,7 @@ jobs:
       uploadArtifactLcovdata: false
       downloadArtifactLcovdata: true
     secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      githubAccessToken: ${{secrets.githubAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
       postgresPassword: ${{secrets.postgresPassword}}
       filestoragePassword: ${{secrets.filestoragePassword}}
@@ -192,7 +192,7 @@ jobs:
       uploadArtifactLcovdata: false
       downloadArtifactLcovdata: false
     secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      githubAccessToken: ${{secrets.githubAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
       postgresPassword: ${{secrets.postgresPassword}}
       filestoragePassword: ${{secrets.filestoragePassword}}
@@ -229,7 +229,7 @@ jobs:
       uploadArtifactLcovdata: true
       downloadArtifactLcovdata: false
     secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      githubAccessToken: ${{secrets.githubAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
       postgresPassword: ${{secrets.postgresPassword}}
       filestoragePassword: ${{secrets.filestoragePassword}}
@@ -253,7 +253,7 @@ jobs:
       uploadArtifactLcovdata: false
       downloadArtifactLcovdata: true
     secrets:
-      githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+      githubAccessToken: ${{secrets.githubAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}
       postgresPassword: ${{secrets.postgresPassword}}
       filestoragePassword: ${{secrets.filestoragePassword}}
@@ -280,7 +280,7 @@ jobs:
           --env MBSIMENVFILESTORAGE
           --env MBSIMENVSERVERNAME
           --env MBSIMENVTAGNAME
-          --env mbsimenvsec_githubStatusAccessToken
+          --env mbsimenvsec_githubAccessToken
           --env mbsimenvsec_djangoSecretKey
           --env mbsimenvsec_postgresPassword
           --env mbsimenvsec_filestoragePassword

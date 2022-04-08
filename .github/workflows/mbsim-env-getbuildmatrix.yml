@@ -9,7 +9,7 @@ on:
       matrix:
         value: ${{jobs.getBuildMatrix.outputs.matrix}}
     secrets:
-      githubStatusAccessToken:
+      githubAccessToken:
         required: true
       djangoSecretKey:
         required: true
@@ -34,7 +34,7 @@ env:
   MBSIMENVDATABASE: www.mbsim-env.de:15432
   MBSIMENVFILESTORAGE: www.mbsim-env.de:11122
   # get secrets
-  mbsimenvsec_githubStatusAccessToken: ${{secrets.githubStatusAccessToken}}
+  mbsimenvsec_githubAccessToken: ${{secrets.githubAccessToken}}
   mbsimenvsec_djangoSecretKey: ${{secrets.djangoSecretKey}}
   mbsimenvsec_postgresPassword: ${{secrets.postgresPassword}}
   mbsimenvsec_filestoragePassword: ${{secrets.filestoragePassword}}

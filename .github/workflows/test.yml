@@ -1,0 +1,9 @@
+name: test
+on:
+  push:
+jobs:
+  my_job:
+    container:
+      image: node:14.16
+    steps:
+      - run: echo abc

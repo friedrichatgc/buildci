@@ -1,6 +1,7 @@
-name: CI
+name: CI (Repo-Dispatch)
 on:
-  push:
+  repository_dispatch:
+    types: [ci]
 env:
   # tagname and servername of remote mbsimenv server
   MBSIMENVTAGNAME: staging
@@ -27,6 +28,7 @@ jobs:
     uses: ./.github/workflows/mbsim-env-getbuildmatrix.yml
     with:
       dailyRun: false
+      pushSource: ${{toJson(github.event.client_payload)}}
     secrets:
       githubAccessToken: ${{secrets.githubAccessToken}}
       djangoSecretKey: ${{secrets.djangoSecretKey}}

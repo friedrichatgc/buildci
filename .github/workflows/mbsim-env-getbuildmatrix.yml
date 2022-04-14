@@ -5,6 +5,9 @@ on:
       dailyRun:
         required: true
         type: boolean
+      pushSource:
+        required: false # only required for dailyRun==False
+        type: string
     outputs:
       matrix:
         value: ${{jobs.getBuildMatrix.outputs.matrix}}
@@ -56,15 +59,6 @@ jobs:
           import json
           import requests
           import itertools
-          # get repo and branch name
-          repo="${{github.repository}}".split("/")[1]
-          print("mfmfremove repo="+repo)
-          repo="openmbv" #mfmf remove this line
-          branch="${{github.ref_name}}"
-          sha="${{github.sha}}"
-          print("mfmfremove sha="+sha)
-          sha="5e1108a787c298b481e31a5dfb2055eb3028f3d0" #mfmf remove this line
-          print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
           # get branch combinations
           if "${{inputs.dailyRun}}"=="true":
             model="DailyBranches"
@@ -81,6 +75,11 @@ jobs:
                 {"buildType": "win64-dailyrelease"  , "image": "mbsimenv/buildwin64",  "args": ""},
               ]}
           else:
+            # print repo, branch and sha
+            repo="${{fromJson(inputs.pushSource).repository}}".split("/")[1]
+            branch="${{fromJson(inputs.pushSource).ref_name}}"
+            sha=${{fromJson(inputs.pushSource).sha}}
+            print("Got action for repo="+repo+" branch="+branch+" sha="+sha)
             # all branch combinations to build
             branches=list(filter(lambda x: x[repo+"Branch"]==branch, branchCombination))
             # if no branch combination is found build this branch with "master" of all other repos

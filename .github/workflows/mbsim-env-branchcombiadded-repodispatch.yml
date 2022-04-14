@@ -1,4 +1,4 @@
-name: MBSim-Env New Branch Combi
+name: Branch Combi Added (Repo-Dispatch)
 on:
   repository_dispatch:
     types: [branchCombiAdded]
@@ -25,7 +25,7 @@ jobs:
 
   buildNewCIBranchCombi:
     name: B&e
-    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+    uses: ./.github/workflows/mbsim-env-build.yml
     if: ${{github.event.client_payload.model=='CIBranches'}}
     with:
       matrix: |
@@ -55,7 +55,7 @@ jobs:
 
 #  buildNewDailyBranchCombi:
 #    name: B&e
-#    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+#    uses: ./.github/workflows/mbsim-env-build.yml
 #    if: ${{github.event.client_payload.model=='DailyBranches'}}
 #    with:
 #      matrix: |

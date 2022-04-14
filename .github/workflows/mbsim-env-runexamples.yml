@@ -1,4 +1,4 @@
-name: MBSim-Env Examples
+name: Runexamples
 on:
   workflow_call:
     inputs:

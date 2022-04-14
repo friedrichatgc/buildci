@@ -1,4 +1,4 @@
-name: MBSim-Env CI
+name: CI
 on:
   push:
 env:
@@ -38,7 +38,7 @@ jobs:
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
   buildMatrix:
     name: B&e
-    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+    uses: ./.github/workflows/mbsim-env-build.yml
     needs: getBuildMatrix
     with:
       matrix: ${{needs.getBuildMatrix.outputs.matrix}}

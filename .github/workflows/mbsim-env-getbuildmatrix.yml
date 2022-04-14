@@ -1,4 +1,4 @@
-name: MBSim-Env Get Build Matrix
+name: Get Build Matrix
 on:
   workflow_call:
     inputs:

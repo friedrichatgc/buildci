@@ -1,4 +1,4 @@
-name: MBSim-Env Build
+name: Build
 on:
   workflow_call:
     inputs:

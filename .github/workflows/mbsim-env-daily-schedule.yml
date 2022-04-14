@@ -1,4 +1,4 @@
-name: MBSim-Env Daily
+name: Daily (Schedule)
 on:
   schedule:
     - cron: '36 23 * * *'
@@ -42,7 +42,7 @@ jobs:
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
   buildMatrix:
     name: B&e
-    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+    uses: ./.github/workflows/mbsim-env-build.yml
     needs: getBuildMatrix
     with:
       matrix: ${{needs.getBuildMatrix.outputs.matrix}}
@@ -61,7 +61,7 @@ jobs:
 
   buildPartitionedExamples:
     name: B
-    uses: ./.github/workflows/mbsim-env-matrixbuild.yml
+    uses: ./.github/workflows/mbsim-env-build.yml
     with:
       matrix: |
         {"data":
@@ -87,7 +87,7 @@ jobs:
 
   examplesPre:
     name: "E pre"
-    uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
+    uses: ./.github/workflows/mbsim-env-runexamples.yml
     needs: buildPartitionedExamples
     if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}}
     with:
@@ -111,7 +111,7 @@ jobs:
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
   examplesRun:
     name: "E worker"
-    uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
+    uses: ./.github/workflows/mbsim-env-runexamples.yml
     needs: [buildPartitionedExamples, examplesPre]
     if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}}
     with:
@@ -148,7 +148,7 @@ jobs:
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
   examplesPost:
     name: "E post"
-    uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
+    uses: ./.github/workflows/mbsim-env-runexamples.yml
     needs: [buildPartitionedExamples, examplesRun, examplesPre]
     if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}}
     with:
@@ -175,7 +175,7 @@ jobs:
 
   examplesPreValgrind:
     name: "E valgrind pre"
-    uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
+    uses: ./.github/workflows/mbsim-env-runexamples.yml
     needs: [buildPartitionedExamples, examplesRun] # needs only buildPartitionedExamples;
              # exampleRun is just added to priorize the normal runs over the valgrind run;
              # moreover the dynamic scheduling does not work for parallel --runExamplesPartition jobs;
@@ -202,7 +202,7 @@ jobs:
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
   examplesRunValgrind:
     name: "E valgrind worker"
-    uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
+    uses: ./.github/workflows/mbsim-env-runexamples.yml
     needs: [buildPartitionedExamples, examplesPreValgrind]
     if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}}
     with:
@@ -239,7 +239,7 @@ jobs:
       codecovUploadToken_mbsim: ${{secrets.codecovUploadToken_mbsim}}
   examplesPostValgrind:
     name: "E valgrind post"
-    uses: ./.github/workflows/mbsim-env-matrixrunexamples.yml
+    uses: ./.github/workflows/mbsim-env-runexamples.yml
     needs: [buildPartitionedExamples, examplesRunValgrind, examplesPreValgrind]
     if: ${{!fromJson(needs.buildPartitionedExamples.outputs.buildInfo).skipped}}
     with:

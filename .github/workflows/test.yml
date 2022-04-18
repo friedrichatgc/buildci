@@ -31,7 +31,7 @@ jobs:
           branches["hdf5serie"]="b"
           branches["openmbv"]="c"
           branches["mbsim"]="d"
-          skip=False
+          skip=True
           runID=None
           data={"skip": skip, "runID": runID, "branches": branches}
           print("The following build is done:\n"+json.dumps(data, indent=2))

@@ -37,7 +37,7 @@ jobs:
           print("The following build is done:\n"+json.dumps(data, indent=2))
           print("::set-output name=data::"+json.dumps(data))
       - name: "Docker: pull image"
-        if: !fromJson(steps.whatToDo.outputs.data).skip
+#        if: !fromJson(steps.whatToDo.outputs.data).skip
         run: echo docker pull
 #      - name: "Create build matrix UUID"
 #        if: !fromJson(steps.whatToDo.outputs.data).skip

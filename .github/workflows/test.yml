@@ -27,15 +27,17 @@ jobs:
           import json
           # get current branches SHA (if not SHA is specified explicitly)
           branches={}
-          branches["fmatvec"]="${{matrix.data.branches.fmatvecBranch}}"
-          branches["hdf5serie"]="${{matrix.data.branches.hdf5serieBranch}}"
-          branches["openmbv"]="${{matrix.data.branches.openmbvBranch}}"
-          branches["mbsim"]="${{matrix.data.branches.mbsimBranch}}"
+          branches["fmatvec"]="a"
+          branches["hdf5serie"]="b"
+          branches["openmbv"]="c"
+          branches["mbsim"]="d"
           skip=False
           runID=None
           data={"skip": skip, "runID": runID, "branches": branches}
           print("The following build is done:\n"+json.dumps(data, indent=2))
           print("::set-output name=data::"+json.dumps(data))
+      - run: echo A${{steps.whatToDo.outputs.data}}A
+      - run: echo B${{fromJson(steps.whatToDo.outputs.data).skip}}B
       - name: "Docker: pull image"
 #        if: !fromJson(steps.whatToDo.outputs.data).skip
         run: echo docker pull

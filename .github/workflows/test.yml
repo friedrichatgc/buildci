@@ -38,9 +38,8 @@ jobs:
           print("::set-output name=data::"+json.dumps(data))
       - run: echo A${{steps.whatToDo.outputs.data}}A
       - run: echo B${{fromJson(steps.whatToDo.outputs.data).skip}}B
-      - name: "Docker: pull image"
-        if: ${{!fromJson(steps.whatToDo.outputs.data).skip}}
-        run: echo docker pull
+      - run: echo C${{fromJson(steps.whatToDo.outputs.data).runID}}C
+      - run: echo C${{fromJson(steps.whatToDo.outputs.data).runID && '--args'}} ${{fromJson(steps.whatToDo.outputs.data).runID}}C
 #      - name: "Create build matrix UUID"
 #        if: !fromJson(steps.whatToDo.outputs.data).skip
 #        shell: python

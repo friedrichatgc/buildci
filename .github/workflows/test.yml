@@ -4,6 +4,7 @@ on:
 jobs:
   job1:
     runs-on: ubuntu-latest
+    if: always()
     steps:
       - run: echo job1a
         if: always()
@@ -13,6 +14,7 @@ jobs:
         if: always()
   job2:
     runs-on: ubuntu-latest
+    if: always()
     steps:
       - run: echo job2a
         if: always()
@@ -22,6 +24,7 @@ jobs:
         if: always()
   job3:
     runs-on: ubuntu-latest
+    if: always()
     needs: [job2]
     steps:
       - run: echo job3a

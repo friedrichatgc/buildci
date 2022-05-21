@@ -4,32 +4,32 @@ on:
 jobs:
   job1:
     runs-on: ubuntu-latest
-    if: ${{always()}}
+    if: ${{true}}
     steps:
       - run: echo job1a
-        if: ${{always()}}
+        if: ${{true}}
       - run: ls filenotfound1
-        if: ${{always() && true}}
+        if: ${{true && true}}
       - run: echo job1b
-        if: ${{always()}}
+        if: ${{true}}
   job2:
     runs-on: ubuntu-latest
-    if: ${{always()}}
+    if: ${{true}}
     steps:
       - run: echo job2a
-        if: ${{always()}}
+        if: ${{true}}
       - run: ls filenotfound2
-        if: ${{always() && false}}
+        if: ${{true && false}}
       - run: echo job2b
-        if: ${{always()}}
+        if: ${{true}}
   job3:
     runs-on: ubuntu-latest
-    if: ${{always()}}
+    if: ${{true}}
     needs: [job2]
     steps:
       - run: echo job3a
-        if: ${{always()}}
+        if: ${{true}}
       - run: ls filenotfound3
-        if: ${{always()}}
+        if: ${{true}}
       - run: echo job3b
-        if: ${{always()}}
+        if: ${{true}}

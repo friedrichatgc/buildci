@@ -6,14 +6,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo job1a
+        if: always()
       - run: ls filenotfound1
+        if: always()
       - run: echo job1b
-        if: true
+        if: always()
   job2:
     runs-on: ubuntu-latest
     steps:
       - run: echo job2a
+        if: always()
       - run: ls filenotfound2
+        if: always()
       - run: echo job2b
         if: always()
   job3:
@@ -21,5 +25,8 @@ jobs:
     needs: [job2]
     steps:
       - run: echo job3a
+        if: always()
       - run: ls filenotfound3
+        if: always()
       - run: echo job3b
+        if: always()

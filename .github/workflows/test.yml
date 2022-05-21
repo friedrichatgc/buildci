@@ -8,6 +8,7 @@ jobs:
       - run: echo job1a
       - run: ls filenotfound1
       - run: echo job1b
+        if: failure()
   job2:
     runs-on: ubuntu-latest
     steps:

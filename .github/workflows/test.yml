@@ -4,32 +4,7 @@ on:
 jobs:
   job1:
     runs-on: ubuntu-latest
-    if: ${{true}}
     steps:
-      - run: echo job1a
-        if: ${{true}}
-      - run: ls filenotfound1
-        if: ${{true && true}}
-      - run: echo job1b
-        if: ${{true}}
-  job2:
-    runs-on: ubuntu-latest
-    if: ${{true}}
-    steps:
-      - run: echo job2a
-        if: ${{true}}
-      - run: ls filenotfound2
-        if: ${{true && false}}
-      - run: echo job2b
-        if: ${{true}}
-  job3:
-    runs-on: ubuntu-latest
-    if: ${{true}}
-    needs: [job2]
-    steps:
-      - run: echo job3a
-        if: ${{true}}
-      - run: ls filenotfound3
-        if: ${{true}}
-      - run: echo job3b
-        if: ${{true}}
+      - run: tar -h
+      - run: bzip2 -h
+      - run: pbzip2 -h

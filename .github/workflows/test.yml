@@ -5,7 +5,7 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      - run: apt install -y pbzip2
+      - run: sudo apt install -y pbzip2
       - run: which tar
       - run: which bzip2
       - run: which pbzip2

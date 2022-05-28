@@ -5,6 +5,6 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      - run: tar -h
-      - run: bzip2 -h
-      - run: pbzip2 -h
+      - run: which tar
+      - run: which bzip2
+      - run: which pbzip2

@@ -3,9 +3,15 @@ on:
   push:
 jobs:
   job1:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
-      - run: sudo apt install -y pbzip2
-      - run: which tar
-      - run: which bzip2
-      - run: which pbzip2
+      - run: conda install libblas
+        if: ${{always()}}
+      - run: conda install conda-forge/libblas
+        if: ${{always()}}
+      - run: conda activate base
+        if: ${{always()}}
+      - run: conda install libblas
+        if: ${{always()}}
+      - run: conda install conda-forge/libblas
+        if: ${{always()}}

@@ -23,9 +23,14 @@ jobs:
         shell: bash -l {0}
         if: ${{always()}}
         run: |
-            conda install libblas
+            conda install lapack
       - name: Lint
         shell: bash -l {0}
         if: ${{always()}}
         run: |
-            conda install conda-forge/libblas
+            conda install boost
+      - name: Lint
+        shell: bash -l {0}
+        if: ${{always()}}
+        run: |
+            conda install doxygen

@@ -5,13 +5,13 @@ jobs:
   job1:
     runs-on: windows-latest
     steps:
-      - run: conda install libblas
+      - run: $CONDA/bin/conda install libblas
         if: ${{always()}}
-      - run: conda install conda-forge/libblas
+      - run: $CONDA/bin/conda install conda-forge/libblas
         if: ${{always()}}
-      - run: conda activate base
+      - run: $CONDA/bin/conda activate base
         if: ${{always()}}
-      - run: conda install libblas
+      - run: $CONDA/bin/conda install libblas
         if: ${{always()}}
-      - run: conda install conda-forge/libblas
+      - run: $CONDA/bin/conda install conda-forge/libblas
         if: ${{always()}}

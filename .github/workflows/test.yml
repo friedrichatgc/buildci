@@ -16,5 +16,16 @@ jobs:
           conda list
       - name: Lint
         shell: bash -l {0}
+        if: ${{always()}}
+        run: |
+            conda install blas
+      - name: Lint
+        shell: bash -l {0}
+        if: ${{always()}}
         run: |
             conda install libblas
+      - name: Lint
+        shell: bash -l {0}
+        if: ${{always()}}
+        run: |
+            conda install conda-forge/libblas

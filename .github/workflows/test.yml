@@ -5,13 +5,17 @@ jobs:
   job1:
     runs-on: windows-latest
     steps:
-      - run: $CONDA\bin\conda install libblas
-        if: ${{always()}}
-      - run: $CONDA\bin\conda install conda-forge/libblas
-        if: ${{always()}}
-      - run: $CONDA\bin\conda activate base
-        if: ${{always()}}
-      - run: $CONDA\bin\conda install libblas
-        if: ${{always()}}
-      - run: $CONDA\bin\conda install conda-forge/libblas
-        if: ${{always()}}
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: test
+          environment-file: environment.yml
+          python-version: 3.8
+          auto-activate-base: false
+      - shell: bash -l {0}
+        run: |
+          conda info
+          conda list
+      - name: Lint
+        shell: bash -l {0}
+        run: |
+            conda install libblas

@@ -5,6 +5,7 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
+      - run: touch abc
       - run: >
           shopt -s nullglob &&
           ls abc sdlkfj*

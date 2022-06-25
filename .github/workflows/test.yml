@@ -3,34 +3,10 @@ on:
   push:
 jobs:
   job1:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
-      - uses: conda-incubator/setup-miniconda@v2
-        with:
-          activate-environment: test
-          python-version: 3.8
-          auto-activate-base: false
-      - shell: bash -l {0}
-        run: |
-          conda info
-          conda list
-      - name: Lint
-        shell: bash -l {0}
-        if: ${{always()}}
-        run: |
-            conda install blas
-      - name: Lint
-        shell: bash -l {0}
-        if: ${{always()}}
-        run: |
-            conda install lapack
-      - name: Lint
-        shell: bash -l {0}
-        if: ${{always()}}
-        run: |
-            conda install boost
-      - name: Lint
-        shell: bash -l {0}
-        if: ${{always()}}
-        run: |
-            conda install doxygen
+      - run: >
+          shopt -s nullglob &&
+          ls abc sdlkfj*
+      - run: >
+          ls abc sdlkfj*

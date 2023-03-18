@@ -5,4 +5,19 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      - run: cat /proc/cpuinfo
+      - name: "CPU cores"
+        shell: python
+        run: |
+import re
+
+def numberOfPhysicalCores():
+  physicalCoreIDs=set()
+  with open("/proc/cpuinfo", "rt") as f:
+    coreID=re.compile(r"^core id\s*:\s*([0-9]+)\s*$")
+    for line in f.readlines():
+      m=coreID.search(line)
+      if m is not None:
+        physicalCoreIDs.add(m.group(1))
+  return len(physicalCoreIDs)
+
+print(numberOfPhysicalCores())

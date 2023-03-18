@@ -5,6 +5,7 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
+      - run: apt install python3-psutil
       - name: "CPU cores"
         shell: python
         run: |

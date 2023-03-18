@@ -8,6 +8,10 @@ jobs:
       - name: "CPU cores"
         shell: python
         run: |
+          import psutil
+          print(psutil.cpu_count(true))
+          print(psutil.cpu_count(False))
+
           import re
           
           def numberOfPhysicalCores():

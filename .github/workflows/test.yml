@@ -10,7 +10,7 @@ jobs:
         shell: python
         run: |
           import psutil
-          print(psutil.cpu_count(true))
+          print(psutil.cpu_count(True))
           print(psutil.cpu_count(False))
 
           import re

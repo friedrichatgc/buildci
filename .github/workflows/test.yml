@@ -11,3 +11,5 @@ jobs:
           ls abc sdlkfj*
       - run: >
           ls abc sdlkfj*
+      - run: >
+          cat /proc/cpuinfo

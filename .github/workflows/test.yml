@@ -6,6 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: cat /proc/cpuinfo
+      - uses: actions/checkout@v3
       - run: ls -l $GITHUB_WORKSPACE
 #      - run: wget -O mbsim.tar.bz2 https://www.mbsim-env.de/builds/run/4988/distributionFile/
 #      - run: mkdir old

@@ -6,7 +6,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - run: nuget install wget
+      - run: choco install wget
+      - run: choco install unzip
       - run: mkdir old
       - run: cd old; wget https://www.mbsim-env.de/builds/run/4989/distributionFile/ -O mbsim.zip
       - run: cd old; unzip mbsim.tar.bz2

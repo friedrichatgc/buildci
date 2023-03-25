@@ -7,22 +7,5 @@ jobs:
     steps:
       - run: sudo apt install python3-psutil
       - name: "CPU cores"
-        shell: python
-        run: |
-          import psutil
-          print(psutil.cpu_count(True))
-          print(psutil.cpu_count(False))
-
-          import re
-          
-          def numberOfPhysicalCores():
-            physicalCoreIDs=set()
-            with open("/proc/cpuinfo", "rt") as f:
-              coreID=re.compile(r"^core id\s*:\s*([0-9]+)\s*$")
-              for line in f.readlines():
-                m=coreID.search(line)
-                if m is not None:
-                  physicalCoreIDs.add(m.group(1))
-            return len(physicalCoreIDs)
-          
-          print(numberOfPhysicalCores())
+        shell: bash
+        run: cat /proc/cpuinfo

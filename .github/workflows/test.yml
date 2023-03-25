@@ -6,11 +6,12 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
+      - run: nuget install wget
       - run: mkdir old
-      - run: cd old; (iwr https://www.mbsim-env.de/builds/run/4989/distributionFile/).Content >mbsim.zip
+      - run: cd old; wget https://www.mbsim-env.de/builds/run/4989/distributionFile/ -O mbsim.zip
       - run: cd old; unzip mbsim.tar.bz2
       - run: mkdir new
-      - run: cd new; (iwr https://www.mbsim-env.de/builds/run/5019/distributionFile/).Content >mbsim.zip
+      - run: cd new; wget https://www.mbsim-env.de/builds/run/5019/distributionFile/ -O mbsim.zip
       - run: cd new; unzip mbsim.tar.bz2
       - run: old/mbsim-env/bin/mbsimxml.exe $GITHUB_WORKSPACE/test.mbsx
       - run: new/mbsim-env/bin/mbsimxml.exe $GITHUB_WORKSPACE/test.mbsx

@@ -3,28 +3,26 @@ on:
   push:
 jobs:
   job1:
-    runs-on: windows-latest
+    #    runs-on: windows-latest
+    #    steps:
+    #      - uses: actions/checkout@v3
+    #      - run: mkdir old
+    #      - run: (iwr https://www.mbsim-env.de/builds/run/4989/distributionFile/).Content >mbsim.zip
+    #      - run: (cd old; tar -xjf ../mbsim.tar.bz2)
+    #      - run: mkdir new
+    #      - run: (iwr https://www.mbsim-env.de/builds/run/5019/distributionFile/).Content >mbsim.zip
+    #      - run: (cd new; tar -xjf ../mbsim.tar.bz2)
+    #      - run: old/mbsim-env/bin/mbsimxml.exe $GITHUB_WORKSPACE/test.mbsx
+    #      - run: new/mbsim-env/bin/mbsimxml.exe $GITHUB_WORKSPACE/test.mbsx
+    runs-on: ubuntu-latest
     steps:
+      - run: cat /proc/cpuinfo
       - uses: actions/checkout@v3
-      - run: dir $GITHUB_WORKSPACE
-      - run: wget -O mbsim.zip https://www.mbsim-env.de/builds/run/4989/distributionFile/
       - run: mkdir old
-      - run: (cd old; tar -xjf ../mbsim.tar.bz2)
-      - run: wget -O mbsim.zip https://www.mbsim-env.de/builds/run/5019/distributionFile/
+      - run: (cd old; wget -O mbsim.tar.bz2 https://www.mbsim-env.de/builds/run/4988/distributionFile/)
+      - run: (cd old; tar -xjf mbsim.tar.bz2)
       - run: mkdir new
-      - run: (cd new; tar -xjf ../mbsim.tar.bz2)
-      - run: old/mbsim-env/bin/mbsimxml.exe $GITHUB_WORKSPACE/test.mbsx
-      - run: new/mbsim-env/bin/mbsimxml.exe $GITHUB_WORKSPACE/test.mbsx
-#    runs-on: ubuntu-latest
-#    steps:
-#      - run: cat /proc/cpuinfo
-#      - uses: actions/checkout@v3
-#      - run: ls -l $GITHUB_WORKSPACE
-#      - run: wget -O mbsim.tar.bz2 https://www.mbsim-env.de/builds/run/4988/distributionFile/
-#      - run: mkdir old
-#      - run: (cd old; tar -xjf ../mbsim.tar.bz2)
-#      - run: wget -O mbsim.tar.bz2 https://www.mbsim-env.de/builds/run/5018/distributionFile/
-#      - run: mkdir new
-#      - run: (cd new; tar -xjf ../mbsim.tar.bz2)
-#      - run: old/mbsim-env/bin/mbsimxml $GITHUB_WORKSPACE/test.mbsx
-#      - run: new/mbsim-env/bin/mbsimxml $GITHUB_WORKSPACE/test.mbsx
+      - run: (cd new; wget -O mbsim.tar.bz2 https://www.mbsim-env.de/builds/run/5018/distributionFile/)
+      - run: (cd new; tar -xjf mbsim.tar.bz2)
+      - run: old/mbsim-env/bin/mbsimxml $GITHUB_WORKSPACE/test.mbsx
+      - run: new/mbsim-env/bin/mbsimxml $GITHUB_WORKSPACE/test.mbsx

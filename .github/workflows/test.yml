@@ -10,10 +10,10 @@ jobs:
       - run: choco install unzip
       - run: mkdir old
       - run: cd old; wget https://www.mbsim-env.de/builds/run/4989/distributionFile/ -O mbsim.zip
-      - run: cd old; unzip mbsim.tar.bz2
+      - run: cd old; unzip mbsim.zip
       - run: mkdir new
       - run: cd new; wget https://www.mbsim-env.de/builds/run/5019/distributionFile/ -O mbsim.zip
-      - run: cd new; unzip mbsim.tar.bz2
+      - run: cd new; unzip mbsim.zip
       - run: old/mbsim-env/bin/mbsimxml.exe $GITHUB_WORKSPACE/test.mbsx
       - run: new/mbsim-env/bin/mbsimxml.exe $GITHUB_WORKSPACE/test.mbsx
     #    runs-on: ubuntu-latest

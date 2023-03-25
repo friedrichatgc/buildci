@@ -5,7 +5,12 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      - run: sudo apt install python3-psutil
-      - name: "CPU cores"
-        shell: bash
-        run: cat /proc/cpuinfo
+      - run: cat /proc/cpuinfo
+      - run: wget -O mbsim.tar.bz2 https://www.mbsim-env.de/builds/run/4988/distributionFile/
+      - run: mkdir old
+      - run: (cd old; tar -xjf ../mbsim.tar.bz2)
+#      - run: wget -O mbsim.tar.bz2 https://www.mbsim-env.de/builds/run/5018/distributionFile/
+#      - run: mkdir new
+#      - run: (cd new; tar -xjf ../mbsim.tar.bz2)
+      - run: old/mbsim-env/bin/mbsimxml test.mbsx
+#      - run: new/mbsim-env/bin/mbsimxml test.mbsx

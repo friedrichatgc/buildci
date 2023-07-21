@@ -7,11 +7,11 @@ jobs:
     steps:
       - name: "Maximize disk space (remove unwanted pre-installed software)"
         run: |
-          BEFORE=$(df --output=avail / | tail -n 1)
+          BEFORE=$(df --output=used / | tail -n 1)
           echo "Remove .NET (~17GB)" && sudo rm -rf /usr/share/dotnet
           #echo "Remove Android (~11GB)" && sudo rm -rf /usr/local/lib/android
           #echo "Remove Haskell/GHC (~3GB)" && sudo rm -rf /opt/ghc
           #echo "Remove CodeQL (~5GB)" && sudo rm -rf /opt/hostedtoolcache/CodeQL
           #echo "Remove Docker images (~3GB)" && sudo docker image prune --all --force
           AFTER=$(df --output=avail / | tail -n 1)
-          echo "$[($BEFORE-AFTER)/1000]GB freed"
+          echo "$[($BEFORE-$AFTER)/1000]GB freed"

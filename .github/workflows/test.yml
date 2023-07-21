@@ -7,4 +7,4 @@ jobs:
     steps:
       - name: "Maximize disk space (remove unwanted pre-installed software)"
         run: |
-          sudo docker system df
+          sudo docker image ls

@@ -8,50 +8,46 @@ jobs:
       - name: "Maximize disk space (remove unwanted pre-installed software)"
         run: |
           BEFORE=$(df --output=used / | tail -n 1)
-          echo "Remove .NET (~17GB)" && sudo rm -rf /usr/share/dotnet
-          #echo "Remove Android (~11GB)" && sudo rm -rf /usr/local/lib/android
-          #echo "Remove Haskell/GHC (~3GB)" && sudo rm -rf /opt/ghc
-          #echo "Remove CodeQL (~5GB)" && sudo rm -rf /opt/hostedtoolcache/CodeQL
-          #echo "Remove Docker images (~3GB)" && sudo docker image prune --all --force
+          echo "Remove .NET (~1GB/~1sec)" && sudo rm -rf /usr/share/dotnet
+          #echo "Remove Android (~12GB/66sec)" && sudo rm -rf /usr/local/lib/android
+          #echo "Remove CodeQL (~8GB/0sec)" && sudo rm -rf /opt/hostedtoolcache/CodeQL
+          #echo "Remove Docker images (~4GB/12sec)" && sudo docker image prune --all --force
           AFTER=$(df --output=used / | tail -n 1)
           echo "$[($BEFORE-$AFTER)/1000000]GB freed"
       - name: "Maximize disk space (remove unwanted pre-installed software)"
         run: |
           BEFORE=$(df --output=used / | tail -n 1)
-          #echo "Remove .NET (~17GB)" && sudo rm -rf /usr/share/dotnet
-          echo "Remove Android (~11GB)" && sudo rm -rf /usr/local/lib/android
-          #echo "Remove Haskell/GHC (~3GB)" && sudo rm -rf /opt/ghc
-          #echo "Remove CodeQL (~5GB)" && sudo rm -rf /opt/hostedtoolcache/CodeQL
-          #echo "Remove Docker images (~3GB)" && sudo docker image prune --all --force
+          #echo "Remove .NET (~1GB/~1sec)" && sudo rm -rf /usr/share/dotnet
+          echo "Remove Android (~12GB/66sec)" && sudo rm -rf /usr/local/lib/android
+          #echo "Remove CodeQL (~8GB/0sec)" && sudo rm -rf /opt/hostedtoolcache/CodeQL
+          #echo "Remove Docker images (~4GB/12sec)" && sudo docker image prune --all --force
           AFTER=$(df --output=used / | tail -n 1)
           echo "$[($BEFORE-$AFTER)/1000000]GB freed"
       - name: "Maximize disk space (remove unwanted pre-installed software)"
         run: |
           BEFORE=$(df --output=used / | tail -n 1)
-          #echo "Remove .NET (~17GB)" && sudo rm -rf /usr/share/dotnet
-          #echo "Remove Android (~11GB)" && sudo rm -rf /usr/local/lib/android
-          echo "Remove Haskell/GHC (~3GB)" && sudo rm -rf /opt/ghc
-          #echo "Remove CodeQL (~5GB)" && sudo rm -rf /opt/hostedtoolcache/CodeQL
-          #echo "Remove Docker images (~3GB)" && sudo docker image prune --all --force
+          #echo "Remove .NET (~1GB/~1sec)" && sudo rm -rf /usr/share/dotnet
+          #echo "Remove Android (~12GB/66sec)" && sudo rm -rf /usr/local/lib/android
+          echo "Remove CodeQL (~8GB/0sec)" && sudo rm -rf /opt/hostedtoolcache/CodeQL
+          #echo "Remove Docker images (~4GB/12sec)" && sudo docker image prune --all --force
           AFTER=$(df --output=used / | tail -n 1)
           echo "$[($BEFORE-$AFTER)/1000000]GB freed"
       - name: "Maximize disk space (remove unwanted pre-installed software)"
         run: |
           BEFORE=$(df --output=used / | tail -n 1)
-          #echo "Remove .NET (~17GB)" && sudo rm -rf /usr/share/dotnet
-          #echo "Remove Android (~11GB)" && sudo rm -rf /usr/local/lib/android
-          #echo "Remove Haskell/GHC (~3GB)" && sudo rm -rf /opt/ghc
-          echo "Remove CodeQL (~5GB)" && sudo rm -rf /opt/hostedtoolcache/CodeQL
-          #echo "Remove Docker images (~3GB)" && sudo docker image prune --all --force
+          #echo "Remove .NET (~1GB/~1sec)" && sudo rm -rf /usr/share/dotnet
+          #echo "Remove Android (~12GB/66sec)" && sudo rm -rf /usr/local/lib/android
+          #echo "Remove CodeQL (~8GB/0sec)" && sudo rm -rf /opt/hostedtoolcache/CodeQL
+          echo "Remove Docker images (~4GB/12sec)" && sudo docker image prune --all --force
           AFTER=$(df --output=used / | tail -n 1)
           echo "$[($BEFORE-$AFTER)/1000000]GB freed"
       - name: "Maximize disk space (remove unwanted pre-installed software)"
         run: |
           BEFORE=$(df --output=used / | tail -n 1)
-          #echo "Remove .NET (~17GB)" && sudo rm -rf /usr/share/dotnet
-          #echo "Remove Android (~11GB)" && sudo rm -rf /usr/local/lib/android
-          #echo "Remove Haskell/GHC (~3GB)" && sudo rm -rf /opt/ghc
-          #echo "Remove CodeQL (~5GB)" && sudo rm -rf /opt/hostedtoolcache/CodeQL
-          echo "Remove Docker images (~3GB)" && sudo docker image prune --all --force
+          #echo "Remove .NET (~1GB/~1sec)" && sudo rm -rf /usr/share/dotnet
+          #echo "Remove Android (~12GB/66sec)" && sudo rm -rf /usr/local/lib/android
+          #echo "Remove CodeQL (~8GB/0sec)" && sudo rm -rf /opt/hostedtoolcache/CodeQL
+          echo "Remove Docker images (~4GB/12sec)" && sudo docker image prune --all --force
+          ls /tmp/sdlfjksdlkfj
           AFTER=$(df --output=used / | tail -n 1)
           echo "$[($BEFORE-$AFTER)/1000000]GB freed"

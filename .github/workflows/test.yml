@@ -14,4 +14,4 @@ jobs:
           #echo "Remove CodeQL (~5GB)" && sudo rm -rf /opt/hostedtoolcache/CodeQL
           #echo "Remove Docker images (~3GB)" && sudo docker image prune --all --force
           AFTER=$(df --output=avail / | tail -n 1)
-          echo "$[($BEFORE-$AFTER)/1000]GB freed"
+          echo "$[($BEFORE-$AFTER)/1000000]GB freed"

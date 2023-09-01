@@ -11,4 +11,4 @@ jobs:
       - uses: msys2/setup-msys2@v2
         with:
           msystem: UCRT64
-      - run: uname -a
+      - run: echo $PATH

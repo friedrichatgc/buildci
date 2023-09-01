@@ -5,6 +5,4 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: "Maximize disk space (remove unwanted pre-installed software)"
-        run: |
-          sudo docker image ls
+      - uses: msys2/setup-msys2@v2

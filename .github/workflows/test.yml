@@ -10,5 +10,5 @@ jobs:
     steps:
       - uses: msys2/setup-msys2@v2
         with:
-          msystem: UCRT
+          msystem: UCRT64
       - run: uname -a

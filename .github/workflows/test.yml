@@ -13,10 +13,12 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: msys2/setup-msys2@v2
+      - name: "Install using msys2"
+        uses: msys2/setup-msys2@v2
         with:
           update: true
           msystem: UCRT64
+          # mfmf java must be installed
           install: >
             dos2unix
             git
@@ -39,6 +41,22 @@ jobs:
             mingw-w64-ucrt-x86_64-swig
             mingw-w64-ucrt-x86_64-xalan-c
             mingw-w64-ucrt-x86_64-xerces-c
+            mingw-w64-ucrt-x86_64-ccache
+            mingw-w64-ucrt-x86_64-python-requests
+            mingw-w64-ucrt-x86_64-python-pip
+            mingw-w64-ucrt-x86_64-python-pygithub
+            which
+            file
+            mingw-w64-ucrt-x86_64-python-h5py
+            mingw-w64-ucrt-x86_64-python-pytz
+            mingw-w64-ucrt-x86_64-python-sqlparse
+            mingw-w64-ucrt-x86_64-python-psutil
+            mingw-w64-ucrt-x86_64-libarchive
+            mingw-w64-ucrt-x86_64-diffutils
+            mingw-w64-ucrt-x86_64-python-psycopg2
+            mingw-w64-ucrt-x86_64-sqlite3
+      - name: "Install using pip"
+        run: pip install django==3.2 django-octicons==1.0 paramiko==2.9
       - name: "Checkout"
         run: >
           git clone https://github.com/mbsim-env/build.git &&
@@ -47,24 +65,48 @@ jobs:
           git clone https://github.com/mbsim-env/openmbv.git &&
           git clone https://github.com/mbsim-env/mbsim.git
       - name: "patch swig"
-        run: cd /ucrt64/share/swig/4.1.1 && patch -p2 < $(cygpath -u $GITHUB_WORKSPACE)/build/.github/workflows/swig.git.patch
-      - name: "fmatvec"
         run: >
-          PKG_CONFIG_PATH=$(cygpath -u $GITHUB_WORKSPACE)/local/lib/pkgconfig:$PKG_CONFIG_PATH &&
-          mkdir -p fmatvec-build &&
-          cd fmatvec-build &&
-          cmake $(cygpath -u $GITHUB_WORKSPACE)/fmatvec -DSPOOLES_INCLUDE_DIRS=/ucrt64/include/spooles -DSPOOLES_LIBRARIES=/ucrt64/lib/libspooles.a -GNinja -DCMAKE_INSTALL_PREFIX=$(cygpath -u $GITHUB_WORKSPACE)/local &&
-          ninja &&
-          ninja install
-      - name: "hdf5serie"
+          cd /ucrt64/share/swig/4.1.1 && patch -p2 < $(cygpath -u $GITHUB_WORKSPACE)/build/.github/workflows/swig.git.patch &&
+          cd /ucrt64/share/swig/4.1.1 && patch -p0 < $(cygpath -u $GITHUB_WORKSPACE)/build/docker/buildwin64Image/swig.patch
+      - name: "Build"
         run: >
-          PKG_CONFIG_PATH=$(cygpath -u $GITHUB_WORKSPACE)/local/lib/pkgconfig:$PKG_CONFIG_PATH &&
-          (cd hdf5serie/hdf5serie && aclocal && libtoolize && autoheader && automake -a && autoconf) &&
-          mkdir -p hdf5serie-build/hdf5serie &&
-          cd hdf5serie-build/hdf5serie &&
-          $(cygpath -u $GITHUB_WORKSPACE)/hdf5serie/hdf5serie/configure --prefix=$(cygpath -u $GITHUB_WORKSPACE)/local --with-boost-system-lib=boost_system-mt --with-boost-filesystem-lib=boost_filesystem-mt --with-boost-chrono-lib=boost_chrono-mt --with-boost-thread-lib=boost_thread-mt --with-boost-program-options-lib=boost_program_options-mt --with-qwt-inc-prefix=/ucrt64/include/qwt-qt5 --with-qwt-lib-name=qwt-qt5 --enable-python --with-boost-regex-lib=boost_regex-mt --with-boost-timer-lib=boost_timer-mt --with-boost-date-time-lib=boost_date_time-mt &&
-          make -j 2 &&
-          make install
+          $(cygpath -u $GITHUB_WORKSPACE)/build/django/mbsimenv/build.py --enableDistribution
+          --sourceDir $(cygpath -u $GITHUB_WORKSPACE) --binSuffix=-build --prefix $(cygpath -u $GITHUB_WORKSPACE)/local -j 2
+          --fmatvecBranch master
+          --hdf5serieBranch master, --openmbvBranch master
+          --mbsimBranch master --enableCleanPrefix
+          --buildType msys2
+          --passToConfigure --enable-shared --disable-static --enable-python
+          --with-boost-system-lib=boost_system-mt --with-boost-filesystem-lib=boost_filesystem-mt
+          --with-boost-chrono-lib=boost_chrono-mt --with-boost-thread-lib=boost_thread-mt
+          --with-boost-program-options-lib=boost_program_options-mt --with-qwt-inc-prefix=/ucrt64/include/qwt-qt5
+          --with-qwt-lib-name=qwt-qt5 --with-boost-regex-lib=boost_regex-mt --with-boost-timer-lib=boost_timer-mt
+          --with-boost-date-time-lib=boost_date_time-mt
+          --passToCMake
+          -DSPOOLES_INCLUDE_DIRS=/ucrt64/include/spooles -DSPOOLES_LIBRARIES=/ucrt64/lib/libspooles.a
+          -GNinja -DCMAKE_INSTALL_PREFIX=$(cygpath -u $GITHUB_WORKSPACE)/local
+          --passToRunexamples
+          --disableCompare --disableValidate --checkGUIs --exeExt .exe --filter "'basic' in labels"
+
+
+
+#      - name: "fmatvec"
+#        run: >
+#          PKG_CONFIG_PATH=$(cygpath -u $GITHUB_WORKSPACE)/local/lib/pkgconfig:$PKG_CONFIG_PATH &&
+#          mkdir -p fmatvec-build &&
+#          cd fmatvec-build &&
+#          cmake $(cygpath -u $GITHUB_WORKSPACE)/fmatvec -DSPOOLES_INCLUDE_DIRS=/ucrt64/include/spooles -DSPOOLES_LIBRARIES=/ucrt64/lib/libspooles.a -GNinja -DCMAKE_INSTALL_PREFIX=$(cygpath -u $GITHUB_WORKSPACE)/local &&
+#          ninja &&
+#          ninja install
+#      - name: "hdf5serie"
+#        run: >
+#          PKG_CONFIG_PATH=$(cygpath -u $GITHUB_WORKSPACE)/local/lib/pkgconfig:$PKG_CONFIG_PATH &&
+#          (cd hdf5serie/hdf5serie && aclocal && libtoolize && autoheader && automake -a && autoconf) &&
+#          mkdir -p hdf5serie-build/hdf5serie &&
+#          cd hdf5serie-build/hdf5serie &&
+#          $(cygpath -u $GITHUB_WORKSPACE)/hdf5serie/hdf5serie/configure --prefix=$(cygpath -u $GITHUB_WORKSPACE)/local --with-boost-system-lib=boost_system-mt --with-boost-filesystem-lib=boost_filesystem-mt --with-boost-chrono-lib=boost_chrono-mt --with-boost-thread-lib=boost_thread-mt --with-boost-program-options-lib=boost_program_options-mt --with-qwt-inc-prefix=/ucrt64/include/qwt-qt5 --with-qwt-lib-name=qwt-qt5 --enable-python --with-boost-regex-lib=boost_regex-mt --with-boost-timer-lib=boost_timer-mt --with-boost-date-time-lib=boost_date_time-mt &&
+#          make -j 2 &&
+#          make install
 #      - name: "h5plotserie"
 #        run: >
 #          PKG_CONFIG_PATH=$(cygpath -u $GITHUB_WORKSPACE)/local/lib/pkgconfig:$PKG_CONFIG_PATH &&

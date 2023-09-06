@@ -72,8 +72,7 @@ jobs:
           git clone https://github.com/mbsim-env/mbsim.git
       - name: "patch swig"
         run: >
-          cd /ucrt64/share/swig/4.1.1 && patch -p2 < $(cygpath -u $GITHUB_WORKSPACE)/build/.github/workflows/swig.git.patch &&
-          cd /ucrt64/share/swig/4.1.1 && patch -p0 < $(cygpath -u $GITHUB_WORKSPACE)/build/docker/buildwin64Image/swig.patch
+          cd /ucrt64/share/swig/4.1.1 && patch -p2 < $(cygpath -u $GITHUB_WORKSPACE)/build/.github/workflows/swig.git.patch
       - name: "Build"
         run: >
           $(cygpath -u $GITHUB_WORKSPACE)/build/django/mbsimenv/build.py --enableDistribution

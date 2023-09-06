@@ -55,6 +55,11 @@ jobs:
             mingw-w64-ucrt-x86_64-diffutils
             mingw-w64-ucrt-x86_64-python-psycopg2
             mingw-w64-ucrt-x86_64-sqlite3
+            mingw-w64-ucrt-x86_64-python-asgiref
+            mingw-w64-ucrt-x86_64-python-tzdata
+            mingw-w64-ucrt-x86_64-python-bcrypt
+            mingw-w64-ucrt-x86_64-python-pynacl
+            mingw-w64-ucrt-x86_64-python-six
       - name: "Install using pip"
         run: pip install django==3.2 django-octicons==1.0 paramiko==2.9
       - name: "Checkout"

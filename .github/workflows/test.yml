@@ -6,9 +6,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: ScribeMD/docker-cache@0.3.5
-        with:
-          key: docker-testid73456
+#      - uses: ScribeMD/docker-cache@0.3.5 # no benefit since docker-hub is equal fast as github-cache
+#        with:
+#          key: docker-testid73456
       - run: docker image ls
-      - run: docker pull mbsimenv/build:latest
-      - run: docker image ls
+#      - run: docker pull mbsimenv/build:latest
+#      - run: docker image ls

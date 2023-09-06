@@ -58,6 +58,7 @@ jobs:
             mingw-w64-ucrt-x86_64-python-asgiref
             mingw-w64-ucrt-x86_64-python-tzdata
             mingw-w64-ucrt-x86_64-python-bcrypt
+            mingw-w64-ucrt-x86_64-python-cryptography
             mingw-w64-ucrt-x86_64-python-pynacl
             mingw-w64-ucrt-x86_64-python-six
       - name: "Install using pip"

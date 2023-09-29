@@ -11,3 +11,6 @@ RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tl
   msys 'pacman --noconfirm -Syuu'; \
   msys 'pacman --noconfirm -Syuu'; \
   msys 'pacman --noconfirm -Scc';
+
+ENV MSYSTEM=UCRT64
+SHELL ["c:/msys64/usr/bin/bash", "--login"]

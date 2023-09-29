@@ -17,7 +17,7 @@ jobs:
       - name: "Create docker"
         run: docker build -t testbuild .
       - name: "Run docker"
-        run: docker run testbuild ls -l
+        run: docker run testbuild c:/msys64/usr/bin/ls -l c:/msys64/usr/bin
 
 
 

@@ -15,5 +15,5 @@ RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tl
 ENV MSYSTEM=UCRT64
 SHELL ["c:/msys64/usr/bin/bash", "--login", "-c"]
 
-RUN ls -l
-RUN ["c:/msys64/usr/bin/ls", "-l"]
+RUN ls -l /usr/bin
+RUN ["c:/msys64/usr/bin/ls", "-l", "c:/msys64/usr/bin"]

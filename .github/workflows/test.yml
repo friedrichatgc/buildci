@@ -16,6 +16,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: "Create docker"
         run: docker build -t testbuild .
+      - name: "MSYS test"
+        shell: msys2 {0}
+        run: ls -l
 
 
 

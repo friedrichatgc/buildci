@@ -7,9 +7,9 @@ jobs:
   build:
     name: "win64-ci-msys2"
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: msys2 {0}
+#    defaults:
+#      run:
+#        shell: msys2 {0}
     strategy:
       fail-fast: false
     steps:

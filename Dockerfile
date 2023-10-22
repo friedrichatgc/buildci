@@ -1,5 +1,6 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
+#test
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \

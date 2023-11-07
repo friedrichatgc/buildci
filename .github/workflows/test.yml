@@ -7,6 +7,7 @@ jobs:
     runs-on: windows-latest
     defaults:
       run:
-        shell: pwsh
+        shell: cmd
     steps:
-      - run: function directory-summary($dir=".") { get-childitem $dir | % { $f = $_ ; get-childitem -r $_.FullName | measure-object -property length -sum | select @{Name="Name";Expression={$f}},Sum}}; directory-summary("c:\")
+      - run: dir c:\ /a /s
+      - run: dir d:\ /a /s

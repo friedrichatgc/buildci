@@ -9,7 +9,8 @@ jobs:
       run:
         shell: pwsh
     steps:
-      - run: >
+      - name: "test"
+        run: >
           function directory-summary($dir=".") { 
             get-childitem $dir | 
               % { $f = $_ ; 

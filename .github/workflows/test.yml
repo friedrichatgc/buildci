@@ -5,9 +5,6 @@ jobs:
   build:
     name: "win64-ci-msys2"
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: pwsh
     steps:
       - name: "test"
         run: >

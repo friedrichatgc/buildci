@@ -9,5 +9,4 @@ jobs:
       run:
         shell: cmd
     steps:
-      - run: dir c:\ /a /s
-      - run: dir d:\ /a /s
+      - run: dir d:\ /s

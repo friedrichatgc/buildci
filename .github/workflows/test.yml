@@ -1,3 +1,17 @@
+#    steps:
+#      - name: "test"
+#        run: >
+#          function directory-summary($dir=".") { 
+#            get-childitem $dir | 
+#              % { $f = $_ ; 
+#                get-childitem -r $_.FullName | 
+#                  measure-object -property length -sum | 
+#                    select @{Name="Name";Expression={$f}},Sum}
+#         }
+#         cd c:\
+#         directory-summary
+#         cd d:\
+#         directory-summary
 name: CI msys2 (Repo-Dispatch)
 on:
   push:
@@ -5,17 +19,12 @@ jobs:
   build:
     name: "win64-ci-msys2"
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
     steps:
-      - name: "test"
+      - name: "Dump resources"
         run: >
-          function directory-summary($dir=".") { 
-            get-childitem $dir | 
-              % { $f = $_ ; 
-                get-childitem -r $_.FullName | 
-                  measure-object -property length -sum | 
-                    select @{Name="Name";Expression={$f}},Sum}
-         }
-         cd c:\
-         directory-summary
-         cd d:\
-         directory-summary
+          echo ***df***; Get-WmiObject -Class Win32_LogicalDisk | Format-Table DeviceId, FreeSpace, Size;
+          echo ***free***; Get-CIMInstance Win32_OperatingSystem | Select FreePhysicalMemory,TotalVisibleMemory;
+          echo ***cpu***; Get-CimInstance -ClassName 'Win32_Processor' | Select-Object -Property 'DeviceID', 'Name', 'NumberOfCores';

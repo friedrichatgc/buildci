@@ -9,6 +9,8 @@ jobs:
       run:
         shell: C:\msys64\usr\bin\bash.exe {0}
     steps:
+      - run: pwd
       - run: ls -l
+      - run: ls -l /
       - run: echo $MSYSTEM
       - run: echo $PATH

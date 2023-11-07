@@ -12,5 +12,5 @@ jobs:
         shell: C:\msys64\usr\bin\bash.exe -l {0}
     steps:
       - run: pwd
-      - run: cygpath -w .
+      - run: cygpath -w $(pwd)
       - run: echo $PATH

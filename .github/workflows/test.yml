@@ -1,6 +1,8 @@
 name: CI msys2 (Repo-Dispatch)
 on:
   push:
+env:
+  MSYSTEM: UCRT64
 jobs:
   build:
     name: "win64-ci-msys2"
@@ -10,7 +12,5 @@ jobs:
         shell: C:\msys64\usr\bin\bash.exe -l {0}
     steps:
       - run: pwd
-      - run: ls -l
-      - run: ls -l /
-      - run: echo $MSYSTEM
+      - run: cygpath -w .
       - run: echo $PATH

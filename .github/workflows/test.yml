@@ -7,7 +7,7 @@ jobs:
     runs-on: windows-latest
     defaults:
       run:
-        shell: msys2bash
+        shell: msys2bash.cmd
     steps:
       - run: ls -l
       - run: echo $MSYSTEM

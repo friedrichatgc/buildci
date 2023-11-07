@@ -10,7 +10,7 @@ jobs:
         shell: pwsh
     steps:
       - name: "Dump resources"
-        run: >
+        run: |
           function directory-summary($dir=".") { 
             get-childitem $dir | 
               % { $f = $_ ; 

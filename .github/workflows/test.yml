@@ -11,3 +11,4 @@ jobs:
     steps:
       - run: ls -l
       - run: echo $MSYSTEM
+      - run: echo $PATH

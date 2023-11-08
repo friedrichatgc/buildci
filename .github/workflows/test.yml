@@ -79,7 +79,7 @@ jobs:
           git clone -q --depth 1 https://github.com/mbsim-env/openmbv.git &&
           git clone -q --depth 1 https://github.com/mbsim-env/mbsim.git
       - name: "mfmfremove"
-        run: pacman -S --noconfirm mingw-w64-ucrt-x86_64-swig
+        run: pacman -S --noconfirm mingw-w64-ucrt-x86_64-swig patch
       - name: "mfmfa"
         run: ls -l /ucrt64/share/swig
       - name: "patch swig"

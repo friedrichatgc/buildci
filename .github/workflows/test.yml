@@ -66,8 +66,8 @@ jobs:
 #          7z x mesa3d-23.1.9-release-msvc.7z &&
 #          cmd //c systemwidedeploy.cmd 1 &&
 #          cd .. && rm -rf mesa
-      - name: "Install pip packages"
-        run: pip install --upgrade pip && pip install django==3.2 django-allauth==0.47 django-octicons==1.0
+#      - name: "Install pip packages"
+#        run: pip install --upgrade pip && pip install django==3.2 django-allauth==0.47 django-octicons==1.0
       - name: "mfmf2"
         run: gh --version
       - name: "mfmf3"

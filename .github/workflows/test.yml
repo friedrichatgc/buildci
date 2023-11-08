@@ -16,7 +16,8 @@ jobs:
       - name: "Dump resources"
         run: echo ***df*** && df && echo ***free*** && free && echo ***cpu*** && cat /proc/cpuinfo | grep "model name"
       - name: "Install msys2 packages"
-        run: > pacman -S --noconfirm
+        run: >
+          pacman -S --noconfirm
           dos2unix
           patch
           mingw-w64-ucrt-x86_64-arpack

@@ -4,7 +4,7 @@ on:
 env:
   MSYSTEM: UCRT64 # use the msys2 UCRT64 environment
   HOME: d:\myhome # use d:\myhome as msys2 home dir
-  CCACHE_DIR: ${{env.HOME}}\ccache
+  CCACHE_DIR: c:\myhome\ccache
 jobs:
   build:
     name: "win64-ci-msys2"

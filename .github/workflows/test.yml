@@ -68,18 +68,9 @@ jobs:
 #          cd .. && rm -rf mesa
 #      - name: "Install pip packages"
 #        run: pip install --upgrade pip && pip install django==3.2 django-allauth==0.47 django-octicons==1.0
-      - name: "mfmf3"
-        run: pwd
-      - name: "mfmf4"
-        run: cygpath -w $(pwd)
-      - name: "mfmf5"
-        run: echo $CCACHE_DIR
       - name: "Add git and gh to msys2 path"
         run: echo 'PATH="$PATH:/c/Program Files/Git/bin:/c/Program Files/GitHub CLI"' >> ~/.bash_profile
-      - name: "mfmf1"
-        run: git --version
-      - name: "mfmf2"
-        run: gh --version
+        #mfmf test if ccache is working
       - name: "Clone all git repos"
         run: >
           git clone -q --depth 1 https://github.com/mbsim-env/build.git &&
@@ -87,6 +78,8 @@ jobs:
           git clone -q --depth 1 https://github.com/mbsim-env/hdf5serie.git &&
           git clone -q --depth 1 https://github.com/mbsim-env/openmbv.git &&
           git clone -q --depth 1 https://github.com/mbsim-env/mbsim.git
+      - name: "mfmfa"
+        run: ls -l /ucrt64/share/swig
       - name: "patch swig"
         run: cd /ucrt64/share/swig/4.1.1 && patch -p2 < $HOME/build/msys2ucrt64Build/swig.git.patch
       - name: "Create build UUID"

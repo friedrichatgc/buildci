@@ -10,11 +10,11 @@ jobs:
   build:
     name: "win64-ci-msys2"
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: C:\msys64\usr\bin\bash.exe -l {0}
+#    defaults:
+#      run:
+#        shell: C:\msys64\usr\bin\bash.exe -l {0}
     steps:
-      - run: ls
+      - run: dir
       - run: ls
         shell: C:\msys64\usr\bin\bash.exe -l {0}
       - run: dir

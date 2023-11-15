@@ -14,5 +14,10 @@ jobs:
       run:
         shell: C:\msys64\usr\bin\bash.exe -l {0}
     steps:
-      - run: pacman -Qe
-      - run: pacman -Q
+      - run: ls
+      - run: ls
+        shell: C:\msys64\usr\bin\bash.exe -l {0}
+      - run: dir
+        shell: cmd
+      - run: dir
+        shell: pwsh

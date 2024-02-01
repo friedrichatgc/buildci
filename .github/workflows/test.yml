@@ -23,28 +23,6 @@ jobs:
       - name: "Install msys2 packages and cleanup"
         run: >
           pacman --noconfirm -S
-          mingw-w64-ucrt-x86_64-cmake
-      - name: "cmake"
-        if: ${{always()}}
-        run: cmake -h
-      - name: "cmake"
-        if: ${{always()}}
-        run: ldd /ucrt64/bin/cmake.exe
-      - name: "Downgrade openssl to 3.1.4-1"
-        run: >
-          mkdir openssl && cd openssl &&
-          wget --no-verbose https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-openssl-3.1.4-1-any.pkg.tar.zst &&
-          pacman --noconfirm -U mingw-w64-ucrt-x86_64-openssl-3.1.4-1-any.pkg.tar.zst &&
-          cd .. && rm -rf openssl
-      - name: "Downgrade cmake"
-        run: >
-          mkdir cmake && cd cmake &&
-          wget --no-verbose https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-cmake-3.23.3-1-any.pkg.tar.zst &&
-          pacman --noconfirm -U mingw-w64-ucrt-x86_64-*.pkg.tar.zst &&
-          cd .. && rm -rf cmake
-      - name: "cmake"
-        if: ${{always()}}
-        run: cmake -h
-      - name: "cmake"
-        if: ${{always()}}
-        run: ldd /ucrt64/bin/cmake.exe
+          mingw-w64-ucrt-x86_64-python-pip
+      - name: "install psycopg2"
+        run: pip install psycopg2

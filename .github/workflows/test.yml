@@ -24,6 +24,12 @@ jobs:
         run: >
           pacman --noconfirm -S
           mingw-w64-ucrt-x86_64-cmake
+      - name: "cmake"
+        if: ${{always()}}
+        run: cmake -h
+      - name: "cmake"
+        if: ${{always()}}
+        run: ldd /ucrt64/bin/cmake.exe
       - name: "Downgrade openssl to 3.1.4-1"
         run: >
           mkdir openssl && cd openssl &&
@@ -33,3 +39,6 @@ jobs:
       - name: "cmake"
         if: ${{always()}}
         run: cmake -h
+      - name: "cmake"
+        if: ${{always()}}
+        run: ldd /ucrt64/bin/cmake.exe

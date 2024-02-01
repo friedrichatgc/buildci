@@ -24,5 +24,12 @@ jobs:
         run: >
           pacman --noconfirm -S
           mingw-w64-ucrt-x86_64-cmake
+      - name: "Downgrade openssl to 3.1.4-1"
+        run: >
+          mkdir openssl && cd openssl &&
+          wget --no-verbose https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-openssl-3.1.4-1-any.pkg.tar.zst &&
+          pacman --noconfirm -U mingw-w64-ucrt-x86_64-openssl-3.1.4-1-any.pkg.tar.zst &&
+          cd .. && rm -rf openssl
       - name: "cmake"
+        if: ${{always()}}
         run: cmake -h

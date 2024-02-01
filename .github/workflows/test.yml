@@ -36,6 +36,12 @@ jobs:
           wget --no-verbose https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-openssl-3.1.4-1-any.pkg.tar.zst &&
           pacman --noconfirm -U mingw-w64-ucrt-x86_64-openssl-3.1.4-1-any.pkg.tar.zst &&
           cd .. && rm -rf openssl
+      - name: "Downgrade cmake"
+        run: >
+          mkdir cmake && cd cmake &&
+          wget --no-verbose https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-ccmake-3.27.9-1-any.pkg.tar.zst &&
+          pacman --noconfirm -U mingw-w64-ucrt-x86_64-*.pkg.tar.zst &&
+          cd .. && rm -rf cmake
       - name: "cmake"
         if: ${{always()}}
         run: cmake -h

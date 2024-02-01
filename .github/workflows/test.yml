@@ -1,23 +1,28 @@
-name: CI msys2 (Repo-Dispatch)
+name: test
 on:
   push:
 env:
   MSYSTEM: UCRT64 # use the msys2 UCRT64 environment
   HOME: d:\myhome # use d:\myhome as msys2 home dir
-  CCACHE_DIR: c:\myhome\ccache
-  GH_TOKEN: ${{github.token}} # needed for gh-actions-cache
 jobs:
   build:
-    name: "win64-ci-msys2"
+    name: "msyst test"
     runs-on: windows-latest
-#    defaults:
-#      run:
-#        shell: C:\msys64\usr\bin\bash.exe -l {0}
-    steps:
-      - run: dir
-      - run: ls
+    defaults:
+      run:
         shell: C:\msys64\usr\bin\bash.exe -l {0}
-      - run: dir
+    steps:
+      - name: "Init msys2 (and install procps needed for free command)"
+        run: pacman --noconfirm -S procps
+      - name: "Update msys2 part 1"
+        # this may update msys2-runtime which closed also the current bash -> run in a cmd
         shell: cmd
-      - run: dir
-        shell: pwsh
+        run: C:\msys64\usr\bin\pacman.exe --noconfirm -Syuu
+      - name: "Update msys2 part 2"
+        run: pacman --noconfirm -Syuu
+      - name: "Install msys2 packages and cleanup"
+        run: >
+          pacman --noconfirm -S
+          mingw-w64-ucrt-x86_64-cmake
+      - name: "cmake"
+        run: cmake -h

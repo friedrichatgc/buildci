@@ -7,7 +7,7 @@ env:
 jobs:
   build:
     name: "msyst test"
-    runs-on: windows-latest
+    runs-on: windows-2019
     defaults:
       run:
         shell: C:\msys64\usr\bin\bash.exe -l {0}

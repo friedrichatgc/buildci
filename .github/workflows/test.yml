@@ -12,17 +12,5 @@ jobs:
       run:
         shell: C:\msys64\usr\bin\bash.exe -l {0}
     steps:
-      - name: "Init msys2 (and install procps needed for free command)"
-        run: pacman --noconfirm -S procps
-      - name: "Update msys2 part 1"
-        # this may update msys2-runtime which closed also the current bash -> run in a cmd
-        shell: cmd
-        run: C:\msys64\usr\bin\pacman.exe --noconfirm -Syuu
-      - name: "Update msys2 part 2"
-        run: pacman --noconfirm -Syuu
-      - name: "Install msys2 packages and cleanup"
-        run: >
-          pacman --noconfirm -S
-          mingw-w64-ucrt-x86_64-python-pip
-      - name: "install psycopg2"
-        run: pip install psycopg2
+      - run: git clone git@github.com:mbsim-env/build.git
+      - run: cd build && docker build -t test docker/buildmsys2ucrt64Image

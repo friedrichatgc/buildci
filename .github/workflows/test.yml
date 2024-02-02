@@ -12,5 +12,7 @@ jobs:
       run:
         shell: C:\msys64\usr\bin\bash.exe -l {0}
     steps:
+      - name: "Add git and gh to msys2 path"
+        run: echo 'PATH="$PATH:/c/Program Files/Git/bin:/c/Program Files/GitHub CLI"' >> ~/.bash_profile
       - run: git clone git@github.com:mbsim-env/build.git
       - run: cd build && docker build -t test docker/buildmsys2ucrt64Image

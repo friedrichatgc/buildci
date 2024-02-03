@@ -7,4 +7,4 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
-      - run: docker build -t test .
+      - run: docker build --isolation=hyperv -t test .

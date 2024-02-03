@@ -4,7 +4,7 @@ on:
 jobs:
   build:
     name: "msys2 test"
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
       - run: docker build -t test .

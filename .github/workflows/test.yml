@@ -7,4 +7,4 @@ jobs:
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v4
-      - run: cd buildci && docker build -t test .
+      - run: docker build -t test .

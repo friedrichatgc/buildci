@@ -22,7 +22,13 @@ print("group2a")
 print('::endgroup::')
 print("test2b")
 print("test2a")
-print(f'::group::\033[0;{colorMap["red"]}mmy group b\033[0m')
+
+#print(f'::group::\033[0;{colorMap["red"]}mmy group b\033[0m')
+
+print(f'\033[0;{colorMap["red"]}m', end="")
+print('::group::my group b')
+print(f'\033[0m', end="")
+
 print("group1b")
 print("group2b")
 print('::endgroup::')

@@ -41,6 +41,6 @@ print('::endgroup::')
 print("test2b")
 print("test2a")
 for k in colorMap:
-  print(f'\033[0;{colorMap[k]}mHello {k}\033[0m')
+  print(f'\033[0;{colorMap[k]}mHello {k} line1\nline2\nline3\033[0m')
 print("test2b")
 print("test3")

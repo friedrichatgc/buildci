@@ -3,8 +3,8 @@ on:
   push:
 jobs:
   build:
-    name: "msys2 test"
-    runs-on: windows-2022
+    name: "linux test"
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: docker build --isolation=hyperv -t test .
+      - run: python3 test.py

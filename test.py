@@ -21,6 +21,8 @@ colorMap={
   "white": 38,
 }
 for k in colorMap:
-  print(f'\033[0;{colorMap[k]};40mHello red {k}\033[0m')
+  print(f'\033[0;{colorMap[k]};40mHello {k}\033[0m')
+for k in colorMap:
+  print(f'\033[1;{colorMap[k]};40mHello bold {k}\033[0m')
 print("test2b")
 print("test3")

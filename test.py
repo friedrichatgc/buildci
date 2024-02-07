@@ -12,6 +12,7 @@ print("test2a")
 print("\033[38;5;1m")
 print("Hello red")
 print("\033[0m")
+print(f'\x1b[0;1;2mHello red\x1b[0m')
 print("test2b")
 print("test3")
 

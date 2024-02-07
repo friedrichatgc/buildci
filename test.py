@@ -15,14 +15,13 @@ colorMap={
   "green": 32,
   "yellow": 33,
   "blue": 34,
-  "purple": 35,
+  "magenta": 35,
   "cyan": 36,
-  "gray": 37,
-  "white": 38,
+  "white": 37,
+  "default": 39,
+  "reset": 0,
 }
 for k in colorMap:
-  print(f'\033[0;{colorMap[k]};40mHello {k}\033[0m')
-for k in colorMap:
-  print(f'\033[1;{colorMap[k]};40mHello bold {k}\033[0m')
+  print(f'\033[0;{colorMap[k]}mHello {k}\033[0m')
 print("test2b")
 print("test3")

@@ -4,4 +4,4 @@ FROM python:windowsservercore-ltsc2022
 #
 #COPY buildci/entrypoint.py c:/msys64/context/entrypoint.py
 #USER ContainerUser
-ENTRYPOINT ["python3.exe", "-c", "print(99)"]
+ENTRYPOINT ["python.exe", "-c", "print(99)"]

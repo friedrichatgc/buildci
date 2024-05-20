@@ -12,6 +12,7 @@ RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tl
   Remove-Item msys2.exe ; `
   function msys() { C:\msys64\usr\bin\bash.exe @('-lc') + @Args; } `
   msys ' '; `
+  msys 'pacman -h';
 
 ENV MSYSTEM=UCRT64 CHERE_INVOKING=yes
 SHELL ["c:\\msys64\\usr\\bin\\bash.exe", "-l", "-c"]

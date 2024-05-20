@@ -32,20 +32,7 @@ COPY entrypoint_msys2.bat c:/msys64/context/entrypoint_msys2.bat
 
 CMD []
 USER ContainerUser
-ENTRYPOINT ["c:/msys64/ucrt64/bin/python3", "c:/msys64/context/entrypoint.py"]
-
-
-
-
-
-
-
-
-
-
-#FROM python:windowsservercore-ltsc2022
-#
-#RUN mkdir c:/msys64/context
-#COPY entrypoint.py c:/msys64/context/entrypoint.py
-#ENTRYPOINT ["python.exe", "c:/msys64/context/entrypoint.py"]
-
+#ENTRYPOINT ["c:/msys64/ucrt64/bin/python3"]
+RUN ls -l /ucrt64/bin
+RUN ls /context
+ENTRYPOINT ["c:/msys64/context/entrypoint_msys2.bat", "/ucrt64/bin/python3", "/context/entrypoint.py"]

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM python:windowsservercore-ltsc2016
 
 #RUN mkdir c:/msys64/context
 #

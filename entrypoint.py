@@ -1,5 +1,8 @@
 import sys
 
-print("test")
+argStr=""
 for a in sys.argv:
-  print(a)
+  if "'" in a:
+    raise RuntimeError("Can't convert a argument including '")
+  argStr+=" '"+a+"'"
+print(argStr)

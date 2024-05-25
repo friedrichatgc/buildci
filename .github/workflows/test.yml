@@ -10,9 +10,6 @@ jobs:
         run: |
           import shutil
           import os
-          print(r"${{github.workspace}}")
           du=shutil.disk_usage(r"${{github.workspace}}")
           print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")
           print(f"CPUs: {os.cpu_count()}")
-          
-          print(psutil.virtual_memory())

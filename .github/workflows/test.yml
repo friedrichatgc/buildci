@@ -9,5 +9,5 @@ jobs:
       - shell: python
         run: |
           print('''line1
-line2
-line3''')
+          line2
+          line3''')

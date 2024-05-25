@@ -6,11 +6,16 @@ jobs:
     name: "msys2 test"
     runs-on: windows-2019
     steps:
-      - run: mkdir ${{github.workspace}}/dummy1
-      - run: mkdir -p ${{github.workspace}}/dummy2
-      - run: mkdir -m 777 ${{github.workspace}}/dummy3
-      - run: mkdir -m 777 -p ${{github.workspace}}/dummy4
-      - run: mkdir ${{github.workspace}}/dummy1/a
-      - run: mkdir -p ${{github.workspace}}/dummy2/a
-      - run: mkdir -m 777 ${{github.workspace}}/dummy3/a
-      - run: mkdir -m 777 -p ${{github.workspace}}/dummy4/a
+      - run: |
+          import shutil
+          import multiprocessing
+          du=shutil.disk_usage("/")
+          print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")
+          print(f"CPUs: {multiprocessing.cpu_count()}")
+          
+          import os
+          print(f"CPUs: {os.cpu_count()}")
+          import psutil
+          print(f"CPUs: {psutil.cpu_count(False)}")
+          
+          print(psutil.virtual_memory())

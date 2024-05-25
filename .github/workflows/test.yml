@@ -6,6 +6,7 @@ jobs:
     name: "msys2 test"
     runs-on: windows-2019
     steps:
+      - run: pip install psutil
       - shell: python
         run: |
           import shutil

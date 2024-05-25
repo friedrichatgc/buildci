@@ -6,9 +6,8 @@ jobs:
     name: "msys2 test"
     runs-on: windows-2019
     steps:
-      - run: echo %PATH%
-        if: ${{always()}}
-      - run: which gh
-        if: ${{always()}}
-      - run: which gh
-        if: ${{always()}}
+      - shell: python
+        run: |
+          print('''line1
+line2
+line3''')

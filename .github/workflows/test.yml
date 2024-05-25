@@ -10,14 +10,10 @@ jobs:
       - shell: python
         run: |
           import shutil
-          import multiprocessing
-          du=shutil.disk_usage("/")
-          print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")
-          print(f"CPUs: {multiprocessing.cpu_count()}")
-          
           import os
+          du=shutil.disk_usage("${{github.workspace}}")
+          print(f"{${{github.workspace}}}")
+          print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")
           print(f"CPUs: {os.cpu_count()}")
-          import psutil
-          print(f"CPUs: {psutil.cpu_count(False)}")
           
           print(psutil.virtual_memory())

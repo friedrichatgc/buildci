@@ -6,7 +6,8 @@ jobs:
     name: "msys2 test"
     runs-on: windows-2019
     steps:
-      - run: |
+      - shell: python
+        run: |
           import shutil
           import multiprocessing
           du=shutil.disk_usage("/")
@@ -17,3 +18,5 @@ jobs:
           print(f"CPUs: {os.cpu_count()}")
           import psutil
           print(f"CPUs: {psutil.cpu_count(False)}")
+          
+          print(psutil.virtual_memory())

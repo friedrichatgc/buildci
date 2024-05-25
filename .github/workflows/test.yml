@@ -17,5 +17,3 @@ jobs:
           print(f"CPUs: {os.cpu_count()}")
           import psutil
           print(f"CPUs: {psutil.cpu_count(False)}")
-          
-          print(psutil.virtual_memory())

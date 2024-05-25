@@ -6,13 +6,12 @@ jobs:
     name: "msys2 test"
     runs-on: windows-2019
     steps:
-      - run: pip install psutil
       - shell: python
         run: |
           import shutil
           import os
-          du=shutil.disk_usage("${{github.workspace}}")
           print(f"{${{github.workspace}}}")
+          du=shutil.disk_usage("${{github.workspace}}")
           print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")
           print(f"CPUs: {os.cpu_count()}")
           

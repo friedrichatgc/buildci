@@ -29,5 +29,7 @@ jobs:
       - name: "RUN"
         run: echo "file to cache 4" > ${{github.workspace}}\mbsim-ccache\cachedfile
       - name: "RUN"
-        continue-on-error: true
         run: sldkfj
+      - name: "RUN"
+        if: ${{always()}}
+        run: echo "dummy"

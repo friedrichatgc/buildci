@@ -23,6 +23,7 @@ jobs:
         with:
           path: ${{github.workspace}}\mbsim-ccache
           key: ccache-msys2win64-ci--${{steps.matrixUUID.outputs.matrixUUID}}
+          enableCrossOsArchive: true
           restore-keys: |
             ccache-msys2win64-ci--
       - name: "RUN"

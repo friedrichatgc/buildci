@@ -27,6 +27,8 @@ jobs:
             ccache-msys2win64-ci--
       - name: "RUN"
         run: echo "file to cache 3" > ${{github.workspace}}\mbsim-ccache\cachedfile
+      - name: "FAIL"
+        run: sldfkj
       - name: "Cache save: ccache"
         if: ${{always()}}
         uses: actions/cache/save@v4

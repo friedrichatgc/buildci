@@ -6,32 +6,5 @@ jobs:
     name: "msys2 test"
     runs-on: windows-2019
     steps:
-      - name: "Docker: create bind mount points"
-        run: >
-          mkdir ${{github.workspace}}\mbsim-env &&
-          mkdir ${{github.workspace}}\mbsim-ccache
-      - name: "Create build UUID"
-        shell: python
-        id: matrixUUID
-        run: |
-          import uuid
-          print("jobs.build.steps.matrixUUID.outputs.matrixUUID:\n"+str(uuid.uuid4()))
-          with open(r"${{github.output}}", "at") as o:
-            print("matrixUUID="+str(uuid.uuid4()), file=o)
-      - name: "Cache restore: ccache"
-        uses: actions/cache/restore@v4
-        with:
-          path: ${{github.workspace}}/mbsim-ccache
-          key: ccache-msys2win64-ci--${{steps.matrixUUID.outputs.matrixUUID}}
-          restore-keys: |
-            ccache-msys2win64-ci--
       - name: "RUN"
-        run: echo "file to cache 3" > ${{github.workspace}}\mbsim-ccache\cachedfile
-      - name: "FAIL"
-        run: sldfkj
-      - name: "Cache save: ccache"
-        if: ${{always()}}
-        uses: actions/cache/save@v4
-        with:
-          path: ${{github.workspace}}/mbsim-ccache
-          key: ccache-msys2win64-ci--${{steps.matrixUUID.outputs.matrixUUID}}
+        run: docker run notepad.exe

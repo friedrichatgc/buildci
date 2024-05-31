@@ -6,7 +6,7 @@ jobs:
     name: "msys2 test"
     runs-on: windows-2019
     steps:
-      - run: docker run mcr.microsoft.com/windows/nanoserver:ltsc2019 powershell.exe -Command "& {Get-ChildItem -Path c:\ -Filter opengl32.dll -Recurse -ErrorAction SilentlyContinue -Force}"
+      #      - run: docker run mcr.microsoft.com/windows/nanoserver:ltsc2019 powershell.exe -Command "& {Get-ChildItem -Path c:\ -Filter opengl32.dll -Recurse -ErrorAction SilentlyContinue -Force}"
       - run: docker run mcr.microsoft.com/windows/server:ltsc2019 powershell.exe -Command "& {Get-ChildItem -Path c:\ -Filter opengl32.dll -Recurse -ErrorAction SilentlyContinue -Force}"
       - run: docker run mcr.microsoft.com/windows:ltsc2019 powershell.exe -Command "& {Get-ChildItem -Path c:\ -Filter opengl32.dll -Recurse -ErrorAction SilentlyContinue -Force}"
       - run: docker run mcr.microsoft.com/windows/servercore:ltsc2019 powershell.exe -Command "& {Get-ChildItem -Path c:\ -Filter opengl32.dll -Recurse -ErrorAction SilentlyContinue -Force}"

@@ -7,4 +7,4 @@ jobs:
     runs-on: windows-2019
     steps:
       - name: "RUN"
-        run: docker run notepad.exe
+        run: docker run mcr.microsoft.com/windows/servercore:ltsc2019 notepad.exe

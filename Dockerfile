@@ -2,8 +2,6 @@
 
 FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
-ENV HOME=/home/user
-
 # install msys2
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
@@ -17,22 +15,13 @@ RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tl
 ENV MSYSTEM=UCRT64 CHERE_INVOKING=yes
 SHELL ["c:\\msys64\\usr\\bin\\bash.exe", "-l", "-c"]
 
-RUN "pacman --noconfirm -S unzip"
+RUN "pacman --noconfirm -S mingw-w64-ucrt-x86_64-7zip"
 
-RUN "wget https://github.com/git-for-windows/git/releases/download/v2.43.0.windows.1/MinGit-2.43.0-64-bit.zip && `
-  unzip -d /c/git MinGit-2.43.0-64-bit.zip && rm -f MinGit-2.43.0-64-bit.zip"
-RUN "echo 'PATH=\"$PATH:/c/git/mingw64/bin\"' >> ~/.bash_profile"
+# Install mesa for software OpenGL (only needed to run GUI programs in VMs)
+RUN "mkdir mesa && cd mesa && `
+  wget --no-verbose https://github.com/pal1000/mesa-dist-win/releases/download/23.1.9/mesa3d-23.1.9-release-msvc.7z && `
+  7z x mesa3d-23.1.9-release-msvc.7z && `
+  cmd //c systemwidedeploy.cmd 1 && `
+  cd .. && for i in {1..30}; do sleep 1; echo Try $i; rm -rf mesa && break; done"
 
-# install msys2 using pacman
-RUN "pacman --noconfirm -S mingw-w64-ucrt-x86_64-python"
-
-RUN "mkdir /context"
-COPY entrypoint.py c:/msys64/context/entrypoint.py
-COPY entrypoint_msys2.bat c:/msys64/context/entrypoint_msys2.bat
-
-CMD []
-USER ContainerUser
-#ENTRYPOINT ["c:/msys64/ucrt64/bin/python3"]
-RUN ls -l /ucrt64/bin
-RUN ls /context
-ENTRYPOINT ["c:/msys64/context/entrypoint_msys2.bat", "/ucrt64/bin/python3", "/context/entrypoint.py"]
+RUN "find / -iname opengl32.dll"

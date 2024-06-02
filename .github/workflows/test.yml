@@ -30,4 +30,4 @@ jobs:
     with:
       dailyRun: false
       #pushSource: ${{ (github.event_name == 'workflow_dispatch' && join(['{"repository":"', inputs.repo, '", "ref_name":"', inputs.branch, '", "sha":"', inputs.sha, '"}'], '')) || 'a' }}
-      pushSource: ${{ (github.event_name == 'workflow_dispatch' && join(['a', 'b', 'c'],'')) || 'a' }}
+      pushSource: ${{ (github.event_name == 'workflow_dispatch' && join(['a','b','c'],'')) || 'a' }}

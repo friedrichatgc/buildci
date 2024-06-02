@@ -18,3 +18,6 @@ jobs:
         shell: python
         run: |
           print(r'''${{inputs.pushSource}}''')
+          print('${{fromJson(inputs.pushSource).repository}}')
+          print('${{fromJson(inputs.pushSource).ref_name}}')
+          print('${{fromJson(inputs.pushSource).sha}}')

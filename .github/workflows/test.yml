@@ -3,17 +3,17 @@ on:
   push:
   workflow_dispatch:
     inputs:
-      repo:
+      repository:
         description: "Triggered repo"
         required: true
         default: "mbsim"
         type: choice
         options:
-        - fmatvec
-        - hdf5serie
-        - openmbv
-        - mbsim
-      branch:
+        - "mbsim-env/fmatvec"
+        - "mbsim-env/hdf5serie"
+        - "mbsim-env/openmbv"
+        - "mbsim-env/mbsim"
+      ref_name:
         description: "Triggered branch in repo"
         required: true
         default: "master"
@@ -29,4 +29,4 @@ jobs:
     uses: ./.github/workflows/mbsim-env-getbuildmatrix.yml
     with:
       dailyRun: false
-      pushSource: ${{ (github.event_name == 'workflow_dispatch' && toJson(inputs)) || 'aa' }}
+      pushSource: ${{ (github.event_name == 'workflow_dispatch' && toJson(inputs)) || '{"repository":"dummy","ref_name":"dummy","sha":"dummy"}' }}

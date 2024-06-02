@@ -23,12 +23,12 @@ on:
         required: true
         default: ""
         type: string
+env:
+  test:
+    repository: ${{inputs.repo}}
+    branch: ${{inputs.branch}}
+    sha: ${{inputs.sha}}
 jobs:
-  env:
-    test:
-      repository: ${{inputs.repo}}
-      branch: ${{inputs.branch}}
-      sha: ${{inputs.sha}}
   getBuildMatrix:
     name: Get build matrix
     uses: ./.github/workflows/mbsim-env-getbuildmatrix.yml

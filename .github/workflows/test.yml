@@ -29,5 +29,4 @@ jobs:
     uses: ./.github/workflows/mbsim-env-getbuildmatrix.yml
     with:
       dailyRun: false
-      #pushSource: ${{ (github.event_name == 'workflow_dispatch' && toJson({"repository": inputs.repo, "ref_name": inputs.branch, "sha": inputs.sha})) || toJson(github.event.client_payload) }}
-      pushSource: ${{ (github.event_name == 'workflow_dispatch' && 'mfmf') || toJson(github.event.client_payload) }}
+      pushSource: ${{ (github.event_name == 'workflow_dispatch' && 'mfmfworkflowdispatch') || 'mfmfpush' }}

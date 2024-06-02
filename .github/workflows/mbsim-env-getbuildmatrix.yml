@@ -17,7 +17,7 @@ jobs:
         id: matrix
         shell: python
         run: |
-          import json
+          print("${{inputs.pushSource}}")
           repo="${{fromJson(inputs.pushSource).repository}}".split("/")[1]
           branch="${{fromJson(inputs.pushSource).ref_name}}"
           sha="${{fromJson(inputs.pushSource).sha}}"

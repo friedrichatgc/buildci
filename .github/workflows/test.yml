@@ -24,14 +24,14 @@ on:
         default: ""
         type: string
 jobs:
+  env:
+    test:
+      repository: ${{inputs.repo}}
+      branch: ${{inputs.branch}}
+      sha: ${{inputs.sha}}
   getBuildMatrix:
     name: Get build matrix
     uses: ./.github/workflows/mbsim-env-getbuildmatrix.yml
-    env:
-      test:
-        repository: ${{inputs.repo}}
-        branch: ${{inputs.branch}}
-        sha: ${{inputs.sha}}
     with:
       dailyRun: false
       pushSource: ${{ (github.event_name == 'workflow_dispatch' && toJson(test)) || 'a' }}

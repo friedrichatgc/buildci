@@ -27,6 +27,11 @@ jobs:
   getBuildMatrix:
     name: Get build matrix
     uses: ./.github/workflows/mbsim-env-getbuildmatrix.yml
+    env:
+      test:
+        repository: ${{inputs.repo}}
+        branch: ${{inputs.branch}}
+        sha: ${{inputs.sha}}
     with:
       dailyRun: false
-      pushSource: ${{ (github.event_name == 'workflow_dispatch' && '{"repository":"inputs.repo", "ref_name":inputs.branch, "sha":"${{inputs.sha}}"}') || 'a' }}
+      pushSource: ${{ (github.event_name == 'workflow_dispatch' && toJson(test)) || 'a' }}

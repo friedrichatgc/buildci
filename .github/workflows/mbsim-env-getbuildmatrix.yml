@@ -17,4 +17,4 @@ jobs:
         id: matrix
         shell: python
         run: |
-          print(r'${{inputs.pushSource}}')
+          print(r'''${{inputs.pushSource}}''')

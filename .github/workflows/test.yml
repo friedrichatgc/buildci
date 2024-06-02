@@ -1,7 +1,6 @@
 name: CI (Repo-Dispatch)
 on:
-  repository_dispatch:
-    types: [ci]
+  push:
   workflow_dispatch:
     inputs:
       repo:
@@ -24,7 +23,6 @@ on:
         required: true
         default: ""
         type: string
-env:
 jobs:
   getBuildMatrix:
     name: Get build matrix

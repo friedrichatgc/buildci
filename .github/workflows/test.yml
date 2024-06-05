@@ -5,12 +5,14 @@ jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
     steps:
+      #      - run: docker pull mbsimenv/proxy:latest
+      #      - run: docker tag mbsimenv/proxy:latest ghcr.io/friedrichatgc/proxy:latest
+      #      - name: Login to GitHub Container Registry
+      #        uses: docker/login-action@v3
+      #        with:
+      #          registry: ghcr.io
+      #          username: ${{ github.actor }}
+      #          password: ${{ secrets.GITHUB_TOKEN }}
+      #      - run: docker push ghcr.io/friedrichatgc/proxy:latest
       - run: docker pull mbsimenv/proxy:latest
-      - run: docker tag mbsimenv/proxy:latest ghcr.io/friedrichatgc/proxy:latest
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker push ghcr.io/friedrichatgc/proxy:latest
+      - run: docker pull ghcr.io/friedrichatgc/proxy:latest

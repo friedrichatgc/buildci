@@ -6,4 +6,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: docker pull mbsimenv/proxy:latest
+      - run: docker tag mbsimenv/proxy:latest ghcr.io/friedrichatgc/proxy:latest
       - run: docker push ghcr.io/friedrichatgc/proxy:latest

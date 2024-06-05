@@ -5,4 +5,4 @@ jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
     steps:
-      - run: docker pull mbsim-env/proxy:latest
+      - run: docker pull mbsimenv/proxy:latest

@@ -1,32 +1,8 @@
-name: CI (Repo-Dispatch)
+name: Create and publish a Docker image
 on:
   push:
-  workflow_dispatch:
-    inputs:
-      repository:
-        description: "Triggered repo"
-        required: true
-        default: "mbsim"
-        type: choice
-        options:
-        - "mbsim-env/fmatvec"
-        - "mbsim-env/hdf5serie"
-        - "mbsim-env/openmbv"
-        - "mbsim-env/mbsim"
-      ref_name:
-        description: "Triggered branch in repo"
-        required: true
-        default: "master"
-        type: string
-      sha:
-        description: "Triggered sha in repo"
-        required: true
-        default: ""
-        type: string
 jobs:
-  getBuildMatrix:
-    name: Get build matrix
-    uses: ./.github/workflows/mbsim-env-getbuildmatrix.yml
-    with:
-      dailyRun: false
-      pushSource: ${{ (github.event_name == 'workflow_dispatch' && toJson(inputs)) || '{"repository":"dummy","ref_name":"dummy","sha":"dummy"}' }}
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker pull mbsim-env/proxy:latest

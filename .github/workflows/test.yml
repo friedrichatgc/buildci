@@ -5,14 +5,13 @@ jobs:
   build-and-push-image:
     runs-on: windows-2019
     steps:
-      - run: docker pull mbsimenv/buildmsys2ucrt64:latest
-      - run: docker tag mbsimenv/buildmsys2ucrt64:latest ghcr.io/friedrichatgc/buildmsys2ucrt64:latest
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker push ghcr.io/friedrichatgc/buildmsys2ucrt64:latest
-      #      - run: docker pull ghcr.io/friedrichatgc/buildmsys2ucrt64:latest
-      #      - run: docker pull mbsimenv/buildmsys2ucrt64:latest
+#      - run: docker pull mbsimenv/buildmsys2ucrt64:latest
+#      - run: docker tag mbsimenv/buildmsys2ucrt64:latest ghcr.io/friedrichatgc/buildmsys2ucrt64:latest
+#      - name: Login to GitHub Container Registry
+#        uses: docker/login-action@v3
+#        with:
+#          registry: ghcr.io
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
+#      - run: docker push ghcr.io/friedrichatgc/buildmsys2ucrt64:latest
+      - run: docker pull ghcr.io/friedrichatgc/buildmsys2ucrt64:latest

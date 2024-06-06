@@ -3,7 +3,7 @@ on:
   push:
 jobs:
   build-and-push-image:
-    runs-on: ubuntu-latest
+    runs-on: windows-2019
     steps:
       - run: docker pull mbsimenv/buildmsys2ucrt64:latest
       - run: docker tag mbsimenv/buildmsys2ucrt64:latest ghcr.io/friedrichatgc/buildmsys2ucrt64:latest

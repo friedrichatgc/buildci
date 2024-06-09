@@ -5,17 +5,17 @@ jobs:
   build-and-push-image:
     runs-on: windows-2019
     steps:
-      - run: docker pull mbsimenv/buildmsys2ucrt64:latest
-      - run: docker save mbsimenv/buildmsys2ucrt64:latest -o ${{github.workspace}}/image.tar
-      - name: "Cache save: image"
-        uses: actions/cache/save@v4
-        with:
-          path: ${{github.workspace}}/image.tar
-          key: image
-      #- name: "Cache restore: image"
-      #  uses: actions/cache/restore@v4
+      #- run: docker pull mbsimenv/buildmsys2ucrt64:latest
+      #- run: docker save mbsimenv/buildmsys2ucrt64:latest -o ${{github.workspace}}/image.tar
+      #- name: "Cache save: image"
+      #  uses: actions/cache/save@v4
       #  with:
       #    path: ${{github.workspace}}/image.tar
       #    key: image
-      #- run: docker load -i ${{github.workspace}}/image.tar
-      #- run: docker image ls
+      - name: "Cache restore: image"
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{github.workspace}}/image.tar
+          key: image
+      - run: docker load -i ${{github.workspace}}/image.tar
+      - run: docker image ls

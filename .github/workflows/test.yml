@@ -3,7 +3,7 @@ on:
   push:
 jobs:
   build-and-push-image:
-    runs-on: ubuntu-latest
+    runs-on: windows-2019
     steps:
       - run: docker pull mbsimenv/proxy:latest
       - run: docker save mbsimenv/proxy:latest -o ${{github.workspace}}/image.tar

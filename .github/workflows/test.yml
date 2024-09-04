@@ -1,21 +1,12 @@
-name: Create and publish a Docker image
+name: Build Docker Images (Manual)
 on:
   push:
 jobs:
-  build-and-push-image:
+  buildmsys2ucrt64Image:
+    name: "Bulid MSYS2 Docker Image"
     runs-on: windows-2019
     steps:
-      #- run: docker pull mbsimenv/buildmsys2ucrt64:latest
-      #- run: docker save mbsimenv/buildmsys2ucrt64:latest -o ${{github.workspace}}/image.tar
-      #- name: "Cache save: image"
-      #  uses: actions/cache/save@v4
-      #  with:
-      #    path: ${{github.workspace}}/image.tar
-      #    key: image
-      - name: "Cache restore: image"
-        uses: actions/cache/restore@v4
-        with:
-          path: ${{github.workspace}}/image.tar
-          key: image
-      - run: docker load -i ${{github.workspace}}/image.tar
-      - run: docker image ls
+      - name: "Checkout"
+        uses: actions/checkout@v4
+      - name: "Docker build"
+        run: docker build -t test:latest .

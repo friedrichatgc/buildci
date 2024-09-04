@@ -20,7 +20,7 @@ RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tl
 ENV MSYSTEM=UCRT64 CHERE_INVOKING=yes HOME=/home/user
 SHELL ["c:\\msys64\\usr\\bin\\bash.exe", "-l", "-c"]
 
-RUN "pacman -S python-pip"
+RUN "pacman --noconfirm -S python-pip"
 RUN "python.exe -m pip install django==3.2 django-allauth==0.55 django-octicons==1.0"
 ## install msys2 packages
 #RUN "pacman --noconfirm -S `

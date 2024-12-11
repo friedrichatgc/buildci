@@ -1,7 +1,7 @@
 import subprocess
 import os
 
-os.chdir("/c/mbsim-env")
+os.chdir("c:/mbsim-env")
 
 subprocess.check_call(["g++", "-o", "main.exe", "main.cc"])
 subprocess.check_call(["./main.exe"])

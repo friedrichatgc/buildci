@@ -17,5 +17,5 @@ jobs:
           docker run
           --init
           -v ${{github.workspace}}/mbsim-env:c://mbsim-env
-          mcr.microsoft.com/windows:ltsc2019
+          mcr.microsoft.com/windows/servercore:ltsc2019
           echo DONE

@@ -25,4 +25,4 @@ jobs:
           docker run
           --init
           -v ${{github.workspace}}/mbsim-env:c:/mbsim-env
-          mbsimenv/buildmsys2ucrt64:latest
+          test

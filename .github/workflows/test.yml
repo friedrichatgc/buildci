@@ -17,6 +17,9 @@ jobs:
       - name: "copy"
         run: >
           copy run.py ${{github.workspace}}/mbsim-env
+      - name: "copy"
+        run: >
+          copy main.cc ${{github.workspace}}/mbsim-env
       - name: "Docker: build"
         run: >
           docker build -t test .

@@ -16,11 +16,13 @@ jobs:
           icacls.exe ${{github.workspace}}/mbsim-env /t /grant everyone:f > NUL
       - name: "copy"
         run: >
-          copy run.bat ${{github.workspace}}/mbsim-env
+          copy run.py ${{github.workspace}}/mbsim-env
+      - name: "Docker: build"
+        run: >
+          docker build -t test .
       - name: "Docker: run container"
         run: >
           docker run
           --init
           -v ${{github.workspace}}/mbsim-env:c:/mbsim-env
-          mcr.microsoft.com/windows/servercore:ltsc2019
-          cmd /c c:/mbsim-env/run.bat
+          mbsimenv/buildmsys2ucrt64:latest

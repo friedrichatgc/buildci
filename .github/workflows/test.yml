@@ -6,16 +6,21 @@ jobs:
     name: test
     runs-on: windows-2019
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: "Docker: create bind mount points"
         run: >
           mkdir ${{github.workspace}}/mbsim-env
       - name: "Docker: bind mount point permissions [Windows]"
         run: >
           icacls.exe ${{github.workspace}}/mbsim-env /t /grant everyone:f > NUL
+      - name: "copy"
+        run: >
+          copy run.bat ${{github.workspace}}/mbsim-env
       - name: "Docker: run container"
         run: >
           docker run
           --init
           -v ${{github.workspace}}/mbsim-env:c:/mbsim-env
           mcr.microsoft.com/windows/servercore:ltsc2019
-          echo DONE
+          cmd /c c:/mbsim-env/run.bat

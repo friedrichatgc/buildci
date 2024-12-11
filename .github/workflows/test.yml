@@ -11,9 +11,9 @@ jobs:
       - name: "Docker: create bind mount points"
         run: >
           mkdir ${{github.workspace}}/mbsim-env
-#      - name: "Docker: bind mount point permissions [Windows]"
-#        run: >
-#          icacls.exe ${{github.workspace}}/mbsim-env /t /grant everyone:f > NUL
+      - name: "Docker: bind mount point permissions [Windows]"
+        run: >
+          icacls.exe ${{github.workspace}}/mbsim-env /t /grant everyone:f > NUL
       - name: "copy"
         run: >
           copy run.py ${{github.workspace}}/mbsim-env

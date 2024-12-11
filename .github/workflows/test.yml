@@ -1,19 +1,21 @@
-name: Build Docker Images (Manual)
+name: test
 on:
   push:
 jobs:
-  buildmsys2ucrt64Image:
-    name: "Bulid MSYS2 Docker Image"
+  build:
+    name: test
     runs-on: windows-2019
     steps:
-      - name: "Checkout"
-        uses: actions/checkout@v4
-      - name: Start SSH session
-        uses: luchihoratiu/debug-via-ssh@main
-        with:
-          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-          SSH_PASS: ${{ secrets.NGROK_SSH_PASS }}
-      - name: "Docker pull"
-        run: docker pull mbsimenv/buildmsys2ucrt64:latest
-      - name: "Docker build"
-        run: docker build .
+      - name: "Docker: create bind mount points"
+        run: >
+          mkdir ${{github.workspace}}/mbsim-env
+      - name: "Docker: bind mount point permissions [Windows]"
+        run: >
+          icacls.exe ${{github.workspace}}/mbsim-env /t /grant everyone:f > NUL
+      - name: "Docker: run container"
+        run: >
+          docker run
+          --init
+          -v ${{github.workspace}}/mbsim-env:c://mbsim-env
+          mcr.microsoft.com/windows:ltsc2019
+          echo DONE

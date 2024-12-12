@@ -6,26 +6,6 @@ jobs:
     name: test
     runs-on: windows-2019
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: "Docker: create bind mount points"
-        run: >
-          mkdir ${{github.workspace}}/mbsim-env
-      - name: "Docker: bind mount point permissions [Windows]"
-        run: >
-          icacls.exe ${{github.workspace}}/mbsim-env /t /grant everyone:f > NUL
-      - name: "copy"
-        run: >
-          copy run.py ${{github.workspace}}/mbsim-env
-      - name: "copy"
-        run: >
-          copy main.cc ${{github.workspace}}/mbsim-env
-      - name: "Docker: build"
-        run: >
-          docker build -t test .
-      - name: "Docker: run container"
-        run: >
-          docker run
-          --init
-          -v ${{github.workspace}}/mbsim-env:c:/mbsim-env
-          test
+      - run: mkdir .\content
+      - run: copy c:\Windows\System32\xcopy.exe .\content
+      - run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe & del c:\content\xcopy.exe"

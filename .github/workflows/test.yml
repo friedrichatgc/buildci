@@ -6,6 +6,8 @@ jobs:
     name: test
     runs-on: windows-2019
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - run: mkdir .\content
       - run: copy c:\Windows\System32\xcopy.exe .\content
-      - run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe & del c:\content\xcopy.exe"
+      - run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c c:\content\run.bat

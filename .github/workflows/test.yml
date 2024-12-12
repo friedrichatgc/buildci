@@ -9,7 +9,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - run: mkdir .\content
-        #      - run: icacls.exe ./content /t /grant everyone:f
+      - run: icacls.exe ./content /t /grant everyone:f
       - run: copy c:\Windows\System32\xcopy.exe .\content
       - run: copy c:\Windows\System32\xcopy.exe .\content\test.exe
       - run: copy run.bat .\content

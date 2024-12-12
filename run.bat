@@ -1,2 +1,3 @@
 c:\content\xcopy.exe
-del c:\content\xcopy.exe && echo DONE
+del c:\content\xcopy.exe
+dir c:\content\xcopy.exe

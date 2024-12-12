@@ -11,4 +11,4 @@ jobs:
       - run: mkdir .\content
       - run: copy c:\Windows\System32\xcopy.exe .\content
       - run: copy run.bat .\content
-      - run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c c:\content\run.bat
+      - run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c c:\content\run.bat

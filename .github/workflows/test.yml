@@ -11,7 +11,7 @@ jobs:
       - run: mkdir .\content
       - name: "Docker: bind mount point permissions [Windows]"
         run: >
-          icacls.exe ./mbsim-env /t /grant everyone:f > NUL
+          icacls.exe ./content /t /grant everyone:f > NUL
       - run: copy c:\Windows\System32\xcopy.exe .\content
       - run: copy run.bat .\content
       - run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 c:\content\run.bat

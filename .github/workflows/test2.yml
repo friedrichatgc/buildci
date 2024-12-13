@@ -4,7 +4,7 @@ on:
 jobs:
   build:
     name: test2
-    runs-on: ubuntu-latest
+    runs-on: windows-2019
     steps:
-      - run: cat /proc/cpuinfo
-      - run: docker run debian:12 cat /proc/cpuinfo
+      - run: wmic cpu get NumberOfCores,NumberOfLogicalProcessors
+      - run: docker run debian:12 mcr.microsoft.com/windows/nanoserver:ltsc2019 wmic cpu get NumberOfCores,NumberOfLogicalProcessors

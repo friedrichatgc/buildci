@@ -7,4 +7,4 @@ jobs:
     runs-on: windows-2019
     steps:
       - run: wmic cpu get NumberOfCores,NumberOfLogicalProcessors
-      - run: docker run mcr.microsoft.com/windows/nanoserver:ltsc2019 wmic cpu get NumberOfCores,NumberOfLogicalProcessors
+      - run: docker run mcr.microsoft.com/windows/servercore:ltsc2019 wmic cpu get NumberOfCores,NumberOfLogicalProcessors

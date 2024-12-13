@@ -1,0 +1,10 @@
+name: test2
+on:
+  push:
+jobs:
+  build:
+    name: test2
+    runs-on: ubuntu-latest
+    steps:
+      - run: cat /proc/cpuinfo
+      - run: docker run debian:12 cat /proc/cpuinfo

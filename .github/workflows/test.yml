@@ -9,12 +9,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download msys2 installer
+      - name: Download and install msys2 installer
         shell: powershell
         run: >
           [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
-          Invoke-WebRequest -UseBasicParsing -uri "https://github.com/msys2/msys2-installer/releases/download/2024-12-08/msys2-base-x86_64-20241208.sfx.exe" -OutFile msys2.exe
-      - name: Install msys2
-        run: .\msys2.exe -y -oC:\
-      - name: Remove msys2 installer
-        run: rm msys2.exe
+          Invoke-WebRequest -UseBasicParsing -uri "https://github.com/msys2/msys2-installer/releases/download/2024-12-08/msys2-base-x86_64-20241208.sfx.exe" -OutFile msys2.exe;
+          .\msys2.exe -h;
+          .\msys2.exe -y -oC:\;
+          Remove-Item msys2.exe
+      - name: xx
+        env:
+          MSYSTEM: UCRT64
+          CHERE_INVOKING: yes
+          HOME: /home/user
+        shell: "c:\msys64\usr\bin\bash.exe -l -c"
+        run: echo DONE

@@ -19,16 +19,14 @@ SHELL ["c:\\msys64\\usr\\bin\\bash.exe", "-l", "-c"]
 # run msys2 the first time -> initial setup
 RUN "echo DONE"
 
-#mfmf
-RUN "which wget"
-run "which rsync"
-#mfmf
+# install msys2 rsync, required by install_msys2.sh
+RUN "pacman --noconfirm -S rsync && pacman --noconfirm -Scc"
 
 # install/update msys2
 ARG MSYS2INSTALLERDB=dockeruser@www.mbsim-env.de:1122:/data/databasemedia/msys2db/
 ARG MSYS2INSTALLERCACHE=dockeruser@www.mbsim-env.de:1122:/data/databasemedia/msys2cache/
-COPY install.sh c:/msys64/context/install.sh
-RUN /context/install.sh `
+COPY install_msys2.sh c:/msys64/context/install_msys2.sh
+RUN "/context/install_msys2.sh `
   dos2unix `
   patch `
   unzip `
@@ -73,7 +71,7 @@ RUN /context/install.sh `
   mingw-w64-ucrt-x86_64-python-oauthlib `
   mingw-w64-ucrt-x86_64-python-psycopg2 `
   mingw-w64-ucrt-x86_64-gcc-fortran `
-  mingw-w64-ucrt-x86_64-python-requests-oauthlib
+  mingw-w64-ucrt-x86_64-python-requests-oauthlib"
 
 # Install pip packages
 RUN "python.exe -m pip install --upgrade pip==24.0 && python.exe -m pip install django==3.2 django-allauth==0.55 django-octicons==1.0"

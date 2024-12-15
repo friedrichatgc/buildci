@@ -16,10 +16,12 @@ RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tl
 ENV MSYSTEM=UCRT64 CHERE_INVOKING=yes HOME=/home/user
 SHELL ["c:\\msys64\\usr\\bin\\bash.exe", "-l", "-c"]
 
-RUN "echo mfmf1"
-RUN "echo mfmf2"
-RUN "echo mffm3"
+# run msys2 the first time -> initial setup
+RUN "echo DONE"
 
+# install/update msys2
+ARG MSYS2INSTALLERDOWNLOAD=0
+ARG MSYS2INSTALLERUPLOAD=0
 ARG MSYS2INSTALLERDB=https://sdlkfj.x
 ARG MSYS2INSTALLERCACHE=https://sdlkfj.x
 COPY install.sh c:/msys64/context/install.sh

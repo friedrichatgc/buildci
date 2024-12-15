@@ -8,9 +8,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - run: mkdir .\content
-      - run: icacls.exe ./content /t /grant everyone:f
-      - run: copy c:\Windows\System32\xcopy.exe .\content
-      - run: copy c:\Windows\System32\xcopy.exe .\content\test.exe
-      - run: copy run.bat .\content
-      - run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 c:\content\run.bat
+
+      - name: Download msys2 installer
+        shell: powershell
+        run: >
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
+          Invoke-WebRequest -UseBasicParsing -uri "https://github.com/msys2/msys2-installer/releases/download/2024-12-08/msys2-base-x86_64-20241208.sfx.exe" -OutFile msys2.exe
+      - name: Install msys2
+        run: .\msys2.exe -y -oC:\
+      - name: Remove msys2 installer
+      - run: rm msys2.exe

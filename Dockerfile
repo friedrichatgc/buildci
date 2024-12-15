@@ -3,12 +3,11 @@
 
 FROM mbsimenv/buildmsys2ucrt64base:latest
 
-ARG MSYS2INSTALLERURL=https://github.com/msys2/msys2-installer/releases/download/2024-12-08/msys2-base-x86_64-20241208.sfx.exe
-
 # install msys2
+ARG MSYS2INSTALLERURL=https://github.com/msys2/msys2-installer/releases/download/2024-12-08/msys2-base-x86_64-20241208.sfx.exe
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
-  Invoke-WebRequest -UseBasicParsing -uri "$MSYS2INSTALLERURL" -OutFile msys2.exe; `
+  Invoke-WebRequest -UseBasicParsing -uri "$env:MSYS2INSTALLERURL" -OutFile msys2.exe; `
   .\msys2.exe -y -oC:\; `
   Remove-Item msys2.exe;
 
@@ -20,6 +19,11 @@ SHELL ["c:\\msys64\\usr\\bin\\bash.exe", "-l", "-c"]
 RUN "echo mfmf1"
 RUN "echo mfmf2"
 RUN "echo mffm3"
+
+ARG MSYS2INSTALLERDB=https://sdlkfj.x
+ARG MSYS2INSTALLERCACHE=https://sdlkfj.x
+COPY install.sh c:/msys64/context/install.sh
+RUN /context/install.sh
 
 ## install msys2 packages
 #RUN "pacman --noconfirm -S `

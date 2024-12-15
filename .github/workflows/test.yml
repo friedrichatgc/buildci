@@ -17,4 +17,4 @@ jobs:
       - name: Install msys2
         run: .\msys2.exe -y -oC:\
       - name: Remove msys2 installer
-      - run: rm msys2.exe
+        run: rm msys2.exe

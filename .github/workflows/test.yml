@@ -22,5 +22,5 @@ jobs:
           MSYSTEM: UCRT64
           CHERE_INVOKING: yes
           HOME: /home/user
-        shell: "c:\msys64\usr\bin\bash.exe -l -c"
+        shell: "c:\msys64\usr\\bin\\bash.exe -l -c"
         run: echo DONE

@@ -3,7 +3,7 @@
 set -e
 set -o pipefail
 
-SSHPASS=$mbsimenvsec_filestoragePassword
+export SSHPASS=$mbsimenvsec_filestoragePassword
 
 # download/install msys2 package db
 sshpass -e rsync -e "ssh -p $MSYS2INSTALLERDBPORT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" -r $MSYS2INSTALLERDB/msys2mbsimenv-downloads/db/ /var/lib/pacman/sync/

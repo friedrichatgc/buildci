@@ -23,8 +23,10 @@ RUN "echo DONE"
 RUN "pacman --noconfirm -S rsync openssh && pacman --noconfirm -Scc"
 
 # install/update msys2
-ARG MSYS2INSTALLERDB=dockeruser@www.mbsim-env.de:1122:/data/databasemedia/msys2mbsimenv-downloads/db/
-ARG MSYS2INSTALLERCACHE=dockeruser@www.mbsim-env.de:1122:/data/databasemedia/msys2mbsimenv-downloads/cache/
+ARG MSYS2INSTALLERDB=dockeruser@www.mbsim-env.de:/data/databasemedia/msys2mbsimenv-downloads/db/
+ARG MSYS2INSTALLERDBPORT=1122
+ARG MSYS2INSTALLERCACHE=dockeruser@www.mbsim-env.de:/data/databasemedia/msys2mbsimenv-downloads/cache/
+ARG MSYS2INSTALLERCACHEPORT=1122
 COPY install_msys2.sh c:/msys64/context/install_msys2.sh
 RUN "/context/install_msys2.sh `
   dos2unix `

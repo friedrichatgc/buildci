@@ -28,7 +28,7 @@ ARG MSYS2INSTALLERDBPORT=1122
 ARG MSYS2INSTALLERCACHE=dockeruser@www.mbsim-env.de:/data/databasemedia/msys2mbsimenv-downloads/cache/
 ARG MSYS2INSTALLERCACHEPORT=1122
 COPY install_msys2.sh c:/msys64/context/install_msys2.sh
-RUN "/context/install_msys2.sh `
+RUN --mount=type=secret,id=mbsimenvsec_filestoragePassword,env=mbsimenvsec_filestoragePassword "/context/install_msys2.sh `
   dos2unix `
   patch `
   unzip `

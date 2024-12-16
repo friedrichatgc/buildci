@@ -1,6 +1,8 @@
 name: Build Docker Images (Manual)
 on:
   push:
+env:
+  mbsimenvsec_filestoragePassword: ${{secrets.filestoragePassword}}
 jobs:
   buildmsys2ucrt64Image:
     name: "Bulid MSYS2 Docker Image"

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -o pipefail
+
 RSYNC_PASSWORD=$mbsimenvsec_filestoragePassword
 
 # download/install msys2 package db

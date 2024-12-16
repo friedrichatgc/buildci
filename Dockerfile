@@ -4,7 +4,7 @@
 FROM mbsimenv/buildmsys2ucrt64base:latest
 
 # install msys2
-ARG MSYS2INSTALLERURL=https://github.com/msys2/msys2-installer/releases/download/2024-12-08/msys2-base-x86_64-20241208.sfx.exe
+ARG MSYS2INSTALLERURL=https://www.mbsim-env.de/base/fileDownloadFromDBMedia/msys2mbsimenv-downloads/msys2-base-x86_64-20240507.sfx.exe
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
   Invoke-WebRequest -UseBasicParsing -uri "$env:MSYS2INSTALLERURL" -OutFile msys2.exe; `
@@ -21,10 +21,11 @@ RUN "echo DONE"
 
 # install msys2 rsync, required by install_msys2.sh
 RUN "pacman --noconfirm -S rsync && pacman --noconfirm -Scc"
+RUN "pacman --noconfirm -S openssh && pacman --noconfirm -Scc"#mfmf
 
 # install/update msys2
-ARG MSYS2INSTALLERDB=dockeruser@www.mbsim-env.de:1122:/data/databasemedia/msys2db/
-ARG MSYS2INSTALLERCACHE=dockeruser@www.mbsim-env.de:1122:/data/databasemedia/msys2cache/
+ARG MSYS2INSTALLERDB=dockeruser@www.mbsim-env.de:1122:/data/databasemedia/msys2mbsimenv-downloads/db/
+ARG MSYS2INSTALLERCACHE=dockeruser@www.mbsim-env.de:1122:/data/databasemedia/msys2mbsimenv-downloads/cache/
 COPY install_msys2.sh c:/msys64/context/install_msys2.sh
 RUN "/context/install_msys2.sh `
   dos2unix `
@@ -74,7 +75,7 @@ RUN "/context/install_msys2.sh `
   mingw-w64-ucrt-x86_64-python-requests-oauthlib"
 
 # Install pip packages
-RUN "python.exe -m pip install --upgrade pip==24.0 && python.exe -m pip install django==3.2 django-allauth==0.55 django-octicons==1.0"
+RUN "python.exe -m pip install --break-system-packages --upgrade pip==24.0 && python.exe -m pip install --break-system-packages django==3.2 django-allauth==0.55 django-octicons==1.0"
 
 # install git
 RUN "wget https://github.com/git-for-windows/git/releases/download/v2.43.0.windows.1/MinGit-2.43.0-64-bit.zip && `

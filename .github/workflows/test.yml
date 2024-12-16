@@ -11,4 +11,4 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
       - name: "Docker build"
-        run: docker build --secret id=mbsimenvsec_filestoragePassword -t mbsimenv/buildmsys2ucrt64:latest -f Dockerfile .
+        run: docker buildx --secret id=mbsimenvsec_filestoragePassword -t mbsimenv/buildmsys2ucrt64:latest -f Dockerfile .

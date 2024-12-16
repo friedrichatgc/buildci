@@ -20,7 +20,7 @@ SHELL ["c:\\msys64\\usr\\bin\\bash.exe", "-l", "-c"]
 RUN "echo DONE"
 
 # install msys2 rsync, required by install_msys2.sh
-RUN "pacman --noconfirm -S rsync && pacman --noconfirm -Scc"
+RUN "pacman --noconfirm -S rsync openssh && pacman --noconfirm -Scc"
 
 # install/update msys2
 ARG MSYS2INSTALLERDB=dockeruser@www.mbsim-env.de:1122:/data/databasemedia/msys2mbsimenv-downloads/db/

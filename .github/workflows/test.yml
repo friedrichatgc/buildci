@@ -10,5 +10,7 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4
+      - name: "Enable docker buildkit"
+        uses: docker/setup-buildx-action@v3
       - name: "Docker build"
-        run: docker buildx --secret id=mbsimenvsec_filestoragePassword -t mbsimenv/buildmsys2ucrt64:latest -f Dockerfile .
+        run: docker build --secret id=mbsimenvsec_filestoragePassword -t mbsimenv/buildmsys2ucrt64:latest -f Dockerfile .

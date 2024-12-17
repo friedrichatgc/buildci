@@ -5,6 +5,7 @@ FROM mbsimenv/buildmsys2ucrt64base:latest
 
 # install msys2
 ARG MSYS2INSTALLERURI
+ENV MSYS2INSTALLERURI=$MSYS2INSTALLERURI
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
   Invoke-WebRequest -UseBasicParsing -uri "$env:MSYS2INSTALLERURI" -OutFile msys2.exe; `

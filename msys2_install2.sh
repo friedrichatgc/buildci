@@ -1,6 +1,4 @@
 #!/bin/bash
-echo mfmf2 "$@"
-exit 0 #mfmf
 
 set -e
 set -o pipefail

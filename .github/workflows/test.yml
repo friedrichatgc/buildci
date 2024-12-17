@@ -3,8 +3,8 @@ on:
   push:
 env:
   mbsimenvsec_filestoragePassword: ${{secrets.filestoragePassword}}
-  MSYS2INSTALLERURI: https://www.mbsim-env.de/base/fileDownloadFromDBMedia/msys2mbsimenv-downloads/msys2-base-x86_64-20240507.sfx.exe
-  MSYS2INSTALLERRSYNCURI: dockeruser@www.mbsim-env.de:/data/databasemedia/msys2mbsimenv-downloads
+  MSYS2INSTALLERURI: "https://www.mbsim-env.de/base/fileDownloadFromDBMedia/msys2mbsimenv-downloads/msys2-base-x86_64-20240507.sfx.exe"
+  MSYS2INSTALLERRSYNCURI: "dockeruser@www.mbsim-env.de:/data/databasemedia/msys2mbsimenv-downloads"
   MSYS2INSTALLERRSYNCPORT: 1122
 jobs:
   buildmsys2ucrt64Image:

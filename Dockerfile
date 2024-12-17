@@ -115,23 +115,22 @@ ENV CC="ccache gcc" `
     CCACHE_DIR=/mbsim-ccache `
     MBSIM_SWIG=1
 
-# copy
-RUN "mkdir /context"
-COPY docker/buildImage/distribute.py            c:/msys64/context/distribute.py
-COPY docker/buildmsys2ucrt64Image/entrypoint.py c:/msys64/context/entrypoint.py
-COPY django/mbsimenv/build.py                   c:/msys64/context/mbsimenv/build.py
-COPY django/mbsimenv/runexamples.py             c:/msys64/context/mbsimenv/runexamples.py
-COPY django/mbsimenv/mbsimenvSecrets.py         c:/msys64/context/mbsimenv/mbsimenvSecrets.py
-COPY django/mbsimenv/mbsimenv                   c:/msys64/context/mbsimenv/mbsimenv
-COPY django/mbsimenv/base                       c:/msys64/context/mbsimenv/base
-COPY django/mbsimenv/builds                     c:/msys64/context/mbsimenv/builds
-COPY django/mbsimenv/runexamples                c:/msys64/context/mbsimenv/runexamples
-COPY django/mbsimenv/service                    c:/msys64/context/mbsimenv/service
+#mfmf# copy
+#mfmfCOPY docker/buildImage/distribute.py            c:/msys64/context/distribute.py
+#mfmfCOPY docker/buildmsys2ucrt64Image/entrypoint.py c:/msys64/context/entrypoint.py
+#mfmfCOPY django/mbsimenv/build.py                   c:/msys64/context/mbsimenv/build.py
+#mfmfCOPY django/mbsimenv/runexamples.py             c:/msys64/context/mbsimenv/runexamples.py
+#mfmfCOPY django/mbsimenv/mbsimenvSecrets.py         c:/msys64/context/mbsimenv/mbsimenvSecrets.py
+#mfmfCOPY django/mbsimenv/mbsimenv                   c:/msys64/context/mbsimenv/mbsimenv
+#mfmfCOPY django/mbsimenv/base                       c:/msys64/context/mbsimenv/base
+#mfmfCOPY django/mbsimenv/builds                     c:/msys64/context/mbsimenv/builds
+#mfmfCOPY django/mbsimenv/runexamples                c:/msys64/context/mbsimenv/runexamples
+#mfmfCOPY django/mbsimenv/service                    c:/msys64/context/mbsimenv/service
 
 # these are the default arguments when running the container
 CMD []
 # call this script when running the container
 # (start python3 with inside of the msys2 environment)
-COPY docker/buildmsys2ucrt64Image/entrypoint_msys2.py c:/msys64/context/entrypoint_msys2.py
+#mfmfCOPY docker/buildmsys2ucrt64Image/entrypoint_msys2.py c:/msys64/context/entrypoint_msys2.py
 USER ContainerUser
-ENTRYPOINT ["c:/msys64/ucrt64/bin/python3", "c:/msys64/context/entrypoint_msys2.py", "/ucrt64/bin/python3", "/context/entrypoint.py"]
+#mfmfENTRYPOINT ["c:/msys64/ucrt64/bin/python3", "c:/msys64/context/entrypoint_msys2.py", "/ucrt64/bin/python3", "/context/entrypoint.py"]

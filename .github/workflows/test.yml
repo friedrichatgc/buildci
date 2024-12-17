@@ -14,7 +14,7 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
 
-      - run: echo mfmf1 $MSYS2INSTALLERURI
+      - run: echo mfmf1 %MSYS2INSTALLERURI%
       - run: docker build --build-arg=MSYS2INSTALLERURI="%MSYS2INSTALLERURI%" -t dummy -f Dockerfile .
 
 

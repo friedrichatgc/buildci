@@ -2,8 +2,10 @@ name: Build Docker Images (Manual)
 on:
   push:
 env:
-  DOCKER_BUILDKIT: 1
   mbsimenvsec_filestoragePassword: ${{secrets.filestoragePassword}}
+  MSYS2INSTALLERURI: https://www.mbsim-env.de/base/fileDownloadFromDBMedia/msys2mbsimenv-downloads
+  MSYS2INSTALLERPORT: 1122
+  MSYS2INSTALLERRSYNCURI: dockeruser@www.mbsim-env.de:/data/databasemedia/msys2mbsimenv-downloads
 jobs:
   buildmsys2ucrt64Image:
     name: "Bulid MSYS2 Docker Image"
@@ -12,4 +14,12 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
       - name: "Docker build"
-        run: docker build --secret id=mbsimenvsec_filestoragePassword -t mbsimenv/buildmsys2ucrt64:latest -f Dockerfile .
+        run: docker build --build-arg=MSYS2INSTALLERURI=%MSYS2INSTALLERURI% -t mbsimenv/buildmsys2ucrt64:latest -f Dockerfile .
+      - name: "Upload msys2 db and cache"
+        if: true
+        run: >
+          docker run
+          -e mbsimenvsec_filestoragePassword
+          -e MSYS2INSTALLERPORT
+          -e MSYS2INSTALLERRSYNCURI
+          --entrypoint=/context/msys2_upload.sh mbsimenv/buildmsys2ucrt64:latest

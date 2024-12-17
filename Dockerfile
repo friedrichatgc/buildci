@@ -4,10 +4,10 @@
 FROM mbsimenv/buildmsys2ucrt64base:latest
 
 # install msys2
-ARG MSYS2INSTALLERURL=https://www.mbsim-env.de/base/fileDownloadFromDBMedia/msys2mbsimenv-downloads/msys2-base-x86_64-20240507.sfx.exe
+ARG MSYS2INSTALLERURI
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
-  Invoke-WebRequest -UseBasicParsing -uri "$env:MSYS2INSTALLERURL" -OutFile msys2.exe; `
+  Invoke-WebRequest -UseBasicParsing -uri "$env:MSYS2INSTALLERURI"/msys2-base-x86_64-20240507.sfx.exe -OutFile msys2.exe; `
   .\msys2.exe -y -oC:\; `
   Remove-Item msys2.exe;
 
@@ -19,19 +19,16 @@ SHELL ["c:\\msys64\\usr\\bin\\bash.exe", "-l", "-c"]
 # run msys2 the first time -> initial setup
 RUN "echo DONE"
 
-# install msys2 rsync, required by install_msys2.sh
-RUN "pacman --noconfirm -S rsync openssh sshpass && pacman --noconfirm -Scc"
-
 # install/update msys2
-ARG MSYS2INSTALLERDB=dockeruser@www.mbsim-env.de:/data/databasemedia/msys2mbsimenv-downloads/db/
-ARG MSYS2INSTALLERDBPORT=1122
-ARG MSYS2INSTALLERCACHE=dockeruser@www.mbsim-env.de:/data/databasemedia/msys2mbsimenv-downloads/cache/
-ARG MSYS2INSTALLERCACHEPORT=1122
-COPY install_msys2.sh c:/msys64/context/install_msys2.sh
-RUN --mount=type=secret,id=mbsimenvsec_filestoragePassword,env=mbsimenvsec_filestoragePassword "/context/install_msys2.sh `
+COPY msys2_install.sh c:/msys64/context/msys2_install.sh
+COPY msys2_upload.sh c:/msys64/context/msys2_upload.sh
+RUN "/context/msys2_install.sh `
   dos2unix `
   patch `
   unzip `
+  rsync `
+  openssh `
+  sshpass `
   mingw-w64-ucrt-x86_64-7zip `
   mingw-w64-ucrt-x86_64-swig `
   mingw-w64-ucrt-x86_64-arpack `

@@ -4,11 +4,14 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2019
 COPY msys2_install1.sh c:/msys64/context/msys2_install1.sh
 COPY msys2_install2.sh c:/msys64/context/msys2_install2.sh
-SHELL ["cmd"]
-RUN "c:\\msys64\\usr\\bin\\bash.exe -l -c /context/msys2_install1.sh; `
-  c:\msys64\usr\bin\bash.exe -l -c /context/msys2_install2.sh `
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+RUN function msys() { C:\msys64\usr\bin\bash.exe @('-lc') + @Args; } `
+  msys '/context/msys2_install1.sh'; `
+  msys '/context/msys2_install2.sh `
   dos2unix `
-  patch"
+  patch `
+  '; `
+  msys 'pacman --noconfirm -Scc';
 #FROM mbsimenv/buildmsys2ucrt64base:latest
 #
 ## install msys2

@@ -13,19 +13,13 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4
-
-      - run: echo mfmf1 %MSYS2INSTALLERURI%
-      - run: docker build --build-arg=MSYS2INSTALLERURI="%MSYS2INSTALLERURI%" -t dummy -f Dockerfile .
-
-
-
-#      - name: "Docker build"
-#        run: docker build --build-arg=MSYS2INSTALLERURI="%MSYS2INSTALLERURI%" -t mbsimenv/buildmsys2ucrt64:latest -f Dockerfile .
-#      - name: "Upload msys2 db and cache"
-#        if: true
-#        run: >
-#          docker run
-#          -e mbsimenvsec_filestoragePassword
-#          -e MSYS2INSTALLERRSYNCPORT
-#          -e MSYS2INSTALLERRSYNCURI
-#          --entrypoint=/context/msys2_upload.sh mbsimenv/buildmsys2ucrt64:latest
+      - name: "Docker build"
+        run: docker build --build-arg=MSYS2INSTALLERURI="${{env.MSYS2INSTALLERURI}}" -t mbsimenv/buildmsys2ucrt64:latest -f Dockerfile .
+      - name: "Upload msys2 db and cache"
+        if: true
+        run: >
+          docker run
+          --env mbsimenvsec_filestoragePassword
+          --env MSYS2INSTALLERRSYNCPORT
+          --env MSYS2INSTALLERRSYNCURI
+          --entrypoint=/context/msys2_upload.sh mbsimenv/buildmsys2ucrt64:latest

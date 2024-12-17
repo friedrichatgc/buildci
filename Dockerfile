@@ -7,7 +7,7 @@ FROM mbsimenv/buildmsys2ucrt64base:latest
 ARG MSYS2INSTALLERURI
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
-  Invoke-WebRequest -UseBasicParsing -uri "$env:MSYS2INSTALLERURI"/msys2-base-x86_64-20240507.sfx.exe -OutFile msys2.exe; `
+  Invoke-WebRequest -UseBasicParsing -uri "$env:MSYS2INSTALLERURI" -OutFile msys2.exe; `
   .\msys2.exe -y -oC:\; `
   Remove-Item msys2.exe;
 

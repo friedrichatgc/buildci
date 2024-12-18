@@ -27,5 +27,6 @@ jobs:
           --env mbsimenvsec_filestoragePassword
           --env MSYS2INSTALLERRSYNCPORT
           --env MSYS2INSTALLERRSYNCURI
-          --entrypoint "c:/msys64/usr/bin/bash -l -c /context/msys2_upload.sh"
+          --entrypoint c:/msys64/usr/bin/bash
           mbsimenv/buildmsys2ucrt64:latest
+          -l -c /context/msys2_upload.sh

@@ -16,10 +16,10 @@ jobs:
     runs-on: windows-2019
     steps:
       - name: "a"
-        if: {{env.MSYS2INSTALLERUPLOAD}}
+        if: ${{env.MSYS2INSTALLERUPLOAD}}
         run: echo a
       - name: "b"
-        if: {{env.MSYS2INSTALLERUPLOAD == 1}}
+        if: ${{env.MSYS2INSTALLERUPLOAD == 1}}
         run: echo b
 #      - name: "Checkout"
 #        uses: actions/checkout@v4

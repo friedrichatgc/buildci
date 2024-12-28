@@ -1,11 +1,16 @@
 name: retag
 on:
   push:
+env:
+  # get secrets
+  mbsimenvsec_dockerhubAccessToken: ${{secrets.dockerhubAccessToken}}
 jobs:
   buildmsys2ucrt64Image:
     name: "Bulid MSYS2 Docker Image"
     runs-on: windows-2019
     steps:
+      - name: "Docker login"
+        run: echo $Env:mbsimenvsec_dockerhubAccessToken | docker login -u fm12 --password-stdin
       - run: docker image pull mbsimenv/buildmsys2ucrt64:latest
       - run: docker image tag mbsimenv/buildmsys2ucrt64:latest mbsimenv/buildmsys2ucrt64:v2
       - run: docker image push mbsimenv/buildmsys2ucrt64:v2

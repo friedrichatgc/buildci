@@ -1,6 +1,6 @@
 name: Build Docker Images (Manual)
 on:
-  push:
+  workflow_dispatch:
 env:
   mbsimenvsec_filestoragePassword: ${{secrets.filestoragePassword}}
   MSYS2INSTALLERURI: "https://www.mbsim-env.de/base/fileDownloadFromDBMedia/msys2mbsimenv-downloads"

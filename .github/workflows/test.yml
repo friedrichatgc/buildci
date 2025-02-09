@@ -5,6 +5,8 @@ jobs:
   buildImage:
     name: "Bulid Linux Docker Image"
     runs-on: ubuntu-22.04
+    env:
+      DOCKER_BUILDKIT: 0
     steps:
       - name: "Checkout"
         run: git clone https://github.com/mbsim-env/build.git .

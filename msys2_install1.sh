@@ -3,7 +3,7 @@
 set -e
 set -o pipefail
 
-if true; then
+if [ $MSYS2INSTALLERDOWNLOAD -eq 1 ]; then
   # download/install msys2 package db
   wget --no-verbose $MSYS2INSTALLERURI/db.tar.gz
   tar -C /var/lib/pacman/sync/ -xzf $PWD/db.tar.gz
@@ -16,8 +16,8 @@ if true; then
 fi
 
 # update install msys2 packages according package db
-if true; then
-  pacman --noconfirm -Suu
-else
+if [ $MSYS2INSTALLERUPDATEBYPUBLIC -eq 1 ]; then
   pacman --noconfirm -Syuu
+else
+  pacman --noconfirm -Suu
 fi

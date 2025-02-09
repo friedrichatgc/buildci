@@ -8,6 +8,13 @@ ARG MSYS2INSTALLERURI
 ENV MSYS2INSTALLERURI=$MSYS2INSTALLERURI
 ARG MSYS2INSTALLERFILE
 ENV MSYS2INSTALLERFILE=$MSYS2INSTALLERFILE
+ARG MSYS2INSTALLERDOWNLOAD
+ENV MSYS2INSTALLERDOWNLOAD=$MSYS2INSTALLERDOWNLOAD
+ARG MSYS2INSTALLERUPDATEBYPUBLIC
+ENV MSYS2INSTALLERUPDATEBYPUBLIC=$MSYS2INSTALLERUPDATEBYPUBLIC
+ARG MSYS2INSTALLERUPLOAD
+ENV MSYS2INSTALLERUPLOAD=$MSYS2INSTALLERUPLOAD
+
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
   Invoke-WebRequest -UseBasicParsing -uri "$env:MSYS2INSTALLERURI/$env:MSYS2INSTALLERFILE" -OutFile msys2.exe; `
@@ -25,7 +32,6 @@ RUN "echo DONE"
 # install/update msys2
 COPY msys2_install1.sh c:/msys64/context/msys2_install1.sh
 COPY msys2_install2.sh c:/msys64/context/msys2_install2.sh
-COPY msys2_upload.sh c:/msys64/context/msys2_upload.sh
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 RUN function msys() { C:\msys64\usr\bin\bash.exe @('-lc') + @Args; } `
   msys '/context/msys2_install1.sh'; `
@@ -116,6 +122,7 @@ ENV CC="ccache gcc" `
     MBSIM_SWIG=1
 
 #mfmf# copy
+COPY msys2_upload.sh c:/msys64/context/msys2_upload.sh
 #mfmfCOPY docker/buildImage/distribute.py            c:/msys64/context/distribute.py
 #mfmfCOPY docker/buildmsys2ucrt64Image/entrypoint.py c:/msys64/context/entrypoint.py
 #mfmfCOPY django/mbsimenv/build.py                   c:/msys64/context/mbsimenv/build.py

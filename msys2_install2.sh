@@ -4,16 +4,16 @@ set -e
 set -o pipefail
 
 # update install msys2 packages according package db
-if true; then
-  pacman --noconfirm -Suu
-else
+if [ $MSYS2INSTALLERUPDATEBYPUBLIC -eq 1 ]; then
   pacman --noconfirm -Syuu
+else
+  pacman --noconfirm -Suu
 fi
 
 # update install new mys2 packages according package db
 pacman --noconfirm -S "$@"
 
-if true; then
+if [ $MSYS2INSTALLERUPLOAD -eq 1 ]; then
   # pack and store msys2 package cache
   tar -C /var/cache/pacman/pkg/ -czf /cache.tar.gz .
 

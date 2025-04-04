@@ -5,12 +5,10 @@ jobs:
   buildImage:
     name: "Bulid Linux Docker Image"
     runs-on: ubuntu-22.04
-    env:
-      DOCKER_BUILDKIT: 0
     steps:
-      - name: "Checkout"
-        run: git clone https://github.com/mbsim-env/build.git .
-      - name: "Docker pull build"
-        run: docker pull mbsimenv/build:latest
-      - name: "Docker build"
-        run: docker build -t mbsimenv/build:latest --cache-from mbsimenv/build:latest -f docker/buildImage/Dockerfile .
+      - name: "name1"
+        run: ls
+      - name: "name2"
+        run: ls notfound
+      - name: "name3"
+        run: ls

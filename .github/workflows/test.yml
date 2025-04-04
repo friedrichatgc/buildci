@@ -14,13 +14,13 @@ jobs:
         run: copy c:\Windows\System32\xcopy.exe .\content
       - name: n3
         continue-on-error: true
-        run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe & del c:\content\xcopy.exe"
+        run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe & del c:\content\xcopy.exe & echo DONE"
       - name: n4
         continue-on-error: true
-        run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe & del c:\content\xcopy.exe"
+        run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe & del c:\content\xcopy.exe & echo DONE"
       - name: n5
         continue-on-error: true
-        run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd /c "c:\content\xcopy.exe & del c:\content\xcopy.exe"
+        run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd /c "c:\content\xcopy.exe & del c:\content\xcopy.exe & echo DONE"
       - name: n6
         continue-on-error: true
-        run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd /c "c:\content\xcopy.exe & del c:\content\xcopy.exe"
+        run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd /c "c:\content\xcopy.exe & del c:\content\xcopy.exe & echo DONE"

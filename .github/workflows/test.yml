@@ -4,7 +4,7 @@ on:
 jobs:
   buildImage:
     name: "Bulid Linux Docker Image"
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - name: n1
         continue-on-error: true

@@ -12,4 +12,4 @@ jobs:
         continue-on-error: true
         run: ls notfound; exit 0
       - name: "name3"
-        run: ls
+        run: ls notfound

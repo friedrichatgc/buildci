@@ -9,6 +9,7 @@ jobs:
       - name: "name1"
         run: ls
       - name: "name2"
-        run: ls notfound
+        continue-on-error: true
+        run: ls notfound; exit 0
       - name: "name3"
         run: ls

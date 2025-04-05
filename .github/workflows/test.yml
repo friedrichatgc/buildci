@@ -1,66 +1,86 @@
+# escape=`
+
 name: Build Docker Images (Manual)
 on:
   push:
+env:
+  MSYS2INSTALLERURI: "https://www.mbsim-env.de/base/fileDownloadFromDBMedia/msys2mbsimenv-downloads"
+  MSYSTEM: UCRT64
+  CHERE_INVOKING: yes
+  HOME: /home/user
+shell: ["c:\\msys64\\usr\\bin\\bash.exe", "-l", "-c"]
 jobs:
-  win2019:
-    name: "win2019"
+#  win2019:
+#    name: "win2019"
+#    runs-on: windows-2019
+#    steps:
+#      - name: prepre
+#        continue-on-error: true
+#        run: mkdir .\content
+#      - name: pre
+#        continue-on-error: true
+#        run: copy c:\Windows\System32\xcopy.exe .\content
+#      - name: 2019hyperv
+#        continue-on-error: true
+#        run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
+#      - name: pre
+#        continue-on-error: true
+#        run: copy c:\Windows\System32\xcopy.exe .\content
+#      - name: 2019process
+#        continue-on-error: true
+#        run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
+#      - name: pre
+#        continue-on-error: true
+#        run: copy c:\Windows\System32\xcopy.exe .\content
+#      - name: 2022hyperv
+#        continue-on-error: true
+#        run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
+#      - name: pre
+#        continue-on-error: true
+#        run: copy c:\Windows\System32\xcopy.exe .\content
+#      - name: 2022process
+#        continue-on-error: true
+#        run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
+#  win2022:
+#    name: "win2022"
+#    runs-on: windows-2022
+#    steps:
+#      - name: prepre
+#        continue-on-error: true
+#        run: mkdir .\content
+#      - name: pre
+#        continue-on-error: true
+#        run: copy c:\Windows\System32\xcopy.exe .\content
+#      - name: 2019hyperv
+#        continue-on-error: true
+#        run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
+#      - name: pre
+#        continue-on-error: true
+#        run: copy c:\Windows\System32\xcopy.exe .\content
+#      - name: 2019process
+#        continue-on-error: true
+#        run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
+#      - name: pre
+#        continue-on-error: true
+#        run: copy c:\Windows\System32\xcopy.exe .\content
+#      - name: 2022hyperv
+#        continue-on-error: true
+#        run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
+#      - name: pre
+#        continue-on-error: true
+#        run: copy c:\Windows\System32\xcopy.exe .\content
+#      - name: 2022process
+#        continue-on-error: true
+#        run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
+  mbsimenv:
+    name: "mbsimenv"
     runs-on: windows-2019
     steps:
-      - name: prepre
-        continue-on-error: true
-        run: mkdir .\content
-      - name: pre
-        continue-on-error: true
-        run: copy c:\Windows\System32\xcopy.exe .\content
-      - name: 2019hyperv
-        continue-on-error: true
-        run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
-      - name: pre
-        continue-on-error: true
-        run: copy c:\Windows\System32\xcopy.exe .\content
-      - name: 2019process
-        continue-on-error: true
-        run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
-      - name: pre
-        continue-on-error: true
-        run: copy c:\Windows\System32\xcopy.exe .\content
-      - name: 2022hyperv
-        continue-on-error: true
-        run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
-      - name: pre
-        continue-on-error: true
-        run: copy c:\Windows\System32\xcopy.exe .\content
-      - name: 2022process
-        continue-on-error: true
-        run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
-  win2022:
-    name: "win2022"
-    runs-on: windows-2022
-    steps:
-      - name: prepre
-        continue-on-error: true
-        run: mkdir .\content
-      - name: pre
-        continue-on-error: true
-        run: copy c:\Windows\System32\xcopy.exe .\content
-      - name: 2019hyperv
-        continue-on-error: true
-        run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
-      - name: pre
-        continue-on-error: true
-        run: copy c:\Windows\System32\xcopy.exe .\content
-      - name: 2019process
-        continue-on-error: true
-        run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2019 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
-      - name: pre
-        continue-on-error: true
-        run: copy c:\Windows\System32\xcopy.exe .\content
-      - name: 2022hyperv
-        continue-on-error: true
-        run: docker.exe run --isolation=hyperv -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
-      - name: pre
-        continue-on-error: true
-        run: copy c:\Windows\System32\xcopy.exe .\content
-      - name: 2022process
-        continue-on-error: true
-        run: docker.exe run --isolation=process -v .\content:c:/content mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd /c "c:\content\xcopy.exe /? & del c:\content\xcopy.exe & echo DONE"
+      - name: Install MSYS2
+        shell: powershell
+        run: [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
+             Invoke-WebRequest -UseBasicParsing -uri "$env:MSYS2INSTALLERURI/msys2-base-x86_64.sfx.exe" -OutFile msys2.exe; `
+             .\msys2.exe -y -oC:\; `
+             Remove-Item msys2.exe;
+      - name: MSYS2 init
+        run: echo msys2 init done

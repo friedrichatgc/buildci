@@ -78,9 +78,9 @@ jobs:
     steps:
       - name: Install MSYS2
         shell: powershell
-        run: [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
+        run: '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
              Invoke-WebRequest -UseBasicParsing -uri "$env:MSYS2INSTALLERURI/msys2-base-x86_64.sfx.exe" -OutFile msys2.exe; `
              .\msys2.exe -y -oC:\; `
-             Remove-Item msys2.exe;
+             Remove-Item msys2.exe;'
       - name: MSYS2 init
         run: echo msys2 init done

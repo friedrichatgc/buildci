@@ -10,7 +10,7 @@ env:
   HOME: /home/user
 defaults:
   run:
-    shell: ["c:\\msys64\\usr\\bin\\bash.exe", "-l", "-c"]
+    shell: c:\msys64\usr\bin\bash.exe -l -c
 jobs:
 #  win2019:
 #    name: "win2019"

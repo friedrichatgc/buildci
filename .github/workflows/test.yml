@@ -8,6 +8,9 @@ env:
   MSYSTEM: UCRT64
   CHERE_INVOKING: yes
   HOME: /home/user
+defaults:
+  run:
+    shell: ["c:\\msys64\\usr\\bin\\bash.exe", "-l", "-c"]
 jobs:
 #  win2019:
 #    name: "win2019"
@@ -74,7 +77,6 @@ jobs:
   mbsimenv:
     name: "mbsimenv"
     runs-on: windows-2019
-    shell: ["c:\\msys64\\usr\\bin\\bash.exe", "-l", "-c"]
     steps:
       - name: Install MSYS2
         shell: powershell

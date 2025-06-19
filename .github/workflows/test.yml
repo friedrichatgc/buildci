@@ -11,9 +11,9 @@ jobs:
           echo
           aaa
           
-          ${{true && format('Hello {0}', github.workspace) || ' '}}
+          ${{true && format('Hello{0}', github.workspace) || ' '}}
           ccc
-          ${{false && format('Hello {0}', github.workspace) || ' '}}
+          ${{false && format('Hello{0}', github.workspace) || ' '}}
           eee
   jobWindows:
     name: "jobWindows"
@@ -24,7 +24,7 @@ jobs:
           echo
           aaa
           
-          ${{true && format('Hello {0}', github.workspace) || ' '}}
+          ${{true && format('Hello{0}', github.workspace) || ' '}}
           ccc
-          ${{false && format('Hello {0}', github.workspace) || ' '}}
+          ${{false && format('Hello{0}', github.workspace) || ' '}}
           eee

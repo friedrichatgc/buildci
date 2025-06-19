@@ -10,9 +10,9 @@ jobs:
         run: >
           echo
           aaa
-          ${{true && "bbb"}}
+          ${{true && 'bbb'}}
           ccc
-          ${{false && "ddd"}}
+          ${{false && 'ddd'}}
           eee
   jobWindows:
     name: "jobWindows"
@@ -22,7 +22,7 @@ jobs:
         run: >
           echo
           aaa
-          ${{true && "bbb"}}
+          ${{true && 'bbb'}}
           ccc
-          ${{false && "ddd"}}
+          ${{false && 'ddd'}}
           eee

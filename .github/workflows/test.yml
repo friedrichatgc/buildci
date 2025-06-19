@@ -11,20 +11,11 @@ jobs:
           echo
           aaa
           
-          ${{true && format('Hello{0}', github.workspace) || ' '}}
+          ${{true && join(fromJson([github.workspace, 'bbb'])) || ' '}}
           ccc
-          ${{false && format('Hello{0}', github.workspace) || ' '}}
+          ${{false && join(fromJson([github.workspace, 'ddd'])) || ' '}}
           eee
   jobWindows:
     name: "jobWindows"
     runs-on: windows-2022
     steps:
-      - name: "echo"
-        run: >
-          echo
-          aaa
-          
-          ${{true && format('Hello{0}', github.workspace) || ' '}}
-          ccc
-          ${{false && format('Hello{0}', github.workspace) || ' '}}
-          eee

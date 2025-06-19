@@ -11,13 +11,13 @@ jobs:
           echo
           --env mbsimenvsec_filestoragePassword
           ${{true && ' ' || format('mfmfv {0}/mbsim-env:{1}/mbsim-env', github.workspace, github.workspace)}}
-          -v ${{github.workspace}}/mbsim-ccache:${{github.workspace}}/mbsim-ccache
+          mfmfv ${{github.workspace}}/mbsim-ccache:${{github.workspace}}/mbsim-ccache
       - name: "echo false"
         run: >
           echo
           --env mbsimenvsec_filestoragePassword
           ${{false && ' ' || format('mfmfv {0}/mbsim-env:{1}/mbsim-env', github.workspace, github.workspace)}}
-          -v ${{github.workspace}}/mbsim-ccache:${{github.workspace}}/mbsim-ccache
+          mfmfv ${{github.workspace}}/mbsim-ccache:${{github.workspace}}/mbsim-ccache
   jobWindows:
     name: "jobWindows"
     runs-on: windows-2022
@@ -27,10 +27,10 @@ jobs:
           echo
           --env mbsimenvsec_filestoragePassword
           ${{true && ' ' || format('mfmfv {0}/mbsim-env:{1}/mbsim-env', github.workspace, github.workspace)}}
-          -v ${{github.workspace}}/mbsim-ccache:${{github.workspace}}/mbsim-ccache
+          mfmfv ${{github.workspace}}/mbsim-ccache:${{github.workspace}}/mbsim-ccache
       - name: "echo false"
         run: >
           echo
           --env mbsimenvsec_filestoragePassword
           ${{false && ' ' || format('mfmfv {0}/mbsim-env:{1}/mbsim-env', github.workspace, github.workspace)}}
-          -v ${{github.workspace}}/mbsim-ccache:${{github.workspace}}/mbsim-ccache
+          mfmfv ${{github.workspace}}/mbsim-ccache:${{github.workspace}}/mbsim-ccache

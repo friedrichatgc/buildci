@@ -10,9 +10,9 @@ jobs:
         run: >
           echo
           aaa
-          ${{true && join([github.workspace, 'bbb') || ' '}}
+          ${{true && join([github.workspace, 'bbb']) || ' '}}
           ccc
-          ${{false && join([github.workspace, 'ddd') || ' '}}
+          ${{false && join([github.workspace, 'ddd']) || ' '}}
           eee
   jobWindows:
     name: "jobWindows"
@@ -22,7 +22,7 @@ jobs:
         run: >
           echo
           aaa
-          ${{true && join([github.workspace, 'bbb') || ' '}}
+          ${{true && join([github.workspace, 'bbb']) || ' '}}
           ccc
-          ${{false && join([github.workspace, 'ddd') || ' '}}
+          ${{false && join([github.workspace, 'ddd']) || ' '}}
           eee

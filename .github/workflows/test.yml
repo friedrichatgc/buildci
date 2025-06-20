@@ -7,11 +7,12 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: "Install using pip"
-        run: pip install shutil
+        run: pip install psutil
       - name: "Dump resources"
         shell: python
         run: |
           import shutil
+          import psutil
           import os
           du=shutil.disk_usage(r"${{github.workspace}}")
           print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")
@@ -25,11 +26,12 @@ jobs:
     runs-on: windows-2019
     steps:
       - name: "Install using pip"
-        run: pip install shutil
+        run: pip install psutil
       - name: "Dump resources"
         shell: python
         run: |
           import shutil
+          import psutil
           import os
           du=shutil.disk_usage(r"${{github.workspace}}")
           print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")
@@ -43,11 +45,12 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: "Install using pip"
-        run: pip install shutil
+        run: pip install psutil
       - name: "Dump resources"
         shell: python
         run: |
           import shutil
+          import psutil
           import os
           du=shutil.disk_usage(r"${{github.workspace}}")
           print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")

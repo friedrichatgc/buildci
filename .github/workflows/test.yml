@@ -1,5 +1,5 @@
 name: test
-on:max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False)))
+on:
   push:
 jobs:
   jobLinux:

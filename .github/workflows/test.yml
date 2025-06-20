@@ -11,7 +11,6 @@ jobs:
       - name: "Docker: run container"
         run: >
           docker run
-          --isolation=hyperv --memory=15g
           --init
           --entrypoint=python3
           mbsimenv/build:latest
@@ -28,7 +27,7 @@ jobs:
           docker run
           --isolation=hyperv --memory=15g
           --init
-          --entrypoint=python
+          --entrypoint=c:/msys64/ucrt64/bin/python.exe
           mbsimenv/buildmsys2ucrt64:latest
           -c
           "import psutil; print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False)))); print(psutil.virtual_memory().total); print(psutil.cpu_count(False))"
@@ -43,7 +42,7 @@ jobs:
           docker run
           --isolation=hyperv --memory=15g
           --init
-          --entrypoint=python
+          --entrypoint=c:/msys64/ucrt64/bin/python.exe
           mbsimenv/buildmsys2ucrt64:latest
           -c
           "import psutil; print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False)))); print(psutil.virtual_memory().total); print(psutil.cpu_count(False))"

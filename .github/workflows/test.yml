@@ -25,7 +25,7 @@ jobs:
       - name: "Docker: run container"
         run: >
           docker run
-          --isolation=hyperv --memory=15g
+          --isolation=hyperv --memory=9g --cpu-count=4
           --init
           --entrypoint=c:/msys64/ucrt64/bin/python.exe
           mbsimenv/buildmsys2ucrt64:latest
@@ -40,7 +40,7 @@ jobs:
       - name: "Docker: run container"
         run: >
           docker run
-          --isolation=hyperv --memory=15g
+          --isolation=hyperv --cpu-count=4
           --init
           --entrypoint=c:/msys64/ucrt64/bin/python.exe
           mbsimenv/buildmsys2ucrt64:latest

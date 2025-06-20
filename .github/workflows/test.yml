@@ -6,31 +6,47 @@ jobs:
     name: "jobLinux"
     runs-on: ubuntu-22.04
     steps:
-      - name: "echo true"
-        run: >
-          echo
-          --env mbsimenvsec_filestoragePassword
-          ${{true && ' ' || format('mfmfv {0}/mbsim-env:{1}/mbsim-env', github.workspace, github.workspace)}}
-          mfmfv ${{github.workspace}}/mbsim-ccache:${{github.workspace}}/mbsim-ccache
-      - name: "echo false"
-        run: >
-          echo
-          --env mbsimenvsec_filestoragePassword
-          ${{false && ' ' || format('mfmfv {0}/mbsim-env:{1}/mbsim-env', github.workspace, github.workspace)}}
-          mfmfv ${{github.workspace}}/mbsim-ccache:${{github.workspace}}/mbsim-ccache
-  jobWindows:
-    name: "jobWindows"
+      - name: "Dump resources"
+        shell: python
+        run: |
+          import shutil
+          import os
+          du=shutil.disk_usage(r"${{github.workspace}}")
+          print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")
+          print(f"CPUs: {os.cpu_count()} (with hyperthreading)")
+          print(psutil.virtual_memory().total)
+          print(psutil.cpu_count(False))
+          print(psutil.cpu_count(True))
+          print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False))))
+  jobWindows2019:
+    name: "jobWindows2019"
+    runs-on: windows-2019
+    steps:
+      - name: "Dump resources"
+        shell: python
+        run: |
+          import shutil
+          import os
+          du=shutil.disk_usage(r"${{github.workspace}}")
+          print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")
+          print(f"CPUs: {os.cpu_count()} (with hyperthreading)")
+          print(psutil.virtual_memory().total)
+          print(psutil.cpu_count(False))
+          print(psutil.cpu_count(True))
+          print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False))))
+  jobWindows2022:
+    name: "jobWindows2022"
     runs-on: windows-2022
     steps:
-      - name: "echo true"
-        run: >
-          echo
-          --env mbsimenvsec_filestoragePassword
-          ${{true && ' ' || format('mfmfv {0}/mbsim-env:{1}/mbsim-env', github.workspace, github.workspace)}}
-          mfmfv ${{github.workspace}}/mbsim-ccache:${{github.workspace}}/mbsim-ccache
-      - name: "echo false"
-        run: >
-          echo
-          --env mbsimenvsec_filestoragePassword
-          ${{false && ' ' || format('mfmfv {0}/mbsim-env:{1}/mbsim-env', github.workspace, github.workspace)}}
-          mfmfv ${{github.workspace}}/mbsim-ccache:${{github.workspace}}/mbsim-ccache
+      - name: "Dump resources"
+        shell: python
+        run: |
+          import shutil
+          import os
+          du=shutil.disk_usage(r"${{github.workspace}}")
+          print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")
+          print(f"CPUs: {os.cpu_count()} (with hyperthreading)")
+          print(psutil.virtual_memory().total)
+          print(psutil.cpu_count(False))
+          print(psutil.cpu_count(True))
+          print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False))))

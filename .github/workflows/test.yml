@@ -6,6 +6,8 @@ jobs:
     name: "jobLinux"
     runs-on: ubuntu-22.04
     steps:
+      - name: "Install using pip"
+        run: pip install psutil
       - name: "Dump resources"
         shell: python
         run: |
@@ -22,6 +24,8 @@ jobs:
     name: "jobWindows2019"
     runs-on: windows-2019
     steps:
+      - name: "Install using pip"
+        run: pip install psutil
       - name: "Dump resources"
         shell: python
         run: |
@@ -38,6 +42,8 @@ jobs:
     name: "jobWindows2022"
     runs-on: windows-2022
     steps:
+      - name: "Install using pip"
+        run: pip install psutil
       - name: "Dump resources"
         shell: python
         run: |

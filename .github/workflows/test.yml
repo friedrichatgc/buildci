@@ -1,61 +1,49 @@
 name: test
-on:
+on:max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False)))
   push:
 jobs:
   jobLinux:
     name: "jobLinux"
     runs-on: ubuntu-22.04
     steps:
-      - name: "Install using pip"
-        run: pip install psutil
-      - name: "Dump resources"
-        shell: python
-        run: |
-          import shutil
-          import psutil
-          import os
-          du=shutil.disk_usage(r"${{github.workspace}}")
-          print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")
-          print(f"CPUs: {os.cpu_count()} (with hyperthreading)")
-          print(psutil.virtual_memory().total)
-          print(psutil.cpu_count(False))
-          print(psutil.cpu_count(True))
-          print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False))))
+      - name: "Docker: pull image"
+        run: docker image pull mbsimenv/build:latest
+      - name: "Docker: run container"
+        run: >
+          docker run
+          --isolation=hyperv --memory=15g
+          --init
+          --entrypoint=python3
+          mbsimenv/build:latest
+          -c
+          "import psutil; print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False)))); print(psutil.virtual_memory().total); print(psutil.cpu_count(False))"
   jobWindows2019:
     name: "jobWindows2019"
     runs-on: windows-2019
     steps:
-      - name: "Install using pip"
-        run: pip install psutil
-      - name: "Dump resources"
-        shell: python
-        run: |
-          import shutil
-          import psutil
-          import os
-          du=shutil.disk_usage(r"${{github.workspace}}")
-          print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")
-          print(f"CPUs: {os.cpu_count()} (with hyperthreading)")
-          print(psutil.virtual_memory().total)
-          print(psutil.cpu_count(False))
-          print(psutil.cpu_count(True))
-          print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False))))
+      - name: "Docker: pull image"
+        run: docker image pull mbsimenv/buildmsys2ucrt64:latest
+      - name: "Docker: run container"
+        run: >
+          docker run
+          --isolation=hyperv --memory=15g
+          --init
+          --entrypoint=python
+          mbsimenv/buildmsys2ucrt64:latest
+          -c
+          "import psutil; print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False)))); print(psutil.virtual_memory().total); print(psutil.cpu_count(False))"
   jobWindows2022:
     name: "jobWindows2022"
     runs-on: windows-2022
     steps:
-      - name: "Install using pip"
-        run: pip install psutil
-      - name: "Dump resources"
-        shell: python
-        run: |
-          import shutil
-          import psutil
-          import os
-          du=shutil.disk_usage(r"${{github.workspace}}")
-          print(f"Disk: total={du.total/1024**3:.2f}GB used={du.used/1024**3:.2f}GB free={du.free/1024**3:.2f}GB")
-          print(f"CPUs: {os.cpu_count()} (with hyperthreading)")
-          print(psutil.virtual_memory().total)
-          print(psutil.cpu_count(False))
-          print(psutil.cpu_count(True))
-          print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False))))
+      - name: "Docker: pull image"
+        run: docker image pull mbsimenv/buildmsys2ucrt64:latest
+      - name: "Docker: run container"
+        run: >
+          docker run
+          --isolation=hyperv --memory=15g
+          --init
+          --entrypoint=python
+          mbsimenv/buildmsys2ucrt64:latest
+          -c
+          "import psutil; print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False)))); print(psutil.virtual_memory().total); print(psutil.cpu_count(False))"

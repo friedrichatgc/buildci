@@ -8,9 +8,17 @@ jobs:
     steps:
       - name: "Docker login"
         run: echo ${{secrets.REGISTRY}} | docker login ghcr.io -u USERNAME --password-stdin
-  jobWindows2022:
-    name: "jobWindows2022"
-    runs-on: windows-2022
-    steps:
-      - name: "Docker login"
-        run: echo ${{secrets.REGISTRY}} | docker login ghcr.io -u USERNAME --password-stdin
+      - name: "Docker pull from dockerhub"
+        run: docker pull nginx/nginx-ingress:5.1-alpine
+      - name: "Docker push to github"
+        run: docker push ghcr.io/nginx/nginx-ingress:5.1-alpine
+#  jobWindows2022:
+#    name: "jobWindows2022"
+#    runs-on: windows-2022
+#    steps:
+#      - name: "Docker login"
+#        run: echo ${{secrets.REGISTRY}} | docker login ghcr.io -u USERNAME --password-stdin
+#      - name: "Docker pull from dockerhub"
+#        run: docker pull mbsimenv/buildmsys2ucrt64:latest
+#      - name: "Docker push to github"
+#        run: docker push ghcr.io/friedrichatgc/buildmsys2ucrt64:latest

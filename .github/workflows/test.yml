@@ -9,18 +9,20 @@ jobs:
       - name: "Docker login"
         run: echo ${{secrets.REGISTRY}} | docker login ghcr.io -u USERNAME --password-stdin
       - name: "Docker pull from dockerhub"
-        run: docker pull nginx/nginx-ingress:5.1-alpine
+        run: docker pull mbsimenv/build:latest
       - name: "Docker tag"
-        run: docker tag nginx/nginx-ingress:5.1-alpine ghcr.io/friedrichatgc/nginx/nginx-ingress:5.1-alpine
+        run: docker tag mbsimenv/build:latest ghcr.io/friedrichatgc/mbsimenv/build:latest
       - name: "Docker push to github"
-        run: docker push ghcr.io/friedrichatgc/nginx/nginx-ingress:5.1-alpine
-#  jobWindows2022:
-#    name: "jobWindows2022"
-#    runs-on: windows-2022
-#    steps:
-#      - name: "Docker login"
-#        run: echo ${{secrets.REGISTRY}} | docker login ghcr.io -u USERNAME --password-stdin
-#      - name: "Docker pull from dockerhub"
-#        run: docker pull mbsimenv/buildmsys2ucrt64:latest
-#      - name: "Docker push to github"
-#        run: docker push ghcr.io/friedrichatgc/buildmsys2ucrt64:latest
+        run: docker push ghcr.io/friedrichatgc/mbsimenv/build:latest
+  jobWindows2022:
+    name: "jobWindows2022"
+    runs-on: windows-2022
+    steps:
+      - name: "Docker login"
+        run: echo ${{secrets.REGISTRY}} | docker login ghcr.io -u USERNAME --password-stdin
+      - name: "Docker pull from dockerhub"
+        run: docker pull mbsimenv/buildmsys2ucrt64:latest
+      - name: "Docker tag"
+        run: docker tag mbsimenv/buildmsys2ucrt64:latest ghcr.io/friedrichatgc/mbsimenv/buildmsys2ucrt64:latest
+      - name: "Docker push to github"
+        run: docker push ghcr.io/friedrichatgc/mbsimenv/buildmsys2ucrt64:latest

@@ -7,14 +7,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: "Docker login"
-        run: echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
-      - name: "Docker login"
         run: echo ${{secrets.REGISTRY}} | docker login ghcr.io -u USERNAME --password-stdin
   jobWindows2022:
     name: "jobWindows2022"
     runs-on: windows-2022
     steps:
-      - name: "Docker login"
-        run: echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
       - name: "Docker login"
         run: echo ${{secrets.REGISTRY}} | docker login ghcr.io -u USERNAME --password-stdin

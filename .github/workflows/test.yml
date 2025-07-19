@@ -11,7 +11,7 @@ jobs:
       - name: "Docker pull from dockerhub"
         run: docker pull nginx/nginx-ingress:5.1-alpine
       - name: "Docker push to github"
-        run: docker push ghcr.io/friedrichatgc/nginx-ingress:5.1-alpine
+        run: docker push ghcr.io/friedrichatgc/nginx/nginx-ingress:5.1-alpine
 #  jobWindows2022:
 #    name: "jobWindows2022"
 #    runs-on: windows-2022

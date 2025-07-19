@@ -10,6 +10,8 @@ jobs:
         run: echo ${{secrets.REGISTRY}} | docker login ghcr.io -u USERNAME --password-stdin
       - name: "Docker pull from dockerhub"
         run: docker pull nginx/nginx-ingress:5.1-alpine
+      - name: "Docker tag"
+        run: docker tag nginx/nginx-ingress:5.1-alpine ghcr.io/friedrichatgc/nginx/nginx-ingress:5.1-alpine
       - name: "Docker push to github"
         run: docker push ghcr.io/friedrichatgc/nginx/nginx-ingress:5.1-alpine
 #  jobWindows2022:

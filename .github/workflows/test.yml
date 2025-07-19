@@ -6,43 +6,15 @@ jobs:
     name: "jobLinux"
     runs-on: ubuntu-22.04
     steps:
-      - name: "Docker: pull image"
-        run: docker image pull mbsimenv/build:latest
-      - name: "Docker: run container"
-        run: >
-          docker run
-          --init
-          --entrypoint=python3
-          mbsimenv/build:latest
-          -c
-          "import psutil; print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False)))); print(psutil.virtual_memory().total); print(psutil.cpu_count(False))"
-  jobWindows2019:
-    name: "jobWindows2019"
-    runs-on: windows-2019
-    steps:
-      - name: "Docker: pull image"
-        run: docker image pull mbsimenv/buildmsys2ucrt64:latest
-      - name: "Docker: run container"
-        run: >
-          docker run
-          --isolation=hyperv --memory=9g --cpu-count=4
-          --init
-          --entrypoint=c:/msys64/ucrt64/bin/python.exe
-          mbsimenv/buildmsys2ucrt64:latest
-          -c
-          "import psutil; print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False)))); print(psutil.virtual_memory().total); print(psutil.cpu_count(False))"
+      - name: "Docker login"
+        run: echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+      - name: "Docker login"
+        run: echo ${{secrets.REGISTRY}} | docker login ghcr.io -u USERNAME --password-stdin
   jobWindows2022:
     name: "jobWindows2022"
     runs-on: windows-2022
     steps:
-      - name: "Docker: pull image"
-        run: docker image pull mbsimenv/buildmsys2ucrt64:latest
-      - name: "Docker: run container"
-        run: >
-          docker run
-          --isolation=hyperv --cpu-count=4
-          --init
-          --entrypoint=c:/msys64/ucrt64/bin/python.exe
-          mbsimenv/buildmsys2ucrt64:latest
-          -c
-          "import psutil; print(max(1,min(round(psutil.virtual_memory().total/pow(1024,3)/2),psutil.cpu_count(False)))); print(psutil.virtual_memory().total); print(psutil.cpu_count(False))"
+      - name: "Docker login"
+        run: echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+      - name: "Docker login"
+        run: echo ${{secrets.REGISTRY}} | docker login ghcr.io -u USERNAME --password-stdin

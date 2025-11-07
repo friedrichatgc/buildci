@@ -6,16 +6,21 @@ jobs:
     name: "jobWindows2022"
     runs-on: windows-2022
     steps:
-      - run: |
-          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-          cl.exe --version
-        shell: cmd
-        if: ${{always()}}
-      - run: cl.exe --version
-        if: ${{always()}}
-      - run: clang++.exe --version
-        if: ${{always()}}
-      - run: clang.exe --version
-        if: ${{always()}}
-      - run: clang-cl.exe --version
-        if: ${{always()}}
+      - uses: actions/checkout@v4
+#      - run: |
+#          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+#          cl.exe --version
+#        shell: cmd
+#        if: ${{always()}}
+#      - run: clang++.exe --version
+#        if: ${{always()}}
+#      - run: clang.exe --version
+#        if: ${{always()}}
+#      - run: clang-cl.exe --version
+#        if: ${{always()}}
+      - if: ${{always()}}
+        run: clang++.exe -shared -fPIC -o libtest.so test.cc && clang++.exe -o main main.cc -L. -ltest && LD_LIBRARY_PATH=. ./main
+      - if: ${{always()}}
+        run: clang.exe -shared -fPIC -o libtest.so test.cc && clang.exe -o main main.cc -L. -ltest && LD_LIBRARY_PATH=. ./main
+      - if: ${{always()}}
+        run: clang-cl.exe -shared -fPIC -o libtest.so test.cc && clang-cl.exe -o main main.cc -L. -ltest && LD_LIBRARY_PATH=. ./main

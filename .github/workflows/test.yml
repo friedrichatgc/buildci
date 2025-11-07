@@ -19,8 +19,8 @@ jobs:
 #      - run: clang-cl.exe --version
 #        if: ${{always()}}
       - if: ${{always()}}
-        run: clang++.exe -shared -o test.dll test.cc -Xlinker /IMPLIB:mylib.lib && clang++.exe -o main.exe main.cc test.lib && main.exe
+        run: clang++.exe -shared -o test.dll test.cc -Xlinker /IMPLIB:test.lib && clang++.exe -o main.exe main.cc test.lib && main.exe
       - if: ${{always()}}
-        run: clang.exe -shared -o test.dll test.cc -Xlinker /IMPLIB:mylib.lib && clang.exe -o main.exe main.cc test.lib && main.exe
+        run: clang.exe -shared -o test.dll test.cc -Xlinker /IMPLIB:test.lib && clang.exe -o main.exe main.cc test.lib && main.exe
       - if: ${{always()}}
-        run: clang-cl.exe -shared -o test.dll test.cc -Xlinker /IMPLIB:mylib.lib && clang-cl.exe -o main.exe main.cc test.lib && main.exe
+        run: clang-cl.exe -shared -o test.dll test.cc -Xlinker /IMPLIB:test.lib && clang-cl.exe -o main.exe main.cc test.lib && main.exe

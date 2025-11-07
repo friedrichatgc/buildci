@@ -7,4 +7,10 @@ jobs:
     runs-on: windows-2022
     steps:
       - run: cl.exe --version
+        if: ${{always}
       - run: clang++.exe --version
+        if: ${{always}
+      - run: clang.exe --version
+        if: ${{always}
+      - run: clang-cl.exe --version
+        if: ${{always}

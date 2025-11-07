@@ -1,32 +1,10 @@
-#name: test
-#on:
-#  push:
-#jobs:
-#  jobLinux:
-#    name: "jobLinux"
-#    runs-on: ubuntu-22.04
-#    steps:
-#      - name: "Docker login"
-#        run: echo ${{secrets.REGISTRY}} | docker login ghcr.io -u USERNAME --password-stdin
-##      - name: "Docker pull from dockerhub"
-##        run: docker pull mbsimenv/build:latest
-##      - name: "Docker tag"
-##        run: docker tag mbsimenv/build:latest ghcr.io/friedrichatgc/mbsimenv/build:latest
-##      - name: "Docker push to github"
-##        run: docker push ghcr.io/friedrichatgc/mbsimenv/build:latest
-#      - name: "Docker pull from github"
-#        run: docker pull ghcr.io/friedrichatgc/mbsimenv/build:latest
-#  jobWindows2022:
-#    name: "jobWindows2022"
-#    runs-on: windows-2022
-#    steps:
-#      - name: "Docker login"
-#        run: echo ${{secrets.REGISTRY}} | docker login ghcr.io -u USERNAME --password-stdin
-##      - name: "Docker pull from dockerhub"
-##        run: docker pull mbsimenv/buildmsys2ucrt64:latest
-##      - name: "Docker tag"
-##        run: docker tag mbsimenv/buildmsys2ucrt64:latest ghcr.io/friedrichatgc/mbsimenv/buildmsys2ucrt64:latest
-##      - name: "Docker push to github"
-##        run: docker push ghcr.io/friedrichatgc/mbsimenv/buildmsys2ucrt64:latest
-#      - name: "Docker pull from github"
-#        run: docker pull ghcr.io/friedrichatgc/mbsimenv/buildmsys2ucrt64:latest
+name: test
+on:
+  push:
+jobs:
+  jobWindows2022:
+    name: "jobWindows2022"
+    runs-on: windows-2022
+    steps:
+      - run: cl.exe --version
+      - run: clang++.exe --version

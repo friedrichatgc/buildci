@@ -31,19 +31,60 @@ RUN "pacman -S --noconfirm mingw-w64-ucrt-x86_64-7zip"
 RUN "mkdir mesa && cd mesa && `
   wget --no-verbose https://github.com/pal1000/mesa-dist-win/releases/download/25.3.3/mesa3d-25.3.3-release-msvc.7z && `
   7z x mesa3d-25.3.3-release-msvc.7z && `
-  cmd //c systemwidedeploy.cmd 1 && `
+  cmd /c systemwidedeploy.cmd 1 && `
   cd .. && for i in {1..30}; do sleep 1; echo Try $i; rm -rf mesa && break; done && echo DONE || echo FAILED"
 
 # Install mesa for software OpenGL (only needed to run GUI programs in VMs)
 RUN "mkdir mesa && cd mesa && `
   wget --no-verbose https://github.com/pal1000/mesa-dist-win/releases/download/25.3.3/mesa3d-25.3.3-release-msvc.7z && `
   7z x mesa3d-25.3.3-release-msvc.7z && `
-  echo 1 | cmd //c systemwidedeploy.cmd && `
+  echo 1 | cmd /c systemwidedeploy.cmd && `
   cd .. && for i in {1..30}; do sleep 1; echo Try $i; rm -rf mesa && break; done && echo DONE || echo FAILED"
 
 # Install mesa for software OpenGL (only needed to run GUI programs in VMs)
 RUN "mkdir mesa && cd mesa && `
   wget --no-verbose https://github.com/pal1000/mesa-dist-win/releases/download/25.3.3/mesa3d-25.3.3-release-msvc.7z && `
   7z x mesa3d-25.3.3-release-msvc.7z && `
-  cmd //c systemwidedeploy.cmd && `
+  cmd /c systemwidedeploy.cmd && `
+  cd .. && for i in {1..30}; do sleep 1; echo Try $i; rm -rf mesa && break; done && echo DONE || echo FAILED"
+
+# Install mesa for software OpenGL (only needed to run GUI programs in VMs)
+RUN "mkdir mesa && cd mesa && `
+  wget --no-verbose https://github.com/pal1000/mesa-dist-win/releases/download/25.3.3/mesa3d-25.3.3-release-msvc.7z && `
+  7z x mesa3d-25.3.3-release-msvc.7z && `
+  cmd.exe //c systemwidedeploy.cmd 1 && `
+  cd .. && for i in {1..30}; do sleep 1; echo Try $i; rm -rf mesa && break; done && echo DONE || echo FAILED"
+
+# Install mesa for software OpenGL (only needed to run GUI programs in VMs)
+RUN "mkdir mesa && cd mesa && `
+  wget --no-verbose https://github.com/pal1000/mesa-dist-win/releases/download/25.3.3/mesa3d-25.3.3-release-msvc.7z && `
+  7z x mesa3d-25.3.3-release-msvc.7z && `
+  echo 1 | cmd.exe //c systemwidedeploy.cmd && `
+  cd .. && for i in {1..30}; do sleep 1; echo Try $i; rm -rf mesa && break; done && echo DONE || echo FAILED"
+
+# Install mesa for software OpenGL (only needed to run GUI programs in VMs)
+RUN "mkdir mesa && cd mesa && `
+  wget --no-verbose https://github.com/pal1000/mesa-dist-win/releases/download/25.3.3/mesa3d-25.3.3-release-msvc.7z && `
+  7z x mesa3d-25.3.3-release-msvc.7z && `
+  cmd.exe //c systemwidedeploy.cmd && `
+  cd .. && for i in {1..30}; do sleep 1; echo Try $i; rm -rf mesa && break; done && echo DONE || echo FAILED"
+# Install mesa for software OpenGL (only needed to run GUI programs in VMs)
+RUN "mkdir mesa && cd mesa && `
+  wget --no-verbose https://github.com/pal1000/mesa-dist-win/releases/download/25.3.3/mesa3d-25.3.3-release-msvc.7z && `
+  7z x mesa3d-25.3.3-release-msvc.7z && `
+  /c/windows/system32/cmd.exe /c systemwidedeploy.cmd 1 && `
+  cd .. && for i in {1..30}; do sleep 1; echo Try $i; rm -rf mesa && break; done && echo DONE || echo FAILED"
+
+# Install mesa for software OpenGL (only needed to run GUI programs in VMs)
+RUN "mkdir mesa && cd mesa && `
+  wget --no-verbose https://github.com/pal1000/mesa-dist-win/releases/download/25.3.3/mesa3d-25.3.3-release-msvc.7z && `
+  7z x mesa3d-25.3.3-release-msvc.7z && `
+  echo 1 | /c/windows/system32/cmd.exe /c systemwidedeploy.cmd && `
+  cd .. && for i in {1..30}; do sleep 1; echo Try $i; rm -rf mesa && break; done && echo DONE || echo FAILED"
+
+# Install mesa for software OpenGL (only needed to run GUI programs in VMs)
+RUN "mkdir mesa && cd mesa && `
+  wget --no-verbose https://github.com/pal1000/mesa-dist-win/releases/download/25.3.3/mesa3d-25.3.3-release-msvc.7z && `
+  7z x mesa3d-25.3.3-release-msvc.7z && `
+  /c/windows/system32/cmd.exe /c systemwidedeploy.cmd && `
   cd .. && for i in {1..30}; do sleep 1; echo Try $i; rm -rf mesa && break; done && echo DONE || echo FAILED"

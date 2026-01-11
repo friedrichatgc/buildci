@@ -1,7 +1,7 @@
 # escape=`
 # buildmsys2ucrt64 image: this image is used to build mbsim-env for Windows
 
-FROM mbsimenv/buildmsys2ucrt64base:latest
+FROM mcr.microsoft.com/windows:ltsc2019
 
 # install msys2
 ARG MSYS2INSTALLERURI

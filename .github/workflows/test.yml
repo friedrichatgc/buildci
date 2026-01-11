@@ -1,6 +1,8 @@
 name: test
 on:
   push:
+env:
+  MSYS2INSTALLERURI: "https://www.mbsim-env.de/base/fileDownloadFromDBMedia/msys2mbsimenv-downloads"
 jobs:
   buildmsys2ucrt64Image:
     name: "Bulid MSYS2 Docker Image"

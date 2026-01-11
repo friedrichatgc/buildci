@@ -21,6 +21,8 @@ SHELL ["c:\\msys64\\usr\\bin\\bash.exe", "-l", "-c"]
 # run msys2 the first time -> initial setup
 RUN "echo msys2 init done"
 
+RUN "pacman -S mingw-w64-ucrt-x86_64-7zip"
+
 
 
 

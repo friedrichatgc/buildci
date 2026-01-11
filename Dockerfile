@@ -30,8 +30,8 @@ RUN "pacman -S --noconfirm mingw-w64-ucrt-x86_64-7zip"
 # In Windows docker cacls.exe does not exist but is required by mesa systemwidedeploy.cmd -> use icacls.exe temporarily
 RUN "mkdir mesa && cd mesa && `
   wget --no-verbose https://github.com/pal1000/mesa-dist-win/releases/download/25.3.3/mesa3d-25.3.3-release-msvc.7z && `
-  cp /c/windows/system32/cacls.exe /c/windows/system32/icacls.exe `
+  cp /c/windows/system32/cacls.exe /c/windows/system32/icacls.exe && `
   7z x mesa3d-25.3.3-release-msvc.7z && `
   cmd //c systemwidedeploy.cmd 1 && `
-  rm /c/windows/system32/icacls.exe `
+  rm /c/windows/system32/icacls.exe && `
   cd .. && for i in {1..30}; do sleep 1; echo Try $i; rm -rf mesa && break; done"

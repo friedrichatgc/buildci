@@ -29,6 +29,9 @@ RUN "pacman -S --noconfirm mingw-w64-ucrt-x86_64-7zip"
 # Install mesa for software OpenGL (only needed to run GUI programs in VMs)
 # In Windows docker cacls.exe does not exist but is required by mesa systemwidedeploy.cmd -> use icacls.exe temporarily
 RUN "ls -l /c/windows/system32/*acls.exe"
+RUN "ls -l /c/windows/system32/config"
+RUN "ls -l /c/windows/system32/config/system"
+RUN "/c/windows/system32/cacls.exe /c/windows/system32/config/system"
 RUN "mkdir mesa && cd mesa && `
   wget --no-verbose https://github.com/pal1000/mesa-dist-win/releases/download/25.3.3/mesa3d-25.3.3-release-msvc.7z && `
   cp /c/windows/system32/icacls.exe /c/windows/system32/cacls.exe && `

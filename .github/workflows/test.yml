@@ -5,7 +5,7 @@ env:
   MSYS2INSTALLERURI: "https://www.mbsim-env.de/base/fileDownloadFromDBMedia/msys2mbsimenv-downloads"
 jobs:
   buildmsys2ucrt64Image:
-    name: "Bulid MSYS2 Docker Image"
+    name: "Bulid MSYS2 Docker Image test"
     runs-on: windows-2022
     steps:
       - name: "Checkout"

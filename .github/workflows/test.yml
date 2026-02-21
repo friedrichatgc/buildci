@@ -12,7 +12,4 @@ jobs:
         uses: actions/checkout@v4
       - name: "Docker build"
         run: >
-          docker build
-          --build-arg=MSYS2INSTALLERURI="${{env.MSYS2INSTALLERURI}}"
-          --isolation=hyperv --memory=15g
-          -f Dockerfile .
+          docker image pull mbsimenv/buildmsys2ucrt64:latest
